@@ -24,6 +24,8 @@ import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ILocatable;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
+import jsettlers.logic.constants.MatchConstants;
+import jsettlers.logic.map.grid.partition.Partition;
 import jsettlers.logic.map.grid.partition.manager.settings.MaterialProductionSettings;
 import jsettlers.logic.buildings.workers.WorkerBuilding;
 import jsettlers.logic.map.grid.partition.data.MaterialCounts;
@@ -51,6 +53,8 @@ import jsettlers.logic.map.grid.partition.manager.objects.SoldierCreationRequest
 import jsettlers.logic.map.grid.partition.manager.objects.WorkerCreationRequest;
 import jsettlers.logic.map.grid.partition.manager.objects.WorkerRequest;
 import jsettlers.logic.map.grid.partition.manager.settings.PartitionManagerSettings;
+import jsettlers.logic.movable.Movable;
+import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.timer.IScheduledTimerable;
 import jsettlers.logic.timer.RescheduleTimer;
 
@@ -59,7 +63,7 @@ import jsettlers.logic.timer.RescheduleTimer;
  *
  * @author Andreas Eberle
  */
-public class PartitionManager implements IScheduledTimerable, Serializable, IWorkerRequester {
+public abstract class PartitionManager implements IScheduledTimerable, Serializable, IWorkerRequester {
 	private static final long serialVersionUID = 3759772044136966735L;
 
 	private static final int SCHEDULING_PERIOD = 25;
@@ -307,7 +311,9 @@ public class PartitionManager implements IScheduledTimerable, Serializable, IWor
 	}
 
 	private void handleWorkerCreationRequests() {
-		for (Iterator<WorkerCreationRequest> iterator = workerCreationRequests.iterator(); iterator.hasNext() && !joblessBearer.isEmpty(); ) {
+		Iterator<WorkerCreationRequest> iterator = workerCreationRequests.iterator();
+
+		while(iterator.hasNext() && !joblessBearer.isEmpty()) {
 			WorkerCreationRequest workerCreationRequest = iterator.next();
 			if (!workerCreationRequest.isRequestAlive() || tryToCreateWorker(workerCreationRequest)) {
 				iterator.remove();
@@ -315,34 +321,66 @@ public class PartitionManager implements IScheduledTimerable, Serializable, IWor
 		}
 	}
 
+	private int workerCount = 0;
+	private int bearerCount = 0;
+	private int diggerCount = 0;
+	private int bricklayerCount = 0;
+	private int lastTime = 0;
+
 	private boolean tryToCreateWorker(WorkerCreationRequest workerCreationRequest) {
 		EMovableType movableType = workerCreationRequest.requestedMovableType();
+
+		int time = MatchConstants.clock().getTime();
+		if(time > lastTime + 1000) {
+			lastTime = time;
+			workerCount = 0;
+			bearerCount = 0;
+			diggerCount = 0;
+			bricklayerCount = 0;
+
+			for (ILogicMovable mov : Movable.getAllMovables()) {
+				if (!contains(mov)) continue;
+				workerCount++;
+
+				switch (mov.getMovableType()) {
+					case BEARER:
+						bearerCount++;
+						break;
+					case DIGGER:
+						diggerCount++;
+						break;
+					case BRICKLAYER:
+						bricklayerCount++;
+						break;
+				}
+			}
+		} else {
+
+			bearerCount--;
+			if(movableType == EMovableType.DIGGER) diggerCount++;
+			if(movableType == EMovableType.BRICKLAYER) bricklayerCount++;
+		}
+
+		if(bearerCount/(float)workerCount < settings.getMinBearerRatio()) return false;
+		if(movableType == EMovableType.DIGGER && diggerCount/(float)workerCount >= settings.getMaxDiggerRatio()) return false;
+		if(movableType == EMovableType.BRICKLAYER && bricklayerCount/(float)workerCount >= settings.getMaxBricklayerRatio()) return false;
 		EMaterialType tool = movableType.getTool();
 
-		if (tool != EMaterialType.NO_MATERIAL) { // try to create a worker with a tool
-			MaterialOffer offer = materialOffers.getOfferCloseTo(tool, EOfferPriority.LOWEST, workerCreationRequest.getPosition());
+		MaterialOffer offer = null;
+		if(tool != EMaterialType.NO_MATERIAL) { // try to create a worker with a tool
+			offer = materialOffers.getOfferCloseTo(tool, EOfferPriority.LOWEST, workerCreationRequest.getPosition());
 
-			if (offer != null) {
-				IManageableBearer manageableBearer = joblessBearer.removeObjectNextTo(offer.getPosition());
-				if (manageableBearer != null) {
-					return manageableBearer.becomeWorker(this, workerCreationRequest, offer);
-
-				} else { // no free movable found => cannot create worker
-					return false;
-				}
-
-			} else { // no tool found => cannot create worker
+			if(offer == null) { // no tool found => cannot create worker
 				workerCreationRequest.setToolProductionRequired(true);
 				return false;
 			}
+		}
 
-		} else { // create worker without a tool
-			IManageableBearer manageableBearer = joblessBearer.removeObjectNextTo(workerCreationRequest.getPosition());
-			if (manageableBearer != null) {
-				return manageableBearer.becomeWorker(this, workerCreationRequest);
-			} else {
-				return false;
-			}
+		IManageableBearer manageableBearer = joblessBearer.removeObjectNextTo(workerCreationRequest.getPosition());
+		if(manageableBearer != null) {
+			return manageableBearer.becomeWorker(this, workerCreationRequest, offer);
+		} else {
+			return false;
 		}
 	}
 
@@ -461,4 +499,14 @@ public class PartitionManager implements IScheduledTimerable, Serializable, IWor
 	public MaterialCounts getMaterialCounts() {
 		return materialOffers.getMaterialCounts();
 	}
+
+	/**
+	 *
+	 * @param mov
+	 * 		The movable that might or might not belong to this partition
+	 * @return
+	 * 		true if <code>mov</code> is part of this partition's economy
+	 *
+	 */
+	public abstract boolean contains(ILogicMovable mov);
 }

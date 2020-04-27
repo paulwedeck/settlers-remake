@@ -27,8 +27,6 @@ import jsettlers.logic.map.grid.partition.manager.objects.WorkerCreationRequest;
  */
 public interface IManageableBearer extends IManageable, ILocatable, IManagerBearer {
 
-	boolean becomeWorker(IWorkerRequester requester, WorkerCreationRequest request);
-
 	boolean becomeWorker(IWorkerRequester requester, WorkerCreationRequest request, IMaterialOffer offer);
 
 	boolean becomeSoldier(IBarrack barrack);

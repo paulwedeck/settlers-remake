@@ -256,30 +256,20 @@ public final class BearerMovableStrategy extends MovableStrategy implements IMan
 	}
 
 	@Override
-	public boolean becomeWorker(IWorkerRequester requester, WorkerCreationRequest workerCreationRequest) {
-		if (state == EBearerState.JOBLESS) {
-			this.workerRequester = requester;
-			this.workerCreationRequest = workerCreationRequest;
-			this.state = EBearerState.INIT_CONVERT_JOB;
-			this.offer = null;
-			this.materialType = null;
-
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
 	public boolean becomeWorker(IWorkerRequester requester, WorkerCreationRequest workerCreationRequest, IMaterialOffer offer) {
 		if (state == EBearerState.JOBLESS) {
 			this.workerRequester = requester;
 			this.workerCreationRequest = workerCreationRequest;
 			this.offer = offer;
-			this.state = EBearerState.INIT_CONVERT_WITH_TOOL_JOB;
-			this.materialType = workerCreationRequest.requestedMovableType().getTool();
+			if(offer != null) {
+				this.state = EBearerState.INIT_CONVERT_WITH_TOOL_JOB;
+				this.materialType = workerCreationRequest.requestedMovableType().getTool();
 
-			offer.distributionAccepted();
+				offer.distributionAccepted();
+			} else {
+				this.state = EBearerState.INIT_CONVERT_JOB;
+				this.materialType = null;
+			}
 			return true;
 		} else {
 			return false;

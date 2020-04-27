@@ -20,6 +20,7 @@ import jsettlers.graphics.map.controls.original.panel.content.material.distribut
 import jsettlers.graphics.map.controls.original.panel.content.material.inventory.InventoryPanel;
 import jsettlers.graphics.map.controls.original.panel.content.material.priorities.MaterialPriorityContent;
 import jsettlers.graphics.map.controls.original.panel.content.material.production.MaterialsProductionPanel;
+import jsettlers.graphics.map.controls.original.panel.content.settlers.profession.ProfessionPanel;
 import jsettlers.graphics.map.controls.original.panel.content.settlers.statistics.SettlersStatisticsPanel;
 import jsettlers.graphics.map.controls.original.panel.content.settlers.warriors.WarriorsPanel;
 import jsettlers.graphics.ui.UIPanel;
@@ -54,7 +55,7 @@ public final class ContentType {
 	public static final AbstractContentProvider GOODS_TRANSPORT = new MaterialPriorityContent();
 
 	public static final SettlersStatisticsPanel SETTLER_STATISTIC = new SettlersStatisticsPanel();
-	public static final AbstractContentProvider PROFESSION = EMPTY;
+	public static final ProfessionPanel PROFESSION = new ProfessionPanel();
 	public static final WarriorsPanel WARRIORS = new WarriorsPanel();
 	public static final AbstractContentProvider PRODUCTION = EMPTY;
 

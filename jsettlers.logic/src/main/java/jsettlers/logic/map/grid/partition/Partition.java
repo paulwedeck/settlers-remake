@@ -16,9 +16,12 @@ package jsettlers.logic.map.grid.partition;
 
 import java.io.Serializable;
 
+import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.data.PartitionDataSupplier;
 import jsettlers.logic.map.grid.partition.manager.PartitionManager;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.IOffersCountListener;
+import jsettlers.logic.movable.interfaces.ILogicMovable;
 
 /**
  * This class holds the metadata of a partition.
@@ -29,6 +32,8 @@ import jsettlers.logic.map.grid.partition.manager.materials.offers.IOffersCountL
 public final class Partition extends PartitionManager implements Serializable {
 	private static final long serialVersionUID = -2087692347209993840L;
 
+	final PartitionsGrid grid;
+
 	final short partitionId;
 	final byte  playerId;
 
@@ -36,14 +41,15 @@ public final class Partition extends PartitionManager implements Serializable {
 	private int xSum    = 0;
 	private int ySum    = 0;
 
-	public Partition(short partitionId, byte playerId, IOffersCountListener countListener) {
+	public Partition(PartitionsGrid grid, short partitionId, byte playerId, IOffersCountListener countListener) {
 		super(countListener);
 		this.partitionId = partitionId;
 		this.playerId = playerId;
+		this.grid = grid;
 	}
 
-	public Partition(short partitionId, byte playerId, int size) {
-		this(partitionId, playerId, null);
+	public Partition(PartitionsGrid grid, short partitionId, byte playerId, int size) {
+		this(grid, partitionId, playerId, null);
 		this.counter = size;
 	}
 
@@ -96,5 +102,14 @@ public final class Partition extends PartitionManager implements Serializable {
 
 	public PartitionDataSupplier getPartitionData() {
 		return new PartitionDataSupplier(playerId, partitionId, getPartitionSettings(), getMaterialCounts());
+	}
+
+	@Override
+	public boolean contains(ILogicMovable mov) {
+		if(mov.getPlayer().playerId != playerId) return false;
+		if(mov.getMovableType().isPlayerControllable()) return false;
+
+		ShortPoint2D pos = mov.getPosition();
+		return grid.getPartitionAt(pos.x, pos.y) == this;
 	}
 }

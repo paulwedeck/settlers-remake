@@ -107,7 +107,7 @@ public final class PartitionsGrid implements Serializable {
 		this.towers = new byte[width * height];
 
 		// the no player partition (the manager won't be started)
-		this.partitionObjects[NO_PLAYER_PARTITION_ID] = new Partition(NO_PLAYER_PARTITION_ID, (byte) -1, width * height);
+		this.partitionObjects[NO_PLAYER_PARTITION_ID] = new Partition(this, NO_PLAYER_PARTITION_ID, (byte) -1, width * height);
 	}
 
 	public void initWithPlayerSettings(PlayerSetting[] playerSettings) {
@@ -650,7 +650,7 @@ public final class PartitionsGrid implements Serializable {
 			}
 		}
 
-		Partition newPartitionObject = new Partition(newPartitionId, playerId, players[playerId]);
+		Partition newPartitionObject = new Partition(this, newPartitionId, playerId, players[playerId]);
 		newPartitionObject.startManager();
 		partitionObjects[newPartitionId] = newPartitionObject;
 

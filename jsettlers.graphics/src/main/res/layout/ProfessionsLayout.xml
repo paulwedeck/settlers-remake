@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE element SYSTEM "layout.dtd">
+<element maxx="127" maxy="435" x="9" y="219">
+    <element class="Label" maxx="127" maxy="234" x="9" y="219">
+        <localized label="professions_title"/>
+        <font-size size="NORMAL"/>
+    </element>
+    <element class="Label" maxx="127" maxy="250" x="9" y="240">
+        <localized label="professions_min_bearer"/>
+        <font-size size="SMALL"/>
+    </element>
+    <element class="jsettlers.graphics.map.controls.original.panel.content.settlers.profession.ProfessionPanel.RatioPanel" maxx="127" maxy="260" x="60" y="250">
+        <enum constant="BEARER" enumName="jsettlers.graphics.map.controls.original.panel.content.settlers.profession.ProfessionPanel.ConfigurableRatioType"/>
+    </element>
+
+    <element class="Label" maxx="127" maxy="270" x="9" y="260">
+        <localized label="professions_min_digger"/>
+        <font-size size="SMALL"/>
+    </element>
+    <element class="jsettlers.graphics.map.controls.original.panel.content.settlers.profession.ProfessionPanel.RatioPanel" maxx="127" maxy="280" x="60" y="270">
+        <enum constant="DIGGER" enumName="jsettlers.graphics.map.controls.original.panel.content.settlers.profession.ProfessionPanel.ConfigurableRatioType"/>
+    </element>
+
+    <element class="Label" maxx="127" maxy="290" x="9" y="280">
+        <localized label="professions_max_bricklayer"/>
+        <font-size size="SMALL"/>
+    </element>
+    <element class="jsettlers.graphics.map.controls.original.panel.content.settlers.profession.ProfessionPanel.RatioPanel" maxx="127" maxy="300" x="60" y="290">
+        <enum constant="BRICKLAYER" enumName="jsettlers.graphics.map.controls.original.panel.content.settlers.profession.ProfessionPanel.ConfigurableRatioType"/>
+    </element>
+</element>

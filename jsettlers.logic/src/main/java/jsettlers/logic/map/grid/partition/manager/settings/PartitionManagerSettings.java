@@ -47,6 +47,10 @@ public final class PartitionManagerSettings implements IPartitionSettings, Seria
 	private final MaterialProductionSettings materialProductionSettings;
 	private final StockSettings stockSettings;
 
+	private float minBearerRatio = 0.25f;
+	private float maxDiggerRatio = 0.25f;
+	private float maxBricklayerRatio = 0.25f;
+
 	public PartitionManagerSettings() {
 		materialTypeForPriorities = new EMaterialType[EMaterialType.NUMBER_OF_DROPPABLE_MATERIALS];
 		System.arraycopy(EMaterialType.DROPPABLE_MATERIALS, 0, materialTypeForPriorities, 0, EMaterialType.NUMBER_OF_DROPPABLE_MATERIALS);
@@ -106,5 +110,32 @@ public final class PartitionManagerSettings implements IPartitionSettings, Seria
 
 	public void setMaterialDistributionSettings(EMaterialType materialType, EBuildingType buildingType, float ratio) {
 		getDistributionSettings(materialType).setUserConfiguredDistributionValue(buildingType, ratio);
+	}
+
+	public void setMaxBricklayerRatio(float maxBricklayerRatio) {
+		if(this.maxBricklayerRatio < 0 || this.maxBricklayerRatio > 1) throw new IllegalArgumentException("maxBricklayerRatio(" + maxBricklayerRatio + ") out of bounds (0-1)");
+		this.maxBricklayerRatio = maxBricklayerRatio;
+	}
+
+	public float getMaxBricklayerRatio() {
+		return maxBricklayerRatio;
+	}
+
+	public void setMaxDiggerRatio(float maxDiggerRatio) {
+		if(this.maxDiggerRatio < 0 || this.maxDiggerRatio > 1) throw new IllegalArgumentException("maxDiggerRatio(" + maxBricklayerRatio + ") out of bounds (0-1)");
+		this.maxDiggerRatio = maxDiggerRatio;
+	}
+
+	public float getMaxDiggerRatio() {
+		return maxDiggerRatio;
+	}
+
+	public void setMinBearerRatio(float minBearerRatio) {
+		if(this.minBearerRatio < 0 || this.minBearerRatio > 1) throw new IllegalArgumentException("minBearerRatio(" + minBearerRatio + ") out of bounds (0-1)");
+		this.minBearerRatio = minBearerRatio;
+	}
+
+	public float getMinBearerRatio() {
+		return minBearerRatio;
 	}
 }

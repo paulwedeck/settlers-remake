@@ -78,6 +78,9 @@ public class LayoutLoader {
 				panelStack.getLast().addArgument(
 						new UncheckedEnumArgument(attributes, "alignment", "jsettlers.graphics.ui.Label.EHorizontalAlignment"));
 				break;
+			case "enum":
+				panelStack.getLast().addArgument(new UncheckedEnumArgument(attributes, "constant", attributes.getValue("enumName")));
+				break;
 
 			}
 		}
