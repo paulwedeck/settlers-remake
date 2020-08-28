@@ -21,6 +21,7 @@ import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.menu.UIState;
+import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.FerryEntrance;
 import jsettlers.logic.map.grid.partition.manager.settings.MaterialProductionSettings;
@@ -139,4 +140,6 @@ public interface IGuiInputGrid {
 	boolean isNavigable(int x, int y);
 
 	boolean hasLost(byte playerId);
+	
+	void setMoveableRatio(ShortPoint2D position, EMovableType moveableType, float ratio);
 }

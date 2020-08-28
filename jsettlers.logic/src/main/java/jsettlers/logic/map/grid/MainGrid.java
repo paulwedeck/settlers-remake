@@ -2049,6 +2049,20 @@ public final class MainGrid implements Serializable {
 		public void setAcceptedStockMaterial(ShortPoint2D position, EMaterialType materialType, boolean accepted) {
 			partitionsGrid.getPartitionSettings(position).setAcceptedStockMaterial(materialType, accepted);
 		}
+		
+		@Override
+		public void setMoveableRatio(ShortPoint2D position, EMovableType moveableType, float ratio) {
+			System.out.println(String.format("Set ratio at %s for '%s' to %s", position, moveableType, ratio));
+			if (moveableType == EMovableType.BEARER) {
+				partitionsGrid.getPartitionSettings(position).setMinBearerRatio(ratio);
+			} else if (moveableType == EMovableType.DIGGER) {
+				partitionsGrid.getPartitionSettings(position).setMaxDiggerRatio(ratio);
+			} else if (moveableType == EMovableType.BRICKLAYER) {
+				partitionsGrid.getPartitionSettings(position).setMaxBricklayerRatio(ratio);
+			} else {
+				throw new IllegalArgumentException(String.format("The moveable type '%s' does not support to set the ratio.", moveableType));
+			}
+		}		
 	}
 
 	/**

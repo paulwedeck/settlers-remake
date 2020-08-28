@@ -46,4 +46,10 @@ public interface IPartitionSettings {
 	EMaterialType getMaterialTypeForPriority(int priorityIdx);
 
 	IStockSettings getStockSettings();
+
+	float getMinBearerRatio();
+
+	float getMaxDiggerRatio();
+
+	float getMaxBricklayerRatio();
 }

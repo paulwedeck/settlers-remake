@@ -40,6 +40,7 @@ import jsettlers.common.action.SetDockAction;
 import jsettlers.common.action.SetMaterialDistributionSettingsAction;
 import jsettlers.common.action.SetMaterialPrioritiesAction;
 import jsettlers.common.action.SetMaterialProductionAction;
+import jsettlers.common.action.SetMoveableRatioAction;
 import jsettlers.common.action.SetSpeedAction;
 import jsettlers.common.action.SetTradingWaypointAction;
 import jsettlers.common.action.ShowConstructionMarksAction;
@@ -77,6 +78,7 @@ import jsettlers.input.tasks.SetDockGuiTask;
 import jsettlers.input.tasks.SetMaterialDistributionSettingsGuiTask;
 import jsettlers.input.tasks.SetMaterialPrioritiesGuiTask;
 import jsettlers.input.tasks.SetMaterialProductionGuiTask;
+import jsettlers.input.tasks.SetMoveableRatioTask;
 import jsettlers.input.tasks.SetTradingWaypointGuiTask;
 import jsettlers.input.tasks.SimpleBuildingGuiTask;
 import jsettlers.input.tasks.SimpleGuiTask;
@@ -383,6 +385,11 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 
 			case UNLOAD_FERRIES:
 				unloadFerries();
+				break;
+				
+			case SET_MOVEABLE_RATIO:
+				SetMoveableRatioAction ratioAction = (SetMoveableRatioAction) action;
+				scheduleTask(new SetMoveableRatioTask(playerId, ratioAction.getPosition(), ratioAction.getMoveableType(), ratioAction.getRatio()));
 				break;
 
 			default:
