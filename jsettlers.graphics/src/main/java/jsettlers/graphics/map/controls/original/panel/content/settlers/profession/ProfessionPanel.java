@@ -1,8 +1,7 @@
 package jsettlers.graphics.map.controls.original.panel.content.settlers.profession;
 
-import java.text.DecimalFormat;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.text.MessageFormat;
+import java.util.List;
 
 import go.graphics.text.EFontSize;
 import jsettlers.common.action.Action;
@@ -11,6 +10,7 @@ import jsettlers.common.images.EImageLinkType;
 import jsettlers.common.images.OriginalImageLink;
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.partition.IPartitionSettings;
+import jsettlers.common.map.partition.IProfessionSettings;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
@@ -27,14 +27,12 @@ import jsettlers.graphics.ui.UIPanel;
 
 public class ProfessionPanel extends AbstractContentProvider implements UiContentUpdater.IUiContentReceiver<IPartitionSettings> {
 
-	private final ContentUIPanel panel;
+	private final ContentPanel panel;
 	private final UiLocationDependingContentUpdater<IPartitionSettings> uiContentUpdater;
-	private final Ref<ShortPoint2D> positionRef;
 	private long lastChangeTimestamp;
 
 	public ProfessionPanel() {
-		this.positionRef = Ref.create(new ShortPoint2D(0, 0));
-		this.panel = new ContentUIPanel();
+		this.panel = new ContentPanel();
 		this.uiContentUpdater = new UiLocationDependingContentUpdater<>(ProfessionPanel::currentDistributionSettingsProvider);
 		this.uiContentUpdater.addListener(this);
 		this.lastChangeTimestamp = 0;
@@ -52,7 +50,7 @@ public class ProfessionPanel extends AbstractContentProvider implements UiConten
 
 	@Override
 	public void showMapPosition(ShortPoint2D position, IGraphicsGrid grid) {
-		this.positionRef.set(position);
+		this.panel.setPosition(position);
 		super.showMapPosition(position, grid);
 		this.uiContentUpdater.updatePosition(grid, position);
 	}
@@ -65,8 +63,10 @@ public class ProfessionPanel extends AbstractContentProvider implements UiConten
 
 	@Override
 	public void update(IPartitionSettings partitionSettings) {
+		// Use delay to prevent race condition between direct ui update and settings update
 		if (System.currentTimeMillis() - lastChangeTimestamp > 5000) {
-			this.panel.setup(partitionSettings.getMinBearerRatio(), partitionSettings.getMaxDiggerRatio(), partitionSettings.getMaxBricklayerRatio());
+			IProfessionSettings professionSettings = partitionSettings.getProfessionSettings();
+			this.panel.setup(professionSettings);
 		}
 	}
 
@@ -90,92 +90,93 @@ public class ProfessionPanel extends AbstractContentProvider implements UiConten
 		}
 	}
 
-	public class ProfessionRatioModel {
-		private float carrierRatio;
-		private float diggerRatio;
-		private float builderRatio;
+	public class ContentPanel extends Panel {
+		private ShortPoint2D position;
+		private final SettlerPanel diggerPanel;
+		private final SettlerPanel carrierPanel;
+		private final SettlerPanel builderPanel;
 
-		public ProfessionRatioModel() {
-			this(0f, 0f, 0f);
-		}
-
-		public ProfessionRatioModel(float carrierRatio, float diggerRatio, float builderRatio) {
-			this.carrierRatio = carrierRatio;
-			this.diggerRatio = diggerRatio;
-			this.builderRatio = builderRatio;
-		}
-
-		public float totalRatio() {
-			return carrierRatio + diggerRatio + builderRatio;
-		}
-
-		public Ref<Float> carrierRatioRef() {
-			return new Ref<>(() -> carrierRatio, ratio -> carrierRatio = ratio);
-		}
-
-		public Ref<Float> diggerRatioRef() {
-			return new Ref<>(() -> diggerRatio, ratio -> diggerRatio = ratio);
-		}
-
-		public Ref<Float> builderRatioRef() {
-			return new Ref<>(() -> builderRatio, ratio -> builderRatio = ratio);
-		}
-	}
-
-	public class ContentUIPanel extends Panel {
-		private final SettlerUIPanel diggerPanel;
-		private final SettlerUIPanel carrierPanel;
-		private final SettlerUIPanel builderPanel;
-		private final ProfessionRatioModel model;
-
-		public ContentUIPanel() {
+		public ContentPanel() {
 			super(118f, 216f);
-			this.model = new ProfessionRatioModel();
-			this.carrierPanel = new SettlerUIPanel(widthInPx, EProfessionType.CARRIER, positionRef, model.carrierRatioRef());
-			this.diggerPanel = new SettlerUIPanel(widthInPx, EProfessionType.DIGGER, positionRef, model.diggerRatioRef());
-			this.builderPanel = new SettlerUIPanel(widthInPx, EProfessionType.BUILDER, positionRef, model.builderRatioRef());
+			this.position = new ShortPoint2D(0, 0);
+			this.carrierPanel = new SettlerPanel(widthInPx, EProfessionType.CARRIER);
+			this.diggerPanel = new SettlerPanel(widthInPx, EProfessionType.DIGGER);
+			this.builderPanel = new SettlerPanel(widthInPx, EProfessionType.BUILDER);
+
 			add(Panel.box(new Label(Labels.getString("Settlers"), EFontSize.NORMAL), widthInPx, 20f), 0f, 0f);
 			add(carrierPanel, 0f, 20f);
 			add(diggerPanel, 0f, 50f);
 			add(builderPanel, 0f, 80f);
 		}
 
-		public void setup(float carrierRatio, float diggerRatio, float builderRatio) {
-			this.carrierPanel.setup(carrierRatio);
-			this.diggerPanel.setup(diggerRatio);
-			this.builderPanel.setup(builderRatio);
+		public void setup(IProfessionSettings settings) {
+			this.carrierPanel.setRatio(settings.getMinBearerRatio());
+			this.carrierPanel.setCurrentRatio(settings.getCurrentBearerRatio());
+
+			this.diggerPanel.setRatio(settings.getMaxDiggerRatio());
+			this.diggerPanel.setCurrentRatio(settings.getCurrentDiggerRatio());
+
+			this.builderPanel.setRatio(settings.getMaxBricklayerRatio());
+			this.builderPanel.setCurrentRatio(settings.getCurrentBricklayerRatio());
+
+			update();
 		}
 
-		public class SettlerUIPanel extends Panel {
+		public float getTotalRatio() {
+			return carrierPanel.ratio + diggerPanel.ratio + builderPanel.ratio;
+		}
+
+		public void setPosition(ShortPoint2D position) {
+			this.position = position;
+		}
+
+		public class SettlerPanel extends Panel {
+			private float ratio;
+			private float currentRatio;
 			private final Label label;
 			private final EProfessionType type;
-			private final Ref<Float> ratioRef;
 
-			public SettlerUIPanel(float width, EProfessionType type, Ref<ShortPoint2D> positionRef, Ref<Float> ratioRef) {
+			public SettlerPanel(float width, EProfessionType type) {
 				super(width, 30f);
-				this.ratioRef = ratioRef;
+				this.ratio = 0f;
+				this.currentRatio = 0f;
 				this.label = new Label("...", EFontSize.NORMAL, EHorizontalAlignment.LEFT);
 				this.type = type;
-				add(new UpDownArrows(type, ratioRef, positionRef), 10f, 5f);
+
+				add(new UpDownArrows(type), 10f, 5f);
 				add(Panel.box(label, width, 20f), 28f, 5f);
 			}
 
-			public void setup(float ratio) {
-				this.ratioRef.set(ratio);
-				this.label.setText((this.type.min ? '>' : '<') + " " + (new DecimalFormat("#").format(Math.round(ratioRef.get() * 100f))) + "% " + this.type.label);
+			@Override
+			public void update() {
+				super.update();
+				this.label.setText(MessageFormat.format("{0} {1} {2} ({3})", (this.type.min ? '>' : '<'), formatPercentage(ratio), this.type.label, formatPercentage(currentRatio)));
+			}
+
+			private String formatPercentage(float value) {
+				return (int)(value * 100f) + "%";
+			}
+
+			public void setRatio(float ratio) {
+				this.ratio = ratio;
+			}
+
+			public void setCurrentRatio(float currentRatio) {
+				this.currentRatio = currentRatio;
 			}
 
 			public class UpDownArrows extends Panel {
-				public UpDownArrows(EProfessionType type, Ref<Float> ratioRef, Ref<ShortPoint2D> positionRef) {
+				public UpDownArrows(EProfessionType type) {
 					super(12f, 18f);
 					setBackground(new OriginalImageLink(EImageLinkType.GUI, 3, 231, 0));
 					addChild(new Button(null) {
 						@Override
 						public Action getAction() {
-							if (model.totalRatio() <= 1.0f - 0.05f) {
-								setup(Math.min(1f, ratioRef.get() + 0.05f));
+							if (getTotalRatio() <= 1.0f - 0.05f) {
+								setRatio(Math.min(1f, ratio + 0.05f));
 								lastChangeTimestamp = System.currentTimeMillis();
-								return new SetMoveableRatioAction(type.moveableType, positionRef.get(), ratioRef.get());
+								SettlerPanel.this.update();
+								return new SetMoveableRatioAction(type.moveableType, position, ratio);
 							} else {
 								return null;
 							}
@@ -184,10 +185,11 @@ public class ProfessionPanel extends AbstractContentProvider implements UiConten
 					addChild(new Button(null) {
 						@Override
 						public Action getAction() {
-							if (model.totalRatio() >= 0.05f) {
-								setup(Math.max(0f, ratioRef.get() - 0.05f));
+							if (getTotalRatio() >= 0.05f) {
+								setRatio(Math.max(0f, ratio - 0.05f));
 								lastChangeTimestamp = System.currentTimeMillis();
-								return new SetMoveableRatioAction(type.moveableType, positionRef.get(), ratioRef.get());
+								SettlerPanel.this.update();
+								return new SetMoveableRatioAction(type.moveableType, position, ratio);
 							} else {
 								return null;
 							}
@@ -207,6 +209,16 @@ public class ProfessionPanel extends AbstractContentProvider implements UiConten
 			this.heightInPx = heightInPx;
 		}
 
+		public void update() {
+			List<UIElement> children = getChildren();
+			for (UIElement element : children) {
+				if (element instanceof Panel) {
+					Panel panel = (Panel) element;
+					panel.update();
+				}
+			}
+		}
+
 		public void add(Panel panel, float x, float y) {
 			addChild(panel, x(x), 1f - y(y) - y(panel.heightInPx), x(x) + x(panel.widthInPx), 1f - y(y));
 		}
@@ -223,30 +235,6 @@ public class ProfessionPanel extends AbstractContentProvider implements UiConten
 			Panel panel = new Panel(width, height);
 			panel.addChild(element, 0f, 0f, 1f, 1f);
 			return panel;
-		}
-	}
-
-	public static class Ref<T> {
-		public final Supplier<T> get;
-		public final Consumer<T> set;
-
-		public Ref(Supplier<T> get, Consumer<T> set) {
-			this.get = get;
-			this.set = set;
-		}
-
-		public T get() {
-			return get.get();
-		}
-
-		public void set(T t) {
-			set.accept(t);
-		}
-
-		public static <T> Ref<T> create(T t) {
-			final Object[] array = new Object[1];
-			array[0] = t;
-			return new Ref<T>(() -> (T) array[0], v -> array[0] = v);
 		}
 	}
 }

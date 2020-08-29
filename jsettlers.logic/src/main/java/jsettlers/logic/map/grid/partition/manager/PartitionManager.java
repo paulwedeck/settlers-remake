@@ -24,10 +24,8 @@ import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ILocatable;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
-import jsettlers.logic.constants.MatchConstants;
-import jsettlers.logic.map.grid.partition.Partition;
-import jsettlers.logic.map.grid.partition.manager.settings.MaterialProductionSettings;
 import jsettlers.logic.buildings.workers.WorkerBuilding;
+import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.partition.data.MaterialCounts;
 import jsettlers.logic.map.grid.partition.manager.datastructures.PositionableList;
 import jsettlers.logic.map.grid.partition.manager.datastructures.PredicatedPositionableList;
@@ -52,7 +50,9 @@ import jsettlers.logic.map.grid.partition.manager.objects.DiggerRequest;
 import jsettlers.logic.map.grid.partition.manager.objects.SoldierCreationRequest;
 import jsettlers.logic.map.grid.partition.manager.objects.WorkerCreationRequest;
 import jsettlers.logic.map.grid.partition.manager.objects.WorkerRequest;
+import jsettlers.logic.map.grid.partition.manager.settings.MaterialProductionSettings;
 import jsettlers.logic.map.grid.partition.manager.settings.PartitionManagerSettings;
+import jsettlers.logic.map.grid.partition.manager.settings.ProfessionSettings;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.timer.IScheduledTimerable;
@@ -270,6 +270,7 @@ public abstract class PartitionManager implements IScheduledTimerable, Serializa
 		newManager.workerRequests.addAll(this.workerRequests);
 	}
 
+	private transient int lastProfessionSettingsUpdate = 0;
 	@Override
 	public final int timerEvent() {
 		if (stopped) {
@@ -285,6 +286,12 @@ public abstract class PartitionManager implements IScheduledTimerable, Serializa
 
 		handleWorkerCreationRequests();
 		handleSoldierCreationRequest();
+		
+		int time = MatchConstants.clock().getTime();
+		if(time > lastProfessionSettingsUpdate + 1000) {
+			lastProfessionSettingsUpdate = time;
+			updateProfessionSettings();
+		}
 
 		return SCHEDULING_PERIOD;
 	}
@@ -312,7 +319,7 @@ public abstract class PartitionManager implements IScheduledTimerable, Serializa
 
 	private void handleWorkerCreationRequests() {
 		Iterator<WorkerCreationRequest> iterator = workerCreationRequests.iterator();
-
+		
 		while(iterator.hasNext() && !joblessBearer.isEmpty()) {
 			WorkerCreationRequest workerCreationRequest = iterator.next();
 			if (!workerCreationRequest.isRequestAlive() || tryToCreateWorker(workerCreationRequest)) {
@@ -321,51 +328,15 @@ public abstract class PartitionManager implements IScheduledTimerable, Serializa
 		}
 	}
 
-	private int workerCount = 0;
-	private int bearerCount = 0;
-	private int diggerCount = 0;
-	private int bricklayerCount = 0;
-	private int lastTime = 0;
-
 	private boolean tryToCreateWorker(WorkerCreationRequest workerCreationRequest) {
 		EMovableType movableType = workerCreationRequest.requestedMovableType();
+		ProfessionSettings professionSettings = settings.getProfessionSettings();
 
-		int time = MatchConstants.clock().getTime();
-		if(time > lastTime + 1000) {
-			lastTime = time;
-			workerCount = 0;
-			bearerCount = 0;
-			diggerCount = 0;
-			bricklayerCount = 0;
-
-			for (ILogicMovable mov : Movable.getAllMovables()) {
-				if (!contains(mov)) continue;
-				workerCount++;
-
-				switch (mov.getMovableType()) {
-					case BEARER:
-						bearerCount++;
-						break;
-					case DIGGER:
-						diggerCount++;
-						break;
-					case BRICKLAYER:
-						bricklayerCount++;
-						break;
-				}
-			}
-		} else {
-
-			bearerCount--;
-			if(movableType == EMovableType.DIGGER) diggerCount++;
-			if(movableType == EMovableType.BRICKLAYER) bricklayerCount++;
-		}
-
-		if(bearerCount/(float)workerCount < settings.getMinBearerRatio()) return false;
-		if(movableType == EMovableType.DIGGER && diggerCount/(float)workerCount >= settings.getMaxDiggerRatio()) return false;
-		if(movableType == EMovableType.BRICKLAYER && bricklayerCount/(float)workerCount >= settings.getMaxBricklayerRatio()) return false;
+		if(!professionSettings.isBaererRatioFulfilled()) return false;
+		if(movableType == EMovableType.DIGGER && !professionSettings.isDiggerRatioFulfilled()) return false;
+		if(movableType == EMovableType.BRICKLAYER && !professionSettings.isBricklayerRatioFulfilled()) return false;
+		
 		EMaterialType tool = movableType.getTool();
-
 		MaterialOffer offer = null;
 		if(tool != EMaterialType.NO_MATERIAL) { // try to create a worker with a tool
 			offer = materialOffers.getOfferCloseTo(tool, EOfferPriority.LOWEST, workerCreationRequest.getPosition());
@@ -378,9 +349,37 @@ public abstract class PartitionManager implements IScheduledTimerable, Serializa
 
 		IManageableBearer manageableBearer = joblessBearer.removeObjectNextTo(workerCreationRequest.getPosition());
 		if(manageableBearer != null) {
-			return manageableBearer.becomeWorker(this, workerCreationRequest, offer);
-		} else {
-			return false;
+			if(manageableBearer.becomeWorker(this, workerCreationRequest, offer)) {
+				professionSettings.decrementBearerCount();
+				if(movableType == EMovableType.DIGGER) professionSettings.increamentDiggerCount();
+				if(movableType == EMovableType.BRICKLAYER) professionSettings.incrementBricklayerCount();
+				return true;
+			}
+		} 
+		return false;
+	}
+
+	private void updateProfessionSettings() {
+		ProfessionSettings professionSettings = settings.getProfessionSettings();
+		professionSettings.resetCount();
+
+		for (ILogicMovable mov : Movable.getAllMovables()) {
+			if (!contains(mov)) continue;
+
+			professionSettings.incrementWorkerCount();
+			switch (mov.getMovableType()) {
+				case BEARER:
+					professionSettings.incrementBearerCount();
+					break;
+				case DIGGER:
+					professionSettings.increamentDiggerCount();
+					break;
+				case BRICKLAYER:
+					professionSettings.incrementBricklayerCount();
+					break;
+				default:
+					break;
+			}
 		}
 	}
 

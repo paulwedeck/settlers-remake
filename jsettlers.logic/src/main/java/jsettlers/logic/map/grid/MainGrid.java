@@ -106,6 +106,7 @@ import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IOfferEmp
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
 import jsettlers.logic.map.grid.partition.manager.materials.requests.MaterialRequestObject;
 import jsettlers.logic.map.grid.partition.manager.settings.MaterialProductionSettings;
+import jsettlers.logic.map.grid.partition.manager.settings.ProfessionSettings;
 import jsettlers.logic.map.loading.data.IMapData;
 import jsettlers.logic.map.loading.data.objects.BuildingMapDataObject;
 import jsettlers.logic.map.loading.data.objects.IPlayerIdProvider;
@@ -2053,12 +2054,13 @@ public final class MainGrid implements Serializable {
 		@Override
 		public void setMoveableRatio(ShortPoint2D position, EMovableType moveableType, float ratio) {
 			System.out.println(String.format("Set ratio at %s for '%s' to %s", position, moveableType, ratio));
+			ProfessionSettings professionSettings = partitionsGrid.getPartitionSettings(position).getProfessionSettings();
 			if (moveableType == EMovableType.BEARER) {
-				partitionsGrid.getPartitionSettings(position).setMinBearerRatio(ratio);
+				professionSettings.setMinBearerRatio(ratio);
 			} else if (moveableType == EMovableType.DIGGER) {
-				partitionsGrid.getPartitionSettings(position).setMaxDiggerRatio(ratio);
+				professionSettings.setMaxDiggerRatio(ratio);
 			} else if (moveableType == EMovableType.BRICKLAYER) {
-				partitionsGrid.getPartitionSettings(position).setMaxBricklayerRatio(ratio);
+				professionSettings.setMaxBricklayerRatio(ratio);
 			} else {
 				throw new IllegalArgumentException(String.format("The moveable type '%s' does not support to set the ratio.", moveableType));
 			}

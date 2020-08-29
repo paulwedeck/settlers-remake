@@ -46,10 +46,7 @@ public final class PartitionManagerSettings implements IPartitionSettings, Seria
 	private final MaterialDistributionSettings[] settingsOfMaterials;
 	private final MaterialProductionSettings materialProductionSettings;
 	private final StockSettings stockSettings;
-
-	private float minBearerRatio = 0.25f;
-	private float maxDiggerRatio = 0.25f;
-	private float maxBricklayerRatio = 0.25f;
+	private final ProfessionSettings professionSettings;
 
 	public PartitionManagerSettings() {
 		materialTypeForPriorities = new EMaterialType[EMaterialType.NUMBER_OF_DROPPABLE_MATERIALS];
@@ -68,6 +65,7 @@ public final class PartitionManagerSettings implements IPartitionSettings, Seria
 
 		materialProductionSettings = new MaterialProductionSettings();
 		stockSettings = new StockSettings(INITIAL_STOCK_SETTINGS);
+		professionSettings = new ProfessionSettings();
 	}
 
 	@Override
@@ -112,33 +110,8 @@ public final class PartitionManagerSettings implements IPartitionSettings, Seria
 		getDistributionSettings(materialType).setUserConfiguredDistributionValue(buildingType, ratio);
 	}
 
-	public void setMaxBricklayerRatio(float maxBricklayerRatio) {
-		if(this.maxBricklayerRatio < 0 || this.maxBricklayerRatio > 1) throw new IllegalArgumentException("maxBricklayerRatio(" + maxBricklayerRatio + ") out of bounds (0-1)");
-		this.maxBricklayerRatio = maxBricklayerRatio;
-	}
-
 	@Override
-	public float getMaxBricklayerRatio() {
-		return maxBricklayerRatio;
-	}
-
-	public void setMaxDiggerRatio(float maxDiggerRatio) {
-		if(this.maxDiggerRatio < 0 || this.maxDiggerRatio > 1) throw new IllegalArgumentException("maxDiggerRatio(" + maxBricklayerRatio + ") out of bounds (0-1)");
-		this.maxDiggerRatio = maxDiggerRatio;
-	}
-
-	@Override
-	public float getMaxDiggerRatio() {
-		return maxDiggerRatio;
-	}
-
-	public void setMinBearerRatio(float minBearerRatio) {
-		if(this.minBearerRatio < 0 || this.minBearerRatio > 1) throw new IllegalArgumentException("minBearerRatio(" + minBearerRatio + ") out of bounds (0-1)");
-		this.minBearerRatio = minBearerRatio;
-	}
-
-	@Override
-	public float getMinBearerRatio() {
-		return minBearerRatio;
+	public ProfessionSettings getProfessionSettings() {
+		return professionSettings;
 	}
 }

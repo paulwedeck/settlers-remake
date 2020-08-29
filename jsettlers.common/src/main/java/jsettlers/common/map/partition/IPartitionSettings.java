@@ -47,9 +47,5 @@ public interface IPartitionSettings {
 
 	IStockSettings getStockSettings();
 
-	float getMinBearerRatio();
-
-	float getMaxDiggerRatio();
-
-	float getMaxBricklayerRatio();
+	IProfessionSettings getProfessionSettings();
 }
