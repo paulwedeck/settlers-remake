@@ -161,9 +161,9 @@
     <job name="go_to_melt10" type="WALK" direction="NORTH_WEST" successjob="go_to_melt11" failjob="go_to_door" />
     <job name="go_to_melt11" type="WALK" direction="NORTH_WEST" successjob="go_to_melt12" failjob="go_to_door" />
     <job name="go_to_melt12" type="LOOK_AT" direction="NORTH_EAST" successjob="drop_iron1" failjob="go_to_door" />
-    <job name="drop_iron1" type="DROP" material="NO_MATERIAL" successjob="drop_iron5" failjob="go_to_door" />
+    <job name="drop_iron1" type="DROP" material="NO_MATERIAL" successjob="melt" failjob="go_to_door" />
 
-    <job name="drop_iron5" type="PLAY_ACTION3" time="3" successjob="drop_iron8" failjob="go_to_door" />
+    <job name="melt"	type="BUILDING_ANIMATION"	successjob="drop_iron8" 	failjob="go_to_door" takeMaterialFromMap="false" />
 
     <job name="drop_iron8" type="TAKE" material="IRON" successjob="go_to_hammer1" failjob="go_to_door" takeMaterialFromMap="false" />
     <job name="go_to_hammer1" type="WALK" direction="SOUTH_EAST" successjob="go_to_hammer2" failjob="go_to_door" />

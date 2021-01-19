@@ -97,6 +97,20 @@ public interface IBuilding extends IMapObject, IPlayerable, ISelectable, ILocata
 	}
 
 	/**
+	 * This is a building with a work animation. The animation is drawn when {@link #isAnimationRequested()} returns true.
+	 *
+	 * @author MarviMarv
+	 */
+	interface IWorkAnimation extends IBuilding {
+		int getAnimationCount();
+		boolean isAnimationRequested(int index);
+		float getAnimationProgress(int index);
+		int requestAnimation(int index);
+		int requestAnimation();
+		int getEntireDuration();
+	}
+
+	/**
 	 * This building can request a sound.
 	 *
 	 */

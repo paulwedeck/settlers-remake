@@ -164,8 +164,8 @@
 	<job name="gopot3" 		type="WALK" 		successjob="gopot4" 	failjob="gohome" 	direction="SOUTH_EAST" />
 	<job name="gopot4" 		type="WALK" 		successjob="gopot5"		failjob="gohome" 	direction="EAST" />
 
-	<job name="gopot5" 		type="LOOK_AT" 		successjob="gopot6" 	failjob="gohome" 	direction="NORTH_WEST" />
-	<job name="gopot6" 		type="PLAY_ACTION1"	successjob="takegold1" 	failjob="gohome" 	time="3.5" />
+	<job name="gopot5" 		type="LOOK_AT" 		successjob="melt" 	failjob="gohome" 	direction="NORTH_WEST" />
+	<job name="melt" 		type="BUILDING_ANIMATION"	successjob="takegold1" 	failjob="gohome" takeMaterialFromMap="false" />
 
 	<!-- take the gold -->
 	<job name="takegold1" 	type="TAKE" 		successjob="goToGold1"	failjob="gohome" 	material="GOLD" 	takeMaterialFromMap="false"/>

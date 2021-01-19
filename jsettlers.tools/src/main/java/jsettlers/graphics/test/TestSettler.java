@@ -23,7 +23,6 @@ import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EEffectType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.movable.IGraphicsBuildingWorker;
 import jsettlers.common.movable.IGraphicsCargoShip;
 import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
@@ -32,7 +31,7 @@ import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 
-public class TestSettler implements IGraphicsMovable, IGraphicsFerry, IGraphicsCargoShip, IGraphicsThief, IGraphicsBuildingWorker {
+public class TestSettler implements IGraphicsMovable, IGraphicsFerry, IGraphicsCargoShip, IGraphicsThief {
 
 	private final IPlayer      player;
 	private final EMovableType type;
@@ -143,11 +142,6 @@ public class TestSettler implements IGraphicsMovable, IGraphicsFerry, IGraphicsC
 	@Override
 	public int getCargoCount(int stack) {
 		return 0;
-	}
-
-	@Override
-	public EBuildingType getGarrisonedBuildingType() {
-		return null;
 	}
 
 	@Override

@@ -92,7 +92,16 @@ public enum EBuildingType {
 	MARKET_PLACE,
 
 	SULFURMINE,
-	GEMSMINE;
+	GEMSMINE,
+
+	CATAPULT_HALL, //TODO: needs specific implementation, also Ballistenwerkstatt, Kanonenwerkstatt
+	BREWERY,
+	GUNPOWDER_MAKER,
+	DISTILLERY,
+	RICE_FARM,
+	BEEKEEPERS_HUT,
+	MEADMAKERS_HUT,
+	ALCHEMISTS_DEN;
 
 	/**
 	 * A copy of {@link #values()}. Do not modify this array. This is intended for quicker access to this value.

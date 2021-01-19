@@ -98,9 +98,9 @@
 	<buildmark dx="-1" dy="-4" />
 	<buildmark dx="-3" dy="-2" />
 
-	<image file="14" for="GUI" type="GUI" sequence="27" image="0" />
-	<image file="13" type="SETTLER" for="FINAL" image="0" sequence="11" />
-	<image file="13" type="SETTLER" for="BUILD" image="1" sequence="11" />
+	<image file="44" for="GUI" type="GUI" sequence="30" image="0" />
+	<image file="43" type="SETTLER" for="FINAL" image="0" sequence="16" />
+	<image file="43" type="SETTLER" for="BUILD" image="1" sequence="16" />
 
 	<startjob name="go_to_door" />
 
@@ -135,9 +135,9 @@
 	<job name="go_drop_iron4" type="WALK" direction="NORTH_WEST" successjob="dropiron0" failjob="go_to_door" />
 
 	<job name="dropiron0" type="LOOK_AT" direction="NORTH_WEST" successjob="dropiron1" failjob="go_to_door" />
-	<job name="dropiron1" type="DROP" material="NO_MATERIAL" successjob="wait1" failjob="go_to_door" />
+	<job name="dropiron1" type="DROP" material="NO_MATERIAL" successjob="melt" failjob="go_to_door" />
 
-	<job name="wait1" type="PLAY_ACTION3" time="3" successjob="take_weapon1" failjob="go_to_door" />
+	<job name="melt"	type="BUILDING_ANIMATION"	successjob="take_weapon1" 	failjob="go_to_door" takeMaterialFromMap="false" />
 
 	<!-- take weapon -->
 	<job name="take_weapon1" type="TAKE" material="IRON" successjob="go_to_hammer1" failjob="go_to_door" takeMaterialFromMap="false"/>

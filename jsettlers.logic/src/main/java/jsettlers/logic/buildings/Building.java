@@ -54,11 +54,15 @@ import jsettlers.logic.buildings.stack.IRequestStack;
 import jsettlers.logic.buildings.stack.RequestStack;
 import jsettlers.logic.buildings.trading.HarborBuilding;
 import jsettlers.logic.buildings.trading.MarketBuilding;
+import jsettlers.logic.buildings.workers.BakerBuilding;
+import jsettlers.logic.buildings.workers.CharcoalburnerBuilding;
 import jsettlers.logic.buildings.workers.DockyardBuilding;
+import jsettlers.logic.buildings.workers.MelterBuilding;
 import jsettlers.logic.buildings.workers.MillBuilding;
 import jsettlers.logic.buildings.workers.MineBuilding;
 import jsettlers.logic.buildings.workers.ResourceBuilding;
 import jsettlers.logic.buildings.workers.SlaughterhouseBuilding;
+import jsettlers.logic.buildings.workers.SmithBuilding;
 import jsettlers.logic.buildings.workers.WorkerBuilding;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.constants.MatchConstants;
@@ -720,23 +724,38 @@ public abstract class Building extends AbstractHexMapObject implements IConstruc
 		case SMALL_LIVINGHOUSE:
 			return new SmallLivinghouse(player, position, buildingsGrid);
 
-		case CHARCOAL_BURNER:
-		case BAKER:
 		case DONKEY_FARM:
 		case FARM:
 		case FORESTER:
-		case GOLDMELT:
-		case IRONMELT:
 		case LUMBERJACK:
 		case PIG_FARM:
 		case SAWMILL:
 		case STONECUTTER:
-		case TOOLSMITH:
-		case WEAPONSMITH:
 		case WATERWORKS:
 		case WINEGROWER:
 		case HOSPITAL:
+		case BREWERY:
+		case GUNPOWDER_MAKER:
+		case DISTILLERY:
+		case RICE_FARM:
+		case BEEKEEPERS_HUT:
+		case MEADMAKERS_HUT:
+		case ALCHEMISTS_DEN:
 			return new WorkerBuilding(type, player, position, buildingsGrid);
+
+		case IRONMELT:
+		case GOLDMELT:
+			return new MelterBuilding(type, player, position, buildingsGrid);
+
+		case TOOLSMITH:
+		case WEAPONSMITH:
+			return new SmithBuilding(type, player, position, buildingsGrid);
+
+		case BAKER:
+			return new BakerBuilding(type, player, position, buildingsGrid);
+
+		case CHARCOAL_BURNER:
+			return new CharcoalburnerBuilding(type, player, position, buildingsGrid);
 
 		case DOCKYARD:
 			return new DockyardBuilding(player, position, buildingsGrid);

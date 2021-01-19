@@ -23,7 +23,6 @@ import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EEffectType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.movable.IGraphicsBuildingWorker;
 import jsettlers.common.movable.IGraphicsCargoShip;
 import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
@@ -35,7 +34,7 @@ import jsettlers.common.selectable.ESelectionType;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.logic.map.loading.data.objects.MovableObject;
 
-public class MovableObjectContainer implements ObjectContainer, IGraphicsMovable, IGraphicsCargoShip, IGraphicsFerry, IGraphicsThief, IGraphicsBuildingWorker {
+public class MovableObjectContainer implements ObjectContainer, IGraphicsMovable, IGraphicsCargoShip, IGraphicsFerry, IGraphicsThief {
 
 	private final MovableObject movableObject;
 	private final ShortPoint2D position;
@@ -89,11 +88,6 @@ public class MovableObjectContainer implements ObjectContainer, IGraphicsMovable
 	@Override
 	public int getCargoCount(int stack) {
 		return 0;
-	}
-
-	@Override
-	public EBuildingType getGarrisonedBuildingType() {
-		return null;
 	}
 
 	@Override

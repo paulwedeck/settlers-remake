@@ -110,12 +110,12 @@ public class BuildingWorkerMovable extends CivilianMovable implements IBuildingW
 
 	protected static <T extends BuildingWorkerMovable> Node<T> defaultWorkCycle(Node<T> doWork) {
 		return defaultFramework(
-			guard(mov -> ((BuildingWorkerMovable)mov).building != null,
-				sequence(
-					enterHome(),
-					repeat(mov -> true, doWork)
+				guard(mov -> ((BuildingWorkerMovable)mov).building != null,
+						sequence(
+								enterHome(),
+								repeat(mov -> true, doWork)
+						)
 				)
-			)
 		);
 	}
 
@@ -132,15 +132,6 @@ public class BuildingWorkerMovable extends CivilianMovable implements IBuildingW
 	@Override
 	protected boolean isBusy() {
 		return super.isBusy() || !registered;
-	}
-
-	@Override
-	public EBuildingType getGarrisonedBuildingType() {
-		if(building != null) {
-			return building.getBuildingVariant().getType();
-		} else {
-			return null;
-		}
 	}
 
 	@Override
@@ -179,22 +170,22 @@ public class BuildingWorkerMovable extends CivilianMovable implements IBuildingW
 	protected static <T extends BuildingWorkerMovable> Node<T> preSearchPath(boolean dijkstra, ESearchType searchType) {
 		return selector(
 				sequence(
-					preSearchPathNoWarning(dijkstra, searchType),
-					BehaviorTreeHelper.action(mov -> {
-						mov.searchFailedCtr = 0;
-						mov.building.setCannotWork(false);
-					})
+						preSearchPathNoWarning(dijkstra, searchType),
+						BehaviorTreeHelper.action(mov -> {
+							mov.searchFailedCtr = 0;
+							mov.building.setCannotWork(false);
+						})
 				),
 				sequence(
-					BehaviorTreeHelper.action(mov -> {
-						mov.searchFailedCtr++;
+						BehaviorTreeHelper.action(mov -> {
+							mov.searchFailedCtr++;
 
-						if (mov.searchFailedCtr > 10) {
-							mov.building.setCannotWork(true);
-							mov.player.showMessage(SimpleMessage.cannotFindWork(mov.building));
-						}
-					}),
-					alwaysFail()
+							if (mov.searchFailedCtr > 10) {
+								mov.building.setCannotWork(true);
+								mov.player.showMessage(SimpleMessage.cannotFindWork(mov.building));
+							}
+						}),
+						alwaysFail()
 				)
 		);
 	}

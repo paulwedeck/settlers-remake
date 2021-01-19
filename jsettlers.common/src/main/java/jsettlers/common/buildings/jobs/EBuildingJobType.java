@@ -208,7 +208,7 @@ public enum EBuildingJobType {
 	/**
 	 * executes a command specified by a search option
 	 * <p>
-	 * Parameters: type ({@link jsettlers.common.material.ESearchType})
+	 * Parameters: type ({@link ESearchType})
 	 * <p>
 	 * Success: the given search type has been executed
 	 * <p>
@@ -336,4 +336,9 @@ public enum EBuildingJobType {
 	 * Set the HP to maximum of a human and player controlled settler at the given position.
 	 */
 	HEAL,
+
+	/**
+	 * Invokes the animation of the related building.
+	 */
+	BUILDING_ANIMATION,
 }

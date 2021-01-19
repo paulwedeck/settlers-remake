@@ -23,6 +23,7 @@ import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.workers.DockyardBuilding;
 import jsettlers.logic.buildings.workers.MillBuilding;
 import jsettlers.logic.buildings.workers.SlaughterhouseBuilding;
+import jsettlers.logic.buildings.workers.WorkerAnimationBuilding;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IWorkerRequestBuilding;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
@@ -65,7 +66,7 @@ public class LegacyBuildingWorkerMovable extends BuildingWorkerMovable {
 						),
 						sequence(
 							condition(mov -> mov.currentJob.getType() == EBuildingJobType.WAIT),
-							BehaviorTreeHelper.sleep(1000),
+							BehaviorTreeHelper.sleep(mov -> (int)(mov.currentJob.getTime()*1000)),
 							jobFinishedNode()
 						),
 						sequence(
@@ -263,6 +264,20 @@ public class LegacyBuildingWorkerMovable extends BuildingWorkerMovable {
 						sequence(
 							condition(mov -> mov.currentJob.getType() == EBuildingJobType.HEAL),
 							nodeToJob(condition(LegacyBuildingWorkerMovable::heal))
+						),
+						sequence(
+								//play animation and continue movable work
+								condition(mov -> mov.currentJob.getType() == EBuildingJobType.BUILDING_ANIMATION && mov.currentJob.isTakeMaterialFromMap()),
+								BehaviorTreeHelper.action(mov -> {
+									((WorkerAnimationBuilding) mov.building).requestAnimation();
+								}),
+								jobFinishedNode()
+						),
+						sequence(
+								//play animation and stop movable work
+								condition(mov -> mov.currentJob.getType() == EBuildingJobType.BUILDING_ANIMATION && !mov.currentJob.isTakeMaterialFromMap()),
+								BehaviorTreeHelper.sleep(mov -> ((WorkerAnimationBuilding) mov.building).requestAnimation()),
+								jobFinishedNode()
 						),
 						// unknown job type
 						BehaviorTreeHelper.action(LegacyBuildingWorkerMovable::abortJob)

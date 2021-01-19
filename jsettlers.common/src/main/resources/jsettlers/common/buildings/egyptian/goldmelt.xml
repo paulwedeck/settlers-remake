@@ -82,8 +82,8 @@
 
 	<door dx="2" dy="1" />
 
-	<constructionStack dx="1" dy="5" material="PLANK" buildrequired="5" />
-	<constructionStack dx="3" dy="5" material="STONE" buildrequired="4" />
+	<constructionStack dx="1" dy="5" material="PLANK" buildrequired="3" />
+	<constructionStack dx="3" dy="5" material="STONE" buildrequired="7" />
 
 	<requestStack dx="-3" dy="2" material="COAL" />
 	<requestStack dx="3" dy="3" material="GOLDORE" />
@@ -104,9 +104,9 @@
 	<buildmark dx="2" dy="-1" />
 	<buildmark dx="1" dy="2" />
 
-	<image file="14" for="GUI" type="GUI" sequence="21" image="0"/>
-    <image file="13" type="SETTLER" for="FINAL" image="0" sequence="8"/>
-    <image file="13" type="SETTLER" for="BUILD" image="1" sequence="8"/>
+	<image file="24" for="GUI" type="GUI" sequence="21" image="0"/>
+    <image file="23" type="SETTLER" for="FINAL" image="0" sequence="8"/>
+    <image file="23" type="SETTLER" for="BUILD" image="1" sequence="8"/>
 
 	<startjob name="gohome" />
 
@@ -164,8 +164,8 @@
 	<job name="gopot3" 		type="WALK" 		successjob="gopot4" 	failjob="gohome" 	direction="SOUTH_EAST" />
 	<job name="gopot4" 		type="WALK" 		successjob="gopot5"		failjob="gohome" 	direction="EAST" />
 
-	<job name="gopot5" 		type="LOOK_AT" 		successjob="gopot6" 	failjob="gohome" 	direction="NORTH_WEST" />
-	<job name="gopot6" 		type="PLAY_ACTION1"	successjob="takegold1" 	failjob="gohome" 	time="3.5" />
+	<job name="gopot5" 		type="LOOK_AT" 		successjob="melt" 	failjob="gohome" 	direction="NORTH_WEST" />
+	<job name="melt" 		type="BUILDING_ANIMATION"	successjob="takegold1" 	failjob="gohome" takeMaterialFromMap="false" />
 
 	<!-- take the gold -->
 	<job name="takegold1" 	type="TAKE" 		successjob="goToGold1"	failjob="gohome" 	material="GOLD" 	takeMaterialFromMap="false"/>

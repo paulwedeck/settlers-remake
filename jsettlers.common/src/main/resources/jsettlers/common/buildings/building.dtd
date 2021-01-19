@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+Create new Building (Author: MarviMarv, 13.01.2021)
+	1.	Add Building name to enum “EBuildingType” (uppercase name)
+	2.	Add Building to related category in enum “EBuildingsCategory”
+	3.	Add Building to enum “EOriginalMapBuildingType” (seems to be deprecated though)
+	4.	Add CASE for method “createBuilding” in class “Building” depending on the actual type the building is related to (specific building class), you may need to implement a new class
+	5.	Create xml at path “jsettlers.common\src\main\resources\jsettlers\common\buildings\egyptian\brewery.xml” with the same name you have used for the “EBuildingType” from step 1 (lowercase name)
+	6.  Configure the XML as needed, use the "BuildingCreatorApp" for help, gfx building files for images are 13,23,33,43 and gui 14,24,34,44
+	6.	For different language support go to “H: jsettlers.graphics\out\production\resources\jsettlers\graphics\localization\” and add the label for the building which is displayed in game
+
+	ROMAN Building TODOS:
+	-
+
+	EGYPTIAN Building TODOS:
+	- create brewery building (mana)
+	- change temple goods mana ressources
+	- add Ballistenwerkstatt
+	- adjust dx/dy with BuildingCreatorApp (occupier, flags, blocks ... etc)
+
+ 	ASIAN Building TODOS:
+	- add mana specific buildings
+	- change temple goods mana ressources
+	- add Ballistenwerkstatt
+	- adjust dx/dy with BuildingCreatorApp (occupier, flags, blocks, required ressources ... etc)
+
+ 	AMAZON Building TODOS:
+	- add mana specific buildings
+	- change temple goods mana ressources
+	- add Ballistenwerkstatt
+	- adjust dx/dy with BuildingCreatorApp (occupier, flags, blocks, required ressources ... etc)
+-->
+
 <!ENTITY % imagelinktype "(SETTLER| GUI| LANDSCAPE)">
 
 <!ENTITY % material "(
@@ -30,6 +62,7 @@
 	TRUNK|
 	WATER|
 	WINE|
+	MEAD|
 	GEMS|
 	SULFUR|
 	RICE|
@@ -87,7 +120,8 @@
 	GROW_DONKEY|
 	CALL_WOUNDED|
 	CAN_HEAL|
-	HEAL)
+	HEAL|
+	BUILDING_ANIMATION)
 ">
 <!ENTITY % direction "(EAST| SOUTH_EAST| SOUTH_WEST| WEST | NORTH_WEST | NORTH_EAST)">
 
@@ -100,6 +134,10 @@
 	CUTTABLE_CORN|
 	PLANTABLE_WINE|
 	HARVESTABLE_WINE|
+	PLANTABLE_RICE|
+	HARVESTABLE_RICE|
+	PLANTABLE_HIVE|
+	HARVESTABLE_HIVE|
 	FISHABLE|
 	RIVER|
 	ENEMY)

@@ -43,7 +43,6 @@ import jsettlers.common.movable.EEffectType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.ESoldierClass;
-import jsettlers.common.movable.IGraphicsBuildingWorker;
 import jsettlers.common.movable.IGraphicsCargoShip;
 import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
@@ -68,6 +67,7 @@ import jsettlers.graphics.sound.SoundManager;
  * This class handles drawing of objects on the map.
  *
  * @author michael
+ * @author MarviMarv
  */
 public class MapObjectDrawer {
 
@@ -108,7 +108,6 @@ public class MapObjectDrawer {
 
 
 	private static final int OBJECTS_FILE   = 1;
-	private static final int BUILDINGS_FILE = 13;
 
 	private static final int   TREE_TYPES              = 7;
 	private static final int[] TREE_SEQUENCES          = new int[]{
@@ -146,17 +145,6 @@ public class MapObjectDrawer {
 	private static final int   TREE_MEDIUM        = 11;
 	private static final int   SMALL_GROWING_TREE = 22;
 
-	private static final int CORN            = 23;
-	private static final int CORN_GROW_STEPS = 7;
-	private static final int CORN_DEAD_STEP  = 8;
-
-	private static final int WINE            = 25;
-	private static final int WINE_GROW_STEPS = 3;
-	private static final int WINE_DEAD_STEP  = 0;
-
-	private static final int WINE_BOWL_SEQUENCE = 46;
-	private static final int WINE_BOWL_IMAGES   = 9;
-
 	private static final int WAVES = 26;
 
 	private static final int FILE_BORDER_POST = 13;
@@ -165,9 +153,6 @@ public class MapObjectDrawer {
 
 	private static final int SELECT_MARK_SEQUENCE = 11;
 	private static final int SELECT_MARK_FILE     = 4;
-
-	private static final int MILL_FILE = 13;
-	private static final int MILL_SEQ  = 15;
 
 	private static final int PIG_SEQ      = 0;
 	private static final int ANIMALS_FILE = 6;
@@ -181,7 +166,6 @@ public class MapObjectDrawer {
 	private static final float MOVABLE_SELECTION_MARKER_Z  = 0.9f;
 	private static final float BUILDING_SELECTION_MARKER_Z = 0.9f;
 	private static final float FLAG_ROOF_Z                 = 0.89f;
-	private static final float SMOKE_Z                     = 0.9f;
 	private static final float BACKGROUND_Z                = -0.1f;
 	private final float z_per_y;
 	private final float shadow_offset;
@@ -457,10 +441,20 @@ public class MapObjectDrawer {
 				drawGrowingCorn(x, y, object, color);
 				break;
 			case CORN_ADULT:
-				drawCorn(x, y, color);
+				drawCorn(x, y, object, color);
 				break;
 			case CORN_DEAD:
 				drawDeadCorn(x, y, color);
+				break;
+
+			case HIVE_EMPTY:
+				drawEmptyHive(x, y, color);
+				break;
+			case HIVE_GROWING:
+				drawGrowingHive(x, y, object, color);
+				break;
+			case HIVE_HARVESTABLE:
+				drawHarvestableHive(x, y, color);
 				break;
 
 			case WINE_GROWING:
@@ -473,8 +467,27 @@ public class MapObjectDrawer {
 				drawDeadWine(x, y, color);
 				break;
 
+			case RICE_GROWING:
+				drawGrowingRice(x, y, object, color);
+				break;
+			case RICE_HARVESTABLE:
+				drawHarvestableRice(x, y, color);
+				break;
+			case RICE_DEAD:
+				drawDeadRice(x, y, color);
+				break;
+
 			case WINE_BOWL:
-				drawWineBowl(x, y, object, color);
+				drawTempleManaBowl(x, y, object, color, 0);
+				break;
+			case BEER_BOWL:
+				drawTempleManaBowl(x, y, object, color, 1);
+				break;
+			case LIQUOR_BOWL:
+				drawTempleManaBowl(x, y, object, color, 2);
+				break;
+			case MEAD_BOWL:
+				drawTempleManaBowl(x, y, object, color, 3);
 				break;
 
 			case WAVES:
@@ -873,45 +886,6 @@ public class MapObjectDrawer {
 		float viewY;
 		int height = context.getHeight(x, y);
 
-		// smith action
-		EMovableType movableType = movable.getMovableType();
-		if (movableType == EMovableType.SMITH && movable.getAction() == EMovableAction.ACTION3) {
-			// draw smoke
-			ShortPoint2D smokePosition = movable.getDirection().getNextHexPoint(movable.getPosition(), 2);
-			int smokeX = smokePosition.x;
-			int smokeY = smokePosition.y;
-			if (movable.getDirection() == EDirection.NORTH_WEST) {
-				smokeY--;
-			}
-			viewX = context.getConverter().getViewX(smokeX, smokeY, height);
-			viewY = context.getConverter().getViewY(smokeX, smokeY, height);
-			ImageLink link = new OriginalImageLink(EImageLinkType.SETTLER, 13, 43, (int) (moveProgress * 40));
-			image = imageProvider.getImage(link);
-			image.drawAt(context.getGl(), viewX, viewY, getZ(0, smokeY), color, shade);
-		}
-
-		// melter action
-		if (movableType == EMovableType.MELTER && movable.getAction() == EMovableAction.ACTION1) {
-			int number = (int) (moveProgress * 36);
-			// draw molten metal
-			int metalX = x - 2;
-			int metalY = y - 5;
-			viewX = context.getConverter().getViewX(metalX, metalY, height);
-			viewY = context.getConverter().getViewY(metalX, metalY, height);
-			int metal = (((IGraphicsBuildingWorker)movable).getGarrisonedBuildingType() == EBuildingType.IRONMELT) ? 37 : 36;
-			ImageLink link = new OriginalImageLink(EImageLinkType.SETTLER, 13, metal, number > 24 ? 24 : number);
-			image = imageProvider.getImage(link);
-			image.drawAt(context.getGl(), viewX, viewY, getZ(0, metalY), color, shade);
-			// draw smoke
-			int smokeX = x - 9;
-			int smokeY = y - 14;
-			viewX = context.getConverter().getViewX(smokeX, smokeY, height);
-			viewY = context.getConverter().getViewY(smokeX, smokeY, height);
-			link = new OriginalImageLink(EImageLinkType.SETTLER, 13, 42, number > 35 ? 35 : number);
-			image = imageProvider.getImage(link);
-			image.drawAt(context.getGl(), viewX, viewY, SMOKE_Z, color, shade);
-		}
-
 		if (movable.getAction() == EMovableAction.WALKING) {
 			viewX = betweenTilesX(x, y, movable.getDirection().getInverseDirection(), 1-moveProgress);
 			viewY = betweenTilesY;
@@ -1047,44 +1021,89 @@ public class MapObjectDrawer {
 		}
 	}
 
+	//Corn
 	private void drawGrowingCorn(int x, int y, IMapObject object, float color) {
-		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(OBJECTS_FILE, CORN);
-		int step = (int) (object.getStateProgress() * CORN_GROW_STEPS);
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_CORN);
+		int step = (int) (object.getStateProgress() * GfxConstants.COUNT_CORN_GROW_STEPS);
 		draw(seq.getImageSafe(step, () -> "growing-corn"), x, y, 0, color);
 	}
 
-	private void drawCorn(int x, int y, float color) {
-		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(OBJECTS_FILE, CORN);
-		draw(seq.getImageSafe(CORN_GROW_STEPS, () -> "grown-corn"), x, y, 0, color);
+	private void drawCorn(int x, int y, IMapObject object, float color) {
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_CORN);
+		int adultImage = GfxConstants.COUNT_CORN_GROW_STEPS;
+		float state = object.getStateProgress();
+		if (state > 0.50f) {
+			adultImage = GfxConstants.INDEX_CORN_POST_GROWTH;
+		}
+		draw(seq.getImageSafe(adultImage, () -> "grown-corn"), x, y, 0, color);
 	}
 
 	private void drawDeadCorn(int x, int y, float color) {
-		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(OBJECTS_FILE, CORN);
-		draw(seq.getImageSafe(CORN_DEAD_STEP, () -> "dead-corn"), x, y, 0, color);
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_CORN);
+		draw(seq.getImageSafe(GfxConstants.INDEX_CORN_DEAD_STEP, () -> "dead-corn"), x, y, 0, color);
 	}
 
+	//Wine
 	private void drawGrowingWine(int x, int y, IMapObject object, float color) {
-		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(OBJECTS_FILE, WINE);
-		int step = (int) (object.getStateProgress() * WINE_GROW_STEPS);
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_WINE);
+		int step = (int) (object.getStateProgress() * GfxConstants.COUNT_WINE_GROW_STEPS);
 		draw(seq.getImageSafe(step, () -> "growing-wine"), x, y, 0, color);
 	}
 
 	private void drawHarvestableWine(int x, int y, float color) {
-		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(OBJECTS_FILE, WINE);
-		draw(seq.getImageSafe(WINE_GROW_STEPS, () -> "grown-wine"), x, y, 0, color);
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_WINE);
+		draw(seq.getImageSafe(GfxConstants.COUNT_WINE_GROW_STEPS, () -> "grown-wine"), x, y, 0, color);
 	}
 
 	private void drawDeadWine(int x, int y, float color) {
-		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(OBJECTS_FILE, WINE);
-		draw(seq.getImageSafe(WINE_DEAD_STEP, () -> "dead-wine"), x, y, 0, color);
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_WINE);
+		draw(seq.getImageSafe(GfxConstants.INDEX_WINE_DEAD_STEP, () -> "dead-wine"), x, y, 0, color);
 	}
 
-	private void drawWineBowl(int x, int y, IMapObject object, float color) {
-		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(BUILDINGS_FILE, WINE_BOWL_SEQUENCE);
-		int step = (int) (object.getStateProgress() * (WINE_BOWL_IMAGES - 1));
-		draw(seq.getImageSafe(step, () -> "wine-bowl"), x, y, 0, color);
+	//Rice
+	private void drawGrowingRice(int x, int y, IMapObject object, float color) {
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_RICE);
+		int step = (int) (object.getStateProgress() * GfxConstants.COUNT_RICE_GROW_STEPS);
+		draw(seq.getImageSafe(step, () -> "growing-rice"), x, y, 0, color);
 	}
 
+	private void drawHarvestableRice(int x, int y, float color) {
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_RICE);
+		draw(seq.getImageSafe(GfxConstants.COUNT_RICE_GROW_STEPS, () -> "grown-rice"), x, y, 0, color);
+	}
+
+	private void drawDeadRice(int x, int y, float color) {
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT, GfxConstants.SEQ_RICE);
+		draw(seq.getImageSafe(GfxConstants.INDEX_RICE_DEAD_STEP, () -> "dead-rice"), x, y, 0, color);
+	}
+
+	//Hive
+	private void drawEmptyHive(int x, int y, float color) {
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT_ANIMAL, GfxConstants.SEQ_HIVE_EMPTY);
+		draw(seq.getImageSafe(0, () -> "empty-hive"), x, y, 0, color);
+	}
+
+	private void drawGrowingHive(int x, int y, IMapObject object, float color) {
+		//int beeAnimationIndex = ((HiveObject)object).getBeeAnimation();
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT_ANIMAL, GfxConstants.SEQ_HIVE_GROW[0]);
+		int step = getAnimationStep(x, y) % seq.length();
+		draw(seq.getImageSafe(step, () -> "growing-hive"), x, y, 0, color);
+	}
+
+	private void drawHarvestableHive(int x, int y, float color) {
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_OBJECT_ANIMAL, GfxConstants.SEQ_HIVE_LAST);
+		int step = getAnimationStep(x, y) % seq.length();
+		draw(seq.getImageSafe(step, () -> "grown-hive"), x, y, 0, color);
+	}
+
+	//Temple
+	private void drawTempleManaBowl(int x, int y, IMapObject object, float color, int civilisationIndex) {
+		Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_BUILDING[civilisationIndex], GfxConstants.SEQ_TEMPLE_MANA_BOWL[civilisationIndex]);
+		int step = (int) (object.getStateProgress() * (GfxConstants.COUNT_TEMPLE_MANA_BOWL_IMAGES - 1));
+		draw(seq.getImageSafe(step, () -> "mana-bowl"), x, y, 0, color);
+	}
+
+	//Tree
 	private void drawGrowingTree(int x, int y, float progress, float color) {
 		Image image;
 		if (progress < 0.33) {
@@ -1248,19 +1267,123 @@ public class MapObjectDrawer {
 		BuildingVariant variant = building.getBuildingVariant();
 
 		float state = building.getStateProgress();
+		int civilisationIndex = variant.getCivilisation().ordinal;
+		byte fow = visibleGrid != null ? visibleGrid[x][y] : CommonConstants.FOG_OF_WAR_VISIBLE;
+		Color trueColor = MapDrawContext.getPlayerColor(building.getPlayer().getPlayerId());
 
 		if (state >= 0.99) {
-			if (variant.isVariantOf(EBuildingType.SLAUGHTERHOUSE) && ((IBuilding.ISoundRequestable) building).isSoundRequested()) {
-				playSound(building, SOUND_SLAUGHTERHOUSE, x, y);
+
+			//TODO: draw function does not take into account the height of the terrain, therefore the animation position is different depending on the height of the terrain = the converter seems to be wrong
+			if (building instanceof IBuilding.IWorkAnimation) { //prevent BuildingCreatorApp from crashing
+				IBuilding.IWorkAnimation aBuilding = (IBuilding.IWorkAnimation) building;
+				boolean drawSingleAnimation = false;
+				int animationIndex = 0;
+				int animationX = 0;
+				int animationY = 0;
+				float animationZ = 0;
+				int animationSequence = 0;
+
+				switch (aBuilding.getBuildingVariant().getType()) {
+					case CHARCOAL_BURNER:
+						if (aBuilding.isAnimationRequested(0)) {
+							animationX = x + GfxConstants.XY_OFFSET_SMOKE_CHARCOALBURNER[0];
+							animationY = y + GfxConstants.XY_OFFSET_SMOKE_CHARCOALBURNER[1];
+							animationZ = GfxConstants.Z_SMOKE;
+							animationSequence = GfxConstants.SEQ_SMOKE[civilisationIndex];
+							drawSingleAnimation = true;
+						}
+						break;
+					case BAKER:
+						if (aBuilding.isAnimationRequested(0)) {
+							animationX = x + GfxConstants.XY_OFFSET_SMOKE_BAKER[civilisationIndex][0];
+							animationY = y + GfxConstants.XY_OFFSET_SMOKE_BAKER[civilisationIndex][1];
+							animationZ = GfxConstants.Z_SMOKE;
+							animationSequence = GfxConstants.SEQ_SMOKE[civilisationIndex];
+							drawSingleAnimation = true;
+						}
+						break;
+					case TOOLSMITH:
+					case WEAPONSMITH:
+						if (aBuilding.isAnimationRequested(0)) {
+							animationX = x + GfxConstants.XY_OFFSET_SMOKESMITH_WEAPONSMITH[civilisationIndex][0];
+							animationY = y + GfxConstants.XY_OFFSET_SMOKESMITH_WEAPONSMITH[civilisationIndex][1];
+
+							if (variant.isVariantOf(EBuildingType.TOOLSMITH)) {
+								animationX = x + GfxConstants.XY_OFFSET_SMOKESMITH_TOOLSMITH[civilisationIndex][0];
+								animationY = y + GfxConstants.XY_OFFSET_SMOKESMITH_TOOLSMITH[civilisationIndex][1];
+							}
+
+							animationZ = GfxConstants.Z_SMOKE;
+							animationSequence = GfxConstants.SEQ_SMOKESMITH[civilisationIndex];
+							drawSingleAnimation = true;
+						}
+						break;
+					case GOLDMELT:
+					case IRONMELT:
+						drawSingleAnimation = false;
+
+						int metalBuildingIndex = GfxConstants.SEQ_MELTER_IRON[civilisationIndex];
+						int metalX = x + GfxConstants.XY_OFFSET_METAL_IRONMELT[civilisationIndex][0];
+						int metalY = y + GfxConstants.XY_OFFSET_METAL_IRONMELT[civilisationIndex][1];
+						int smokeX = x + GfxConstants.XY_OFFSET_SMOKE_IRONMELT[civilisationIndex][0];
+						int smokeY = y + GfxConstants.XY_OFFSET_SMOKE_IRONMELT[civilisationIndex][1];
+
+						if (variant.isVariantOf(EBuildingType.GOLDMELT)) {
+							metalBuildingIndex = GfxConstants.SEQ_MELTER_GOLD[civilisationIndex];
+							metalX = x + GfxConstants.XY_OFFSET_METAL_GOLDMELT[civilisationIndex][0];
+							metalY = y + GfxConstants.XY_OFFSET_METAL_GOLDMELT[civilisationIndex][1];
+							smokeX = x + GfxConstants.XY_OFFSET_SMOKE_GOLDMELT[civilisationIndex][0];
+							smokeY = y + GfxConstants.XY_OFFSET_SMOKE_GOLDMELT[civilisationIndex][1];
+						}
+
+						for (int i = 0; i < aBuilding.getAnimationCount(); i++) {
+							if (aBuilding.isAnimationRequested(i)) {
+								if (i == 0) {
+									// draw smoke
+									Sequence<? extends Image> smoke = this.imageProvider.getSettlerSequence(GfxConstants.FILE_BUILDING[civilisationIndex], GfxConstants.SEQ_SMOKE[civilisationIndex]);
+									int imageProgress = Math.min((int) (aBuilding.getAnimationProgress(i) * smoke.length()), smoke.length() - 1);
+									draw(smoke.getImageSafe(imageProgress, () -> "melt-smoke"), smokeX, smokeY, GfxConstants.Z_SMOKE, color);
+								} else if (i == 1) {
+									//draw molten metal
+									Sequence<? extends Image> meltProgress = this.imageProvider.getSettlerSequence(GfxConstants.FILE_BUILDING[civilisationIndex], metalBuildingIndex);
+									int imageProgress = Math.min((int) (aBuilding.getAnimationProgress(i) * meltProgress.length()), meltProgress.length() - 1);
+									draw(meltProgress.getImageSafe(imageProgress, () -> "melt-metal"), metalX, metalY, GfxConstants.Z_MELT_RESULT, color);
+								} else if (i == 2) {
+									//draw melt result (iron or gold)
+									aBuilding.getAnimationProgress(i); //update timer
+									Sequence<? extends Image> meltResult = this.imageProvider.getSettlerSequence(GfxConstants.FILE_BUILDING[civilisationIndex], metalBuildingIndex);
+									draw(meltResult.getImageSafe(meltResult.length() - 1, () -> "melt-result"), metalX, metalY, GfxConstants.Z_MELT_RESULT, color);
+								}
+							}
+						}
+						break;
+					default:
+						drawSingleAnimation = false;
+						break;
+				}
+
+				// draw animation
+				if (drawSingleAnimation) {
+					Sequence<? extends Image> animation = this.imageProvider.getSettlerSequence(GfxConstants.FILE_BUILDING[civilisationIndex], animationSequence);
+					int imageProgress = Math.min((int) (aBuilding.getAnimationProgress(animationIndex) * animation.length()), animation.length() - 1);
+					draw(animation.getImageSafe(imageProgress, () -> "animation"), animationX, animationY, animationZ, color);
+				}
+			}
+
+			if (variant.isVariantOf(EBuildingType.SLAUGHTERHOUSE)) {
+				//prevent BuildingCreatorApp from crashing
+				if (building instanceof IBuilding.ISoundRequestable && ((IBuilding.ISoundRequestable) building).isSoundRequested()) {
+					playSound(building, SOUND_SLAUGHTERHOUSE, x, y);
+				}
 			}
 
 			if (variant.isVariantOf(EBuildingType.MILL) && ((IBuilding.IMill) building).isRotating()) {
-				Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(MILL_FILE, MILL_SEQ);
+				Sequence<? extends Image> seq = this.imageProvider.getSettlerSequence(GfxConstants.FILE_BUILDING[civilisationIndex], GfxConstants.SEQ_MILL_ROTATION[civilisationIndex]);
 
 				if (seq.length() > 0) {
 					int i = getAnimationStep(x, y);
 					int step = i % seq.length();
-					drawOnlyImage(seq.getImageSafe(step, () -> "mill-" + step), x, y, 0, MapDrawContext.getPlayerColor(building.getPlayer().getPlayerId()), color);
+					drawOnlyImage(seq.getImageSafe(step, () -> "mill-" + step), x, y, 0, trueColor, color);
 					ImageLink[] images = variant.getImages();
 					if (images.length > 0) {
 						Image image = imageProvider.getImage(images[0]);
@@ -1281,8 +1404,6 @@ public class MapObjectDrawer {
 					Image image = imageProvider.getImage(images[0]);
 					draw(image, x, y, building.getBuildingVariant().isVariantOf(EBuildingType.MARKET_PLACE) ? BACKGROUND_Z : 0, null, color);
 				}
-
-				byte fow = visibleGrid != null ? visibleGrid[x][y] : CommonConstants.FOG_OF_WAR_VISIBLE;
 
 				if (building instanceof IOccupied && fow > CommonConstants.FOG_OF_WAR_EXPLORED) {
 					drawOccupiers(x, y, (IOccupied) building, color);
