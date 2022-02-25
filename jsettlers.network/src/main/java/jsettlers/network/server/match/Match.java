@@ -394,4 +394,8 @@ public class Match {
 
 		return slots[slotId];
 	}
+
+	public boolean isJoinable() {
+		return state == EMatchState.OPENED && players.size() < currPlayers;
+	}
 }

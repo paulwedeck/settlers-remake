@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jsettlers.network.server.db.IDBFacade;
+import jsettlers.network.server.match.EMatchState;
 import jsettlers.network.server.match.EPlayerState;
 import jsettlers.network.server.match.Match;
 import jsettlers.network.server.match.Player;
@@ -70,7 +71,9 @@ public class InMemoryDB implements IDBFacade {
 	@Override
 	public List<Match> getJoinableMatches() {
 		synchronized (matches) {
-			return matches.values().stream().collect(Collectors.toList());
+			return matches.values().stream()
+					.filter(Match::isJoinable)
+					.collect(Collectors.toList());
 		}
 	}
 
@@ -115,6 +118,15 @@ public class InMemoryDB implements IDBFacade {
 	public List<Match> getMatches() {
 		synchronized (matches) {
 			return new ArrayList<>(matches.values());
+		}
+	}
+
+	@Override
+	public void checkMatch(Match match) {
+		synchronized (matches) {
+			if(match.getState() == EMatchState.FINISHED) {
+				matches.values().remove(match);
+			}
 		}
 	}
 }

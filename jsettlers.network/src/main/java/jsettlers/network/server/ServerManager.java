@@ -137,7 +137,9 @@ public class ServerManager implements IServerManager {
 
 	@Override
 	public void leaveMatch(Player player) {
+		Match match = player.getMatch();
 		player.leaveMatch();
+		database.checkMatch(match);
 	}
 
 	@Override

@@ -61,4 +61,6 @@ public interface IDBFacade {
 	List<Player> getPlayers(EPlayerState... allowedStates);
 
 	List<Match> getMatches();
+
+	void checkMatch(Match match);
 }
