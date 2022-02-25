@@ -23,10 +23,11 @@ import jsettlers.network.common.packets.ChatMessagePacket;
 import jsettlers.network.common.packets.PlayerInfoPacket;
 import jsettlers.network.common.packets.TimeSyncPacket;
 import jsettlers.network.infrastructure.channel.Channel;
+import jsettlers.network.infrastructure.channel.IChannelListener;
 import jsettlers.network.infrastructure.channel.packet.Packet;
 import jsettlers.network.infrastructure.log.LoggerManager;
 import jsettlers.network.server.exceptions.NotAllPlayersReadyException;
-import jsettlers.network.server.match.lockstep.TaskCollectingListener;
+import jsettlers.network.server.match.lockstep.TaskCollector;
 
 /**
  * 
@@ -90,7 +91,7 @@ public class Player {
 		match.startMatch(timer);
 	}
 
-	void matchStarted(TaskCollectingListener taskListener) {
+	void matchStarted(IChannelListener taskListener) {
 		state = EPlayerState.IN_RUNNING_MATCH;
 		channel.registerListener(taskListener);
 	}

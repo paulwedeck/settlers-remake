@@ -15,7 +15,9 @@
 package jsettlers.network.server.match;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.Timer;
 import java.util.UUID;
 
@@ -33,7 +35,7 @@ import jsettlers.network.infrastructure.channel.packet.Packet;
 import jsettlers.network.infrastructure.log.Logger;
 import jsettlers.network.infrastructure.log.LoggerManager;
 import jsettlers.network.server.exceptions.NotAllPlayersReadyException;
-import jsettlers.network.server.match.lockstep.TaskCollectingListener;
+import jsettlers.network.server.match.lockstep.TaskCollector;
 import jsettlers.network.server.match.lockstep.TaskSendingTimerTask;
 
 /**
@@ -56,7 +58,7 @@ public class Match {
 	private final Player host;
 
 	private EMatchState state = EMatchState.OPENED;
-	private TaskCollectingListener taskCollectingListener;
+	private TaskCollector taskCollector;
 	private TaskSendingTimerTask taskSendingTimerTask;
 	private int currPlayers;
 
@@ -241,8 +243,8 @@ public class Match {
 
 		state = EMatchState.RUNNING;
 
-		this.taskCollectingListener = new TaskCollectingListener();
-		this.taskSendingTimerTask = new TaskSendingTimerTask(logger, taskCollectingListener, this);
+		this.taskCollector = new TaskCollector();
+		this.taskSendingTimerTask = new TaskSendingTimerTask(logger, taskCollector, this);
 		timer.schedule(taskSendingTimerTask, NetworkConstants.Client.LOCKSTEP_PERIOD, NetworkConstants.Client.LOCKSTEP_PERIOD / 2 - 2);
 
 		synchronized (players) {
@@ -258,8 +260,31 @@ public class Match {
 	}
 
 	private void sendMatchStartPacketToPlayer(Player player) {
-		player.matchStarted(taskCollectingListener);
+		player.matchStarted(taskCollector.createListener(getValidPlayerIds(player)));
 		player.sendPacket(NetworkConstants.ENetworkKey.MATCH_STARTED, new MatchStartPacket(new MatchInfoPacket(this), 0L));
+	}
+
+	private Set<Byte> getValidPlayerIds(Player player) {
+		Set<Byte> playerIds = new HashSet<>();
+
+		int index;
+		synchronized (players) {
+			index = players.indexOf(player);
+		}
+
+		synchronized (slots) {
+			playerIds.add(slots[index].getPosition());
+
+			if(host.equals(player)) {
+				for (Slot slot : slots) {
+					if (slot.getType() != 0) { // TODO player type
+						playerIds.add(slot.getPosition());
+					}
+				}
+			}
+		}
+
+		return playerIds;
 	}
 
 	public void distributeTimeSync(Player player, TimeSyncPacket packet) {
@@ -285,7 +310,7 @@ public class Match {
 					}
 				}
 			}
-			taskCollectingListener = null;
+			taskCollector = null;
 		}
 
 		state = EMatchState.FINISHED;

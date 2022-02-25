@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.List;
 
+import jsettlers.network.server.match.lockstep.TaskCollector;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,11 +30,10 @@ import jsettlers.network.client.task.TestTaskPacket;
 import jsettlers.network.client.task.packets.TaskPacket;
 import jsettlers.network.infrastructure.channel.Channel;
 import jsettlers.network.infrastructure.channel.listeners.BufferingPacketListener;
-import jsettlers.network.server.match.lockstep.TaskCollectingListener;
 import jsettlers.network.server.packets.ServersideTaskPacket;
 
 /**
- * Tests the {@link ServersideTaskPacket} and the {@link TaskCollectingListener} classes and that they are correctly send and received over a
+ * Tests the {@link ServersideTaskPacket} and the {@link TaskCollector.TaskCollectingListener} classes and that they are correctly send and received over a
  * {@link Channel}.
  * 
  * @author Andreas Eberle
@@ -62,7 +62,7 @@ public class TaskCollectingListenerTest {
 				NetworkConstants.ENetworkKey.SYNCHRONOUS_TASK, TaskPacket.DEFAULT_DESERIALIZER);
 		client.registerListener(clientListener);
 
-		TaskCollectingListener serverListener = new TaskCollectingListener();
+		TaskCollector.TaskCollectingListener serverListener = new TaskCollector.TaskCollectingListener();
 		server.registerListener(serverListener);
 
 		TestTaskPacket testPacket1 = new TestTaskPacket("TestMessage42", 4711, (byte) -3);

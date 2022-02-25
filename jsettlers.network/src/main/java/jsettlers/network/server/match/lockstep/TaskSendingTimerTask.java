@@ -33,7 +33,7 @@ import jsettlers.network.server.packets.ServersideTaskPacket;
  */
 public class TaskSendingTimerTask extends TimerTask {
 	private final Logger logger;
-	private final TaskCollectingListener taskCollectingListener;
+	private final TaskCollector taskCollector;
 	private final Match match;
 
 	private int lockstepCounter = 0;
@@ -42,9 +42,9 @@ public class TaskSendingTimerTask extends TimerTask {
 	private int minimumLeadTimeMs = NetworkConstants.Client.LOCKSTEP_DEFAULT_LEAD_STEPS * NetworkConstants.Client.LOCKSTEP_PERIOD;
 	private int leadSteps = minimumLeadTimeMs / NetworkConstants.Client.LOCKSTEP_PERIOD;
 
-	public TaskSendingTimerTask(Logger logger, TaskCollectingListener taskCollectingListener, Match match) {
+	public TaskSendingTimerTask(Logger logger, TaskCollector taskCollector, Match match) {
 		this.logger = logger;
-		this.taskCollectingListener = taskCollectingListener;
+		this.taskCollector = taskCollector;
 		this.match = match;
 	}
 
@@ -54,7 +54,7 @@ public class TaskSendingTimerTask extends TimerTask {
 			return;
 		}
 
-		List<ServersideTaskPacket> tasksList = taskCollectingListener.getAndResetTasks();
+		List<ServersideTaskPacket> tasksList = taskCollector.getAndResetTasks();
 		ServersideSyncTasksPacket syncTasksPacket = new ServersideSyncTasksPacket(lockstepCounter++, tasksList);
 		match.broadcastMessage(NetworkConstants.ENetworkKey.SYNCHRONOUS_TASK, syncTasksPacket);
 	}
