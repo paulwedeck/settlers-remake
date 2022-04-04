@@ -56,6 +56,7 @@ import go.graphics.swing.ContextContainer;
 import go.graphics.swing.contextcreator.ContextException;
 import go.graphics.text.EFontSize;
 import go.graphics.text.TextDrawer;
+import jsettlers.common.Color;
 import jsettlers.common.resources.SettlersFolderChecker;
 import jsettlers.graphics.image.Image;
 import jsettlers.graphics.image.SettlerImage;
@@ -68,7 +69,6 @@ import jsettlers.graphics.image.sequence.SequenceList;
 import jsettlers.graphics.map.draw.ImageProvider;
 import jsettlers.main.swing.SwingManagedJSettlers;
 import jsettlers.main.swing.settings.SettingsManager;
-import jsettlers.shared.Color;
 import jsettlers.shared.utils.FileUtils;
 
 public class DatFileViewer extends JFrame implements ListSelectionListener {

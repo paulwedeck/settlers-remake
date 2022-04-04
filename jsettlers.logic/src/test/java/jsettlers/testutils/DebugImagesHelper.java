@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import jsettlers.shared.Color;
+import jsettlers.common.Color;
 import jsettlers.shared.ICoordinatePredicate;
 import jsettlers.shared.utils.coordinates.ICoordinateFunction;
 

@@ -19,6 +19,7 @@ import java.util.BitSet;
 import java.util.Objects;
 
 import jsettlers.TestToolUtils;
+import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.action.Action;
 import jsettlers.common.action.EActionType;
@@ -42,7 +43,6 @@ import jsettlers.common.player.IPlayer;
 import jsettlers.logic.player.PlayerSetting;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
 import jsettlers.main.swing.resources.SwingResourceLoader;
-import jsettlers.shared.Color;
 import jsettlers.shared.ShortPoint2D;
 
 public class PartitionsGridTestingWnd {

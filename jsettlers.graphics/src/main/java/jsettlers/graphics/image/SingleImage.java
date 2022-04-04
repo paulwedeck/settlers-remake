@@ -23,9 +23,9 @@ import go.graphics.EPrimitiveType;
 import go.graphics.GLDrawContext;
 import go.graphics.ManagedUnifiedDrawHandle;
 import go.graphics.UnifiedDrawHandle;
+import jsettlers.common.Color;
 import jsettlers.graphics.image.reader.ImageMetadata;
 import jsettlers.graphics.image.reader.translator.ImageDataProducer;
-import jsettlers.shared.Color;
 
 /**
  * This is the base for all images that are directly loaded from the image file.

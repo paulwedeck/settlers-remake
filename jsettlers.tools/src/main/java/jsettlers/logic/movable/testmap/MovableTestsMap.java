@@ -21,6 +21,7 @@ import jsettlers.algorithms.path.IPathCalculatable;
 import jsettlers.algorithms.path.Path;
 import jsettlers.algorithms.path.astar.BucketQueueAStar;
 import jsettlers.algorithms.path.astar.IAStarPathMap;
+import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.landscape.EResourceType;
@@ -49,7 +50,6 @@ import jsettlers.logic.movable.interfaces.IAttackableMovable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.objects.stack.StackMapObject;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.Color;
 import jsettlers.shared.ShortPoint2D;
 
 public class MovableTestsMap implements IGraphicsGrid, IAStarPathMap {

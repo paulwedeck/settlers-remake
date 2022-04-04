@@ -14,6 +14,7 @@
  *******************************************************************************/
 package jsettlers.graphics.map.minimap;
 
+import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.map.IGraphicsGrid;
@@ -24,7 +25,6 @@ import jsettlers.common.player.IPlayer;
 import jsettlers.graphics.map.MapDrawContext;
 import jsettlers.graphics.map.minimap.MinimapMode.OccupiedAreaMode;
 import jsettlers.graphics.map.minimap.MinimapMode.SettlersMode;
-import jsettlers.shared.Color;
 
 /**
  * This class does the minimap line loading without knowing how to store the data.

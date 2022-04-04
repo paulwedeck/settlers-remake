@@ -37,6 +37,7 @@ import go.graphics.region.RegionContent;
 import go.graphics.sound.SoundPlayer;
 import go.graphics.text.EFontSize;
 import go.graphics.text.TextDrawer;
+import jsettlers.common.Color;
 import jsettlers.common.CommitInfo;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.action.Action;
@@ -87,7 +88,6 @@ import jsettlers.graphics.messages.Messenger;
 import jsettlers.graphics.sound.BackgroundSound;
 import jsettlers.graphics.sound.MusicManager;
 import jsettlers.graphics.sound.SoundManager;
-import jsettlers.shared.Color;
 import jsettlers.shared.ShortPoint2D;
 
 /**

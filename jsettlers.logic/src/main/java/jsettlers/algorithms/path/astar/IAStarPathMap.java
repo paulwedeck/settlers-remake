@@ -15,7 +15,7 @@
 package jsettlers.algorithms.path.astar;
 
 import jsettlers.algorithms.path.IPathCalculatable;
-import jsettlers.shared.Color;
+import jsettlers.common.Color;
 
 public interface IAStarPathMap {
 

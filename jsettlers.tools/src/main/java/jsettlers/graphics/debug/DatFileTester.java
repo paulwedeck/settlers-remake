@@ -38,6 +38,7 @@ import go.graphics.region.RegionContent;
 import go.graphics.swing.AreaContainer;
 import go.graphics.text.EFontSize;
 import go.graphics.text.TextDrawer;
+import jsettlers.common.Color;
 import jsettlers.common.resources.ResourceManager;
 import jsettlers.common.resources.SettlersFolderChecker;
 import jsettlers.common.resources.SwingResourceProvider;
@@ -50,7 +51,6 @@ import jsettlers.graphics.image.reader.DatFileType;
 import jsettlers.graphics.image.sequence.Sequence;
 import jsettlers.graphics.image.sequence.SequenceList;
 import jsettlers.main.swing.settings.SettingsManager;
-import jsettlers.shared.Color;
 import jsettlers.shared.utils.FileUtils;
 import jsettlers.shared.utils.mutables.Mutable;
 

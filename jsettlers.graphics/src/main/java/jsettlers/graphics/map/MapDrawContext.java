@@ -17,6 +17,7 @@ package jsettlers.graphics.map;
 import java.util.Iterator;
 
 import go.graphics.GLDrawContext;
+import jsettlers.common.Color;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.IDirectGridProvider;
 import jsettlers.common.map.IGraphicsGrid;
@@ -25,7 +26,6 @@ import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.position.FloatRectangle;
 import jsettlers.graphics.map.draw.DrawConstants;
 import jsettlers.graphics.map.geometry.MapCoordinateConverter;
-import jsettlers.shared.Color;
 import jsettlers.shared.ShortPoint2D;
 import jsettlers.shared.utils.coordinates.CoordinateStream;
 import jsettlers.shared.utils.coordinates.IBooleanCoordinateFunction;

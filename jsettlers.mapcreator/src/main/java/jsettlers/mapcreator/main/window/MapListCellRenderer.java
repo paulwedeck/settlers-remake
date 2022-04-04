@@ -210,7 +210,7 @@ public class MapListCellRenderer implements ListCellRenderer<MapLoader> {
 			for (int y = 0; y < MapFileHeader.PREVIEW_IMAGE_SIZE; y++) {
 				for (int x = 0; x < MapFileHeader.PREVIEW_IMAGE_SIZE; x++) {
 					int index = y * MapFileHeader.PREVIEW_IMAGE_SIZE + x;
-					jsettlers.shared.Color c = jsettlers.shared.Color.fromShort(data[index]);
+					jsettlers.common.Color c = jsettlers.common.Color.fromShort(data[index]);
 					img.setRGB(x + xOffset, y, c.getARGB());
 				}
 				if (xOffset > 1 && (y % 2 == 0)) {

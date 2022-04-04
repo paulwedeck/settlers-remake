@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import go.graphics.GLDrawContext;
 import go.graphics.text.EFontSize;
 import go.graphics.text.TextDrawer;
-import jsettlers.shared.Color;
+import jsettlers.common.Color;
 
 /**
  * Displays a text on the GUI.

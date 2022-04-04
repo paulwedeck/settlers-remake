@@ -20,9 +20,9 @@ import java.nio.ShortBuffer;
 
 import go.graphics.EUnifiedMode;
 import go.graphics.GLDrawContext;
+import jsettlers.common.Color;
 import jsettlers.graphics.image.reader.ImageMetadata;
 import jsettlers.graphics.image.reader.translator.ImageDataProducer;
-import jsettlers.shared.Color;
 
 /**
  * This is the image of something that is displayed as an object on the map, e.g. an settler.

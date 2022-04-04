@@ -34,6 +34,7 @@ import javax.swing.SwingUtilities;
 
 import jsettlers.buildingcreator.editor.map.BuildingtestMap;
 import jsettlers.buildingcreator.editor.map.PseudoTile;
+import jsettlers.common.Color;
 import jsettlers.common.action.Action;
 import jsettlers.common.action.EActionType;
 import jsettlers.common.action.IAction;
@@ -50,7 +51,6 @@ import jsettlers.common.menu.IMapInterfaceListener;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.main.swing.SwingManagedJSettlers;
-import jsettlers.shared.Color;
 import jsettlers.shared.RelativePoint;
 import jsettlers.shared.ShortPoint2D;
 

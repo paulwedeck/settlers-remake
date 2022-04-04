@@ -20,6 +20,7 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import go.graphics.GLDrawContext;
+import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
@@ -62,7 +63,6 @@ import jsettlers.graphics.map.MapDrawContext;
 import jsettlers.graphics.map.draw.settlerimages.SettlerImageMap;
 import jsettlers.graphics.map.geometry.MapCoordinateConverter;
 import jsettlers.graphics.sound.SoundManager;
-import jsettlers.shared.Color;
 import jsettlers.shared.ShortPoint2D;
 
 /**

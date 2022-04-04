@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import jsettlers.common.Color;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.ECivilisation;
@@ -42,7 +43,6 @@ import jsettlers.logic.map.loading.original.data.OriginalDestroyBuildingsWinCond
 import jsettlers.logic.map.loading.original.data.OriginalProduceGoodsWinCondition;
 import jsettlers.logic.map.loading.original.data.OriginalSurviveDurationWinCondition;
 import jsettlers.logic.player.PlayerSetting;
-import jsettlers.shared.Color;
 import jsettlers.shared.RelativePoint;
 import jsettlers.shared.ShortPoint2D;
 

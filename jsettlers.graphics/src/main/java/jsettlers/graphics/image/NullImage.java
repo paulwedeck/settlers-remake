@@ -19,8 +19,8 @@ import java.nio.ByteBuffer;
 import go.graphics.EPrimitiveType;
 import go.graphics.GLDrawContext;
 import go.graphics.UnifiedDrawHandle;
+import jsettlers.common.Color;
 import jsettlers.graphics.image.reader.ImageMetadata;
-import jsettlers.shared.Color;
 
 /**
  * This is a null image.
