@@ -20,11 +20,12 @@ import jsettlers.common.map.shapes.FreeMapArea;
 import jsettlers.common.map.shapes.MapCircle;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.PartitionManager;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.MaterialOffer;
 import jsettlers.logic.player.PlayerSetting;
+import jsettlers.shared.ShortPoint2D;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

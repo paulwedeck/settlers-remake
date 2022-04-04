@@ -14,11 +14,11 @@
  *******************************************************************************/
 package jsettlers.mapcreator.tools.objects;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.tools.AbstractTool;
 import jsettlers.mapcreator.tools.shapes.EShapeType;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Delete existing objects

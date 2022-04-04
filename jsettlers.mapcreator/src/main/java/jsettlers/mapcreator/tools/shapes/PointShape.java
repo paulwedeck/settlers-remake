@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.mapcreator.tools.shapes;
 
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Only draws a little point at the start position.

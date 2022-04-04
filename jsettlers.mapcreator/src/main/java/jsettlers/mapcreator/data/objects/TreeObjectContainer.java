@@ -14,11 +14,11 @@
  *******************************************************************************/
 package jsettlers.mapcreator.data.objects;
 
-import jsettlers.logic.map.loading.data.objects.MapDataObject;
-import jsettlers.logic.map.loading.data.objects.MapTreeObject;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.logic.map.loading.data.objects.MapDataObject;
+import jsettlers.logic.map.loading.data.objects.MapTreeObject;
+import jsettlers.shared.RelativePoint;
 
 public class TreeObjectContainer implements ObjectContainer, IMapObject {
 

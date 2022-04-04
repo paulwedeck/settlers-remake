@@ -17,8 +17,8 @@ package jsettlers.mapcreator.mapvalidator.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.mapvalidator.result.fix.AbstractFix;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * List with validation errors

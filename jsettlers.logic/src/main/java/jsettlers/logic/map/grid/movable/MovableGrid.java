@@ -23,15 +23,15 @@ import jsettlers.common.map.shapes.HexGridArea;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.coordinates.CoordinateStream;
-import jsettlers.common.utils.mutables.MutableBoolean;
 import jsettlers.logic.SerializationUtils;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.map.grid.landscape.IWalkableGround;
 import jsettlers.logic.movable.interfaces.IAttackable;
 import jsettlers.logic.movable.interfaces.IAttackableMovable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.coordinates.CoordinateStream;
+import jsettlers.shared.utils.mutables.MutableBoolean;
 
 /**
  * This grid stores the position of the {@link IGraphicsMovable}s.

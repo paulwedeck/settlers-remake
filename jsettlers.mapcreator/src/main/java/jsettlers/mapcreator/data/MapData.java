@@ -34,8 +34,6 @@ import jsettlers.common.map.shapes.IMapArea;
 import jsettlers.common.map.shapes.Parallelogram;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.IGraphicsMovable;
-import jsettlers.common.position.RelativePoint;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.IMapData;
 import jsettlers.logic.map.loading.data.objects.BuildingMapDataObject;
 import jsettlers.logic.map.loading.data.objects.DecorationMapDataObject;
@@ -62,6 +60,8 @@ import jsettlers.mapcreator.data.objects.StoneObjectContainer;
 import jsettlers.mapcreator.data.objects.TreeObjectContainer;
 import jsettlers.mapcreator.mapvalidator.tasks.error.ValidateLandscape;
 import jsettlers.mapcreator.mapvalidator.tasks.error.ValidatePlayerStartPosition;
+import jsettlers.shared.RelativePoint;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is the map data of a map that is being created by the editor.

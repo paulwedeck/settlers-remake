@@ -15,7 +15,7 @@
 package jsettlers.algorithms.borders;
 
 import jsettlers.common.movable.EDirection;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 import java.util.concurrent.LinkedBlockingQueue;
 

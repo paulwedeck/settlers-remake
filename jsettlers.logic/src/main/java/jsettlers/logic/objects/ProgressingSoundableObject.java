@@ -14,8 +14,8 @@
  *******************************************************************************/
 package jsettlers.logic.objects;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.sound.ISoundable;
+import jsettlers.shared.ShortPoint2D;
 
 public abstract class ProgressingSoundableObject extends ProgressingObject implements ISoundable {
 	private static final long serialVersionUID = -7740838546551477874L;

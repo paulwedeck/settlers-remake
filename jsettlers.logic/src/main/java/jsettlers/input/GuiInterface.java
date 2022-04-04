@@ -69,7 +69,6 @@ import jsettlers.common.movable.IIDable;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 import jsettlers.common.selectable.ISelectable;
 import jsettlers.input.tasks.CastSpellGuiTask;
@@ -104,6 +103,7 @@ import jsettlers.logic.movable.interfaces.IDebugable;
 import jsettlers.logic.player.Player;
 import jsettlers.network.client.interfaces.IGameClock;
 import jsettlers.network.client.interfaces.ITaskScheduler;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Class to handle the events provided by the user through jsettlers.graphics.

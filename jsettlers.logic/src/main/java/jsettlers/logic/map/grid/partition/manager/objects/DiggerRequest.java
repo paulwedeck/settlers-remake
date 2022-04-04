@@ -18,8 +18,8 @@ import java.io.Serializable;
 
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IDiggerRequester;
+import jsettlers.shared.ShortPoint2D;
 
 public final class DiggerRequest extends WorkerCreationRequest implements ILocatable, Serializable {
 	private static final long serialVersionUID = -3781604767367556333L;

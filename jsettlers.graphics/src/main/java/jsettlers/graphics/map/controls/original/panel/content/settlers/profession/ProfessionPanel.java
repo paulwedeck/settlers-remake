@@ -1,6 +1,5 @@
 package jsettlers.graphics.map.controls.original.panel.content.settlers.profession;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import go.graphics.text.EFontSize;
@@ -14,7 +13,6 @@ import jsettlers.common.map.partition.ISingleProfessionLimit;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.map.controls.original.panel.content.AbstractContentProvider;
@@ -28,6 +26,7 @@ import jsettlers.graphics.ui.Label.EHorizontalAlignment;
 import jsettlers.graphics.ui.LabeledButton;
 import jsettlers.graphics.ui.UIElement;
 import jsettlers.graphics.ui.UIPanel;
+import jsettlers.shared.ShortPoint2D;
 
 public class ProfessionPanel extends AbstractContentProvider implements UiContentUpdater.IUiContentReceiver<IPartitionSettings> {
 

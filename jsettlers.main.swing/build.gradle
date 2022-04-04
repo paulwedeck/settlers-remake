@@ -1,6 +1,7 @@
 plugins {
 	id 'com.github.johnrengelman.shadow' version '7.1.2'
 	id 'application'
+	id 'eclipse'
 }
 
 /*add music dependencies
@@ -27,15 +28,11 @@ startScripts {
 mainClassName = 'jsettlers.main.swing.SwingManagedJSettlers'
 
 dependencies {
-	implementation project(':go.graphics')
-	implementation project(':go.graphics.swing')
-	implementation project(':jsettlers.common')
-	implementation project(':jsettlers.graphics')
-	implementation project(':jsettlers.logic')
-	implementation project(':jsettlers.network')
-	implementation 'com.google.code.gson:gson:2.9.0'
-
-	for (String lpglDependency : lgplDependencies) {
+    implementation project(':jsettlers.graphics')
+    implementation project(':go.graphics.swing')
+    implementation project(':jsettlers.logic')
+    
+    for (String lpglDependency : lgplDependencies) {
 		lgplDeps lpglDependency
 	}
 }

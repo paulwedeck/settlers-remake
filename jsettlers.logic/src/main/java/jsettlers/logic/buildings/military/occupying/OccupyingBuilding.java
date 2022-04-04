@@ -34,15 +34,13 @@ import jsettlers.common.map.shapes.FreeMapArea;
 import jsettlers.common.map.shapes.MapCircle;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IAttackableTowerMapObject;
+import jsettlers.common.menu.messages.SimpleMessage;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.ESoldierClass;
 import jsettlers.common.movable.ESoldierType;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.collections.map.ArrayListMap;
-import jsettlers.common.menu.messages.SimpleMessage;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.constants.Constants;
@@ -53,6 +51,8 @@ import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.movable.interfaces.ISoldierMovable;
 import jsettlers.logic.objects.StandardMapObject;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.collections.map.ArrayListMap;
 
 /**
  * This is a tower building that can request soldiers and let them defend the building.

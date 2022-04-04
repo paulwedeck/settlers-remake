@@ -14,6 +14,8 @@
  *******************************************************************************/
 package jsettlers.common.position;
 
+import jsettlers.shared.ShortPoint2D;
+
 /**
  * Interface offering methods to get the {@link ILocatable} of a list of {@link ILocatable}s that's closest to a given target.<br>
  * It also specifies a heuristic for the grid.

@@ -16,9 +16,9 @@ package jsettlers.logic.objects;
 
 import jsettlers.common.landscape.EResourceType;
 import jsettlers.common.mapobject.EMapObjectType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.objects.AbstractObjectsManagerObject;
+import jsettlers.shared.ShortPoint2D;
 
 public final class RessourceSignMapObject extends AbstractObjectsManagerObject {
 	private static final long serialVersionUID = -7248748388147081545L;

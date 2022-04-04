@@ -15,9 +15,9 @@
 package jsettlers.ai.construction;
 
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.common.position.RelativePoint;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.MainGrid;
+import jsettlers.shared.RelativePoint;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This searches for positions where the most wine can grow withing the work area

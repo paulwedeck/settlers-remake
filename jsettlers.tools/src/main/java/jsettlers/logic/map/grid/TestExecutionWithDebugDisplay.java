@@ -18,16 +18,16 @@ import java.io.IOException;
 
 import jsettlers.GraphicsGridAdapter;
 import jsettlers.TestToolUtils;
-import jsettlers.common.Color;
 import jsettlers.common.map.EDebugColorModes;
-import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.partition.PartitionsGrid;
+import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.list.MapList;
 import jsettlers.main.swing.SwingManagedJSettlers;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
 import jsettlers.main.swing.resources.SwingResourceLoader;
 import jsettlers.network.synchronic.timer.NetworkTimer;
+import jsettlers.shared.Color;
 
 public class TestExecutionWithDebugDisplay {
 

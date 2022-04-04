@@ -19,7 +19,6 @@ import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.buildings.stack.IRequestStack;
@@ -27,6 +26,7 @@ import jsettlers.logic.buildings.stack.multi.MultiRequestAndOfferStack;
 import jsettlers.logic.buildings.stack.multi.MultiRequestStackSharedData;
 import jsettlers.logic.buildings.stack.multi.StockSettings;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -15,8 +15,8 @@
 package jsettlers.logic.objects.stone;
 
 import jsettlers.common.mapobject.EMapObjectType;
-import jsettlers.common.position.RelativePoint;
 import jsettlers.logic.map.grid.objects.AbstractHexMapObject;
+import jsettlers.shared.RelativePoint;
 
 /**
  * A stone on the grid.

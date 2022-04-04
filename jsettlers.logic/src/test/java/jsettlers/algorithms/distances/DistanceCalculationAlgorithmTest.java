@@ -23,15 +23,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import jsettlers.common.logging.MilliStopWatch;
-import jsettlers.common.player.ECivilisation;
-import jsettlers.logic.map.loading.data.IMapData;
-import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.common.map.shapes.HexGridArea;
-import jsettlers.testutils.DebugImagesHelper;
-import jsettlers.common.utils.coordinates.ICoordinatePredicate;
+import jsettlers.common.player.ECivilisation;
+import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.MapLoader;
+import jsettlers.logic.map.loading.data.IMapData;
 import jsettlers.logic.map.loading.list.MapList;
-import jsettlers.main.swing.resources.SwingResourceLoader;
+import jsettlers.shared.ICoordinatePredicate;
+import jsettlers.testutils.DebugImagesHelper;
 
 /**
  * Created by Andreas Eberle on 06.01.2017.
@@ -43,7 +42,6 @@ public class DistanceCalculationAlgorithmTest {
 	public static void setupTest() {
 		// DebugImagesHelper.DEBUG_IMAGES_ENABLED = true;
 
-		SwingResourceLoader.setupMapListFactory("../maps", null);
 		DebugImagesHelper.setupDebugging();
 	}
 

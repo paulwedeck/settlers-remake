@@ -14,7 +14,7 @@
  */
 package jsettlers.common.action;
 
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This action states that the user wants something to happen at the given position.

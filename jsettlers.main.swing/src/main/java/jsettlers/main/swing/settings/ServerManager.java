@@ -15,10 +15,6 @@
 package jsettlers.main.swing.settings;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import go.graphics.swing.util.SimpleListModel;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,12 +24,14 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
 import java.util.function.Consumer;
 
-import javax.swing.AbstractListModel;
 import javax.swing.ListModel;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import go.graphics.swing.util.SimpleListModel;
 import jsettlers.common.resources.ResourceManager;
 import jsettlers.logic.map.loading.list.DirectoryMapLister;
 import jsettlers.logic.map.loading.list.IListedMap;

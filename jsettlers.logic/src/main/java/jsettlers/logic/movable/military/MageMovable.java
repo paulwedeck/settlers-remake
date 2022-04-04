@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Queue;
 
 import java.util.function.Function;
+
 import jsettlers.algorithms.simplebehaviortree.Node;
 import jsettlers.algorithms.simplebehaviortree.Root;
 import jsettlers.algorithms.terraform.LandscapeEditor;
@@ -21,9 +22,6 @@ import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.ESpellType;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.coordinates.CoordinateStream;
-import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.movable.MovableManager;
@@ -36,6 +34,9 @@ import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.movable.interfaces.IMageMovable;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.coordinates.CoordinateStream;
+import jsettlers.shared.utils.mutables.MutableInt;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 import static jsettlers.common.landscape.ELandscapeType.*;

@@ -17,9 +17,9 @@ package jsettlers.logic.map.grid.partition.manager.materials.requests;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EPriority;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.utils.collections.list.DoubleLinkedListItem;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IMaterialRequest;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
+import jsettlers.shared.utils.collections.list.DoubleLinkedListItem;
 
 /**
  * This class defines a {@link DoubleLinkedListItem} that can be used by the {@link AbstractMaterialRequestPriorityQueue}.

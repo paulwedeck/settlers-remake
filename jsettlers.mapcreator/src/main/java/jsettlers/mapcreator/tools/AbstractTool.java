@@ -20,12 +20,12 @@ import java.util.Set;
 
 import javax.swing.Icon;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.localization.EditorLabels;
 import jsettlers.mapcreator.tools.icons.ToolIcon;
 import jsettlers.mapcreator.tools.shapes.EShapeType;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Base class for tools, loads the name and the Icon

@@ -2,10 +2,10 @@ package jsettlers.ai.army;
 
 import jsettlers.common.action.EMoveToType;
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.input.tasks.ChangeTowerSoldiersGuiTask;
 import jsettlers.logic.buildings.military.occupying.OccupyingBuilding;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
+import jsettlers.shared.ShortPoint2D;
 
 import java.util.List;
 import java.util.Set;

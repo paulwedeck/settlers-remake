@@ -7,12 +7,12 @@ import jsettlers.common.material.EMaterialType;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 import java.util.Arrays;
 import java.util.Comparator;

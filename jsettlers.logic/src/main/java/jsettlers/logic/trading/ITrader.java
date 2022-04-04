@@ -1,7 +1,7 @@
 package jsettlers.logic.trading;
 
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 public interface ITrader extends ILocatable {
 

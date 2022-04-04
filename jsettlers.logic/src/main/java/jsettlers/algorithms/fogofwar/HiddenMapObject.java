@@ -20,9 +20,9 @@ import jsettlers.common.movable.IShipInConstruction;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.player.IPlayerable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 import jsettlers.logic.map.grid.objects.AbstractHexMapObject;
+import jsettlers.shared.ShortPoint2D;
 
 public class HiddenMapObject implements IMapObject, Serializable {
 

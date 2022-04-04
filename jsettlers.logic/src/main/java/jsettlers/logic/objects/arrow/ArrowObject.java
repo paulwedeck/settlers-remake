@@ -18,9 +18,9 @@ import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IArrowMapObject;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.MathUtils;
 import jsettlers.logic.objects.ProgressingSoundableObject;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.MathUtils;
 
 public final class ArrowObject extends ProgressingSoundableObject implements IArrowMapObject {
 	private static final long serialVersionUID = 1702902724559733167L;

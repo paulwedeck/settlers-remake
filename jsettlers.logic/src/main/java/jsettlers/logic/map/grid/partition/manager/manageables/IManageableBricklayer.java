@@ -15,8 +15,8 @@
 package jsettlers.logic.map.grid.partition.manager.manageables;
 
 import jsettlers.common.movable.EDirection;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IConstructableBuilding;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * @author Andreas Eberle

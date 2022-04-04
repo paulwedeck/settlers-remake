@@ -15,8 +15,8 @@
 package jsettlers.mapcreator.tools.shapes;
 
 import jsettlers.common.map.shapes.MapCircle;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.MathUtils;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.MathUtils;
 
 /**
  * This is a line that ends in two circles.

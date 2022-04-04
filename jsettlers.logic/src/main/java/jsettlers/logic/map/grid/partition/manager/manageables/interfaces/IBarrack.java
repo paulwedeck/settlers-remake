@@ -16,7 +16,7 @@ package jsettlers.logic.map.grid.partition.manager.manageables.interfaces;
 
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Interface for a building that can request beares to go there and become soldiers.

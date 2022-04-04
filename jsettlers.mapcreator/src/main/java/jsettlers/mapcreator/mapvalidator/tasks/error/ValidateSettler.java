@@ -14,13 +14,13 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator.tasks.error;
 
+import jsettlers.common.movable.EMovableType;
+import jsettlers.graphics.localization.Labels;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.logic.map.loading.data.objects.MovableObject;
-import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.graphics.localization.Labels;
 import jsettlers.mapcreator.mapvalidator.result.fix.DeleteObjectFix;
 import jsettlers.mapcreator.mapvalidator.tasks.AbstractValidationTask;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Check that all "normal" settlers are within the land of the right player

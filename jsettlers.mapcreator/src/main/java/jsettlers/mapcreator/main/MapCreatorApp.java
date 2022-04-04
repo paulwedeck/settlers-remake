@@ -19,12 +19,9 @@ import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import jsettlers.common.resources.ResourceManager;
-import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.exceptionhandler.ExceptionHandler;
+import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.main.swing.SwingManagedJSettlers;
-import jsettlers.main.swing.resources.SwingResourceProvider;
-import jsettlers.main.swing.settings.SettingsManager;
 import jsettlers.mapcreator.control.EditorControl;
 import jsettlers.mapcreator.main.window.EditorFrame;
 import jsettlers.mapcreator.main.window.NewFilePanel;

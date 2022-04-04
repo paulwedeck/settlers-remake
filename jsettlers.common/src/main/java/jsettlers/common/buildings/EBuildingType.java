@@ -22,7 +22,7 @@ import java.util.Set;
 
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.shared.RelativePoint;
 
 /**
  * This interface defines the main building type.

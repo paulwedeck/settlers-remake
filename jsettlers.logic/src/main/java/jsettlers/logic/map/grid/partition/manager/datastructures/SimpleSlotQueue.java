@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * A simple slot queue that supports {@link #pushLast(int, ElementType)} and {@link #popFront(int)} on the single slots.

@@ -21,7 +21,6 @@ import jsettlers.common.menu.IJoinableGame;
 import jsettlers.common.menu.IJoiningGame;
 import jsettlers.common.menu.IMultiplayerConnector;
 import jsettlers.common.menu.IOpenMultiplayerGameInfo;
-import jsettlers.common.utils.collections.ChangingList;
 import jsettlers.main.datatypes.JoinableGame;
 import jsettlers.network.client.IClientConnection;
 import jsettlers.network.client.RemoteMapDirectory;
@@ -30,6 +29,7 @@ import jsettlers.network.client.receiver.IPacketReceiver;
 import jsettlers.network.common.packets.ArrayOfMatchInfosPacket;
 import jsettlers.network.common.packets.MatchInfoPacket;
 import jsettlers.network.infrastructure.log.Logger;
+import jsettlers.shared.utils.collections.ChangingList;
 
 /**
  * This class implements the {@link IMultiplayerConnector} interface and supports the UI with the list of available multiplayer games and allows to

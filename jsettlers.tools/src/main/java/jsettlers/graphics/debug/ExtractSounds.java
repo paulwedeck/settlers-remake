@@ -14,14 +14,15 @@
  *******************************************************************************/
 package jsettlers.graphics.debug;
 
-import jsettlers.graphics.image.reader.bytereader.ByteReader;
-import jsettlers.graphics.sound.SoundManager;
-import jsettlers.main.swing.SwingManagedJSettlers;
-
-import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import javax.swing.JFileChooser;
+
+import jsettlers.graphics.image.reader.bytereader.ByteReader;
+import jsettlers.graphics.sound.SoundManager;
+import jsettlers.main.swing.SwingManagedJSettlers;
 
 /**
  * Exports all sounds as wav files.

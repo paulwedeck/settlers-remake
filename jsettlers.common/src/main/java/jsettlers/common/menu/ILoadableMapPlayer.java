@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.common.menu;
 
-import jsettlers.common.Color;
+import jsettlers.shared.Color;
 
 /**
  * This is a player that was active on a loadable map.

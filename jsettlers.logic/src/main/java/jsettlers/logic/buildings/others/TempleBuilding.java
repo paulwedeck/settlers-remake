@@ -17,11 +17,11 @@ package jsettlers.logic.buildings.others;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.buildings.stack.IRequestStack;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 import java.util.List;
 

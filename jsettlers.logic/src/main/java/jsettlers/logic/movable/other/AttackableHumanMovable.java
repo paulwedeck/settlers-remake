@@ -3,7 +3,6 @@ package jsettlers.logic.movable.other;
 import jsettlers.algorithms.simplebehaviortree.Root;
 import jsettlers.common.action.EMoveToType;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
@@ -11,6 +10,7 @@ import jsettlers.logic.movable.interfaces.IAttackableHumanMovable;
 import jsettlers.logic.movable.interfaces.IFerryMovable;
 import jsettlers.logic.movable.interfaces.IHealerMovable;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 public class AttackableHumanMovable extends AttackableMovable implements IAttackableHumanMovable {
 

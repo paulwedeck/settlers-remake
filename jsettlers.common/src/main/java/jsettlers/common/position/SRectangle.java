@@ -16,6 +16,8 @@ package jsettlers.common.position;
 
 import java.io.Serializable;
 
+import jsettlers.shared.ShortPoint2D;
+
 public class SRectangle implements Serializable {
 
 	/**

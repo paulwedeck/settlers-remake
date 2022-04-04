@@ -19,7 +19,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 
-import jsettlers.common.Color;
+import jsettlers.shared.Color;
 
 public enum ELandscapeType {
 	// DO NOT sort, order is important!

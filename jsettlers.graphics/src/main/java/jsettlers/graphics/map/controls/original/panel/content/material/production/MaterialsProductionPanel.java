@@ -14,28 +14,27 @@
  */
 package jsettlers.graphics.map.controls.original.panel.content.material.production;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import go.graphics.text.EFontSize;
+import jsettlers.common.action.SetMaterialProductionAction;
 import jsettlers.common.buildings.IMaterialProductionSettings;
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.IInGamePlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
-import jsettlers.common.action.Action;
-import jsettlers.common.action.SetMaterialProductionAction;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.map.controls.original.panel.content.AbstractContentProvider;
-import jsettlers.graphics.ui.CountArrows;
+import jsettlers.graphics.map.controls.original.panel.content.ActionProvidedBarFill;
 import jsettlers.graphics.map.controls.original.panel.content.BarFill;
 import jsettlers.graphics.map.controls.original.panel.content.ESecondaryTabType;
-import jsettlers.graphics.map.controls.original.panel.content.ActionProvidedBarFill;
 import jsettlers.graphics.map.controls.original.panel.content.updaters.UiContentUpdater;
 import jsettlers.graphics.map.controls.original.panel.content.updaters.UiLocationDependingContentUpdater;
+import jsettlers.graphics.ui.CountArrows;
 import jsettlers.graphics.ui.Label;
 import jsettlers.graphics.ui.UIPanel;
-
-import java.util.Arrays;
-import java.util.Optional;
+import jsettlers.shared.ShortPoint2D;
 
 public class MaterialsProductionPanel extends AbstractContentProvider {
 	private static final float contentHeight_px = 216;

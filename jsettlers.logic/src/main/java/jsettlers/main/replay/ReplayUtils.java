@@ -26,7 +26,6 @@ import java.util.List;
 import jsettlers.common.menu.IStartedGame;
 import jsettlers.common.menu.IStartingGame;
 import jsettlers.common.resources.ResourceManager;
-import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.input.tasks.EGuiAction;
 import jsettlers.input.tasks.SimpleGuiTask;
 import jsettlers.logic.constants.MatchConstants;
@@ -42,6 +41,7 @@ import jsettlers.network.NetworkConstants;
 import jsettlers.network.client.OfflineNetworkConnector;
 import jsettlers.network.client.interfaces.IGameClock;
 import jsettlers.network.client.interfaces.INetworkConnector;
+import jsettlers.shared.utils.mutables.MutableInt;
 
 import static java.util.Arrays.stream;
 

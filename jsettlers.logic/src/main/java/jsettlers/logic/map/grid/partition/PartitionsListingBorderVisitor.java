@@ -18,7 +18,7 @@ import java.util.LinkedList;
 
 import jsettlers.algorithms.partitions.IBlockingProvider;
 import jsettlers.algorithms.traversing.borders.IBorderVisitor;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This class implements the {@link IBorderVisitor} and is used to detect all the partitions that are on the traversed positions.<br>

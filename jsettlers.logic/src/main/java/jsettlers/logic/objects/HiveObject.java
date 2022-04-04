@@ -15,10 +15,10 @@
 package jsettlers.logic.objects;
 
 import jsettlers.common.mapobject.EMapObjectType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.objects.IMapObjectsManagerGrid;
 import jsettlers.logic.map.grid.objects.MapObjectsManager;
+import jsettlers.shared.ShortPoint2D;
 
 
 /**

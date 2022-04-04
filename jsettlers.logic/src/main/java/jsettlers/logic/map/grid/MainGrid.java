@@ -21,7 +21,6 @@ import java.util.BitSet;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
-
 import java.util.Optional;
 import jsettlers.algorithms.borders.BordersThread;
 import jsettlers.algorithms.borders.IBordersThreadGrid;
@@ -40,7 +39,6 @@ import jsettlers.algorithms.path.dijkstra.DijkstraAlgorithm;
 import jsettlers.algorithms.path.dijkstra.IDijkstraPathMap;
 import jsettlers.algorithms.previewimage.PreviewImageCreator;
 import jsettlers.algorithms.traversing.area.IAreaVisitor;
-import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.buildings.BuildingAreaBitSet;
 import jsettlers.common.buildings.BuildingVariant;
@@ -72,10 +70,6 @@ import jsettlers.common.movable.IGraphicsThief;
 import jsettlers.common.player.EWinState;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.MutablePoint2D;
-import jsettlers.common.position.RelativePoint;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.collections.IPredicate;
-import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.input.IGuiInputGrid;
 import jsettlers.input.PlayerState;
 import jsettlers.logic.DockPosition;
@@ -134,6 +128,11 @@ import jsettlers.logic.objects.arrow.ArrowObject;
 import jsettlers.logic.objects.stack.StackMapObject;
 import jsettlers.logic.player.Player;
 import jsettlers.logic.player.PlayerSetting;
+import jsettlers.shared.Color;
+import jsettlers.shared.RelativePoint;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.collections.IPredicate;
+import jsettlers.shared.utils.coordinates.CoordinateStream;
 
 /**
  * This is the main grid offering an interface for interacting with the grid.

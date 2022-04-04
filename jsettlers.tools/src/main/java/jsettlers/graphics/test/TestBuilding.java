@@ -18,15 +18,14 @@ import java.util.Collections;
 import java.util.List;
 
 import jsettlers.common.buildings.BuildingVariant;
-import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.IBuildingMaterial;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.material.EPriority;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
+import jsettlers.shared.ShortPoint2D;
 
 public class TestBuilding implements IBuilding {
 

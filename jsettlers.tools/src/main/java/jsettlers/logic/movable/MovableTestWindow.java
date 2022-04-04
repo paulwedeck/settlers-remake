@@ -17,13 +17,13 @@ package jsettlers.logic.movable;
 import java.io.IOException;
 
 import jsettlers.TestToolUtils;
+import jsettlers.common.action.EMoveToType;
 import jsettlers.common.action.MoveToAction;
 import jsettlers.common.ai.EPlayerType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.menu.IMapInterfaceConnector;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.input.SelectionSet;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
@@ -34,7 +34,7 @@ import jsettlers.logic.timer.RescheduleTimer;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
 import jsettlers.main.swing.resources.SwingResourceLoader;
 import jsettlers.network.synchronic.timer.NetworkTimer;
-import jsettlers.common.action.EMoveToType;
+import jsettlers.shared.ShortPoint2D;
 
 public class MovableTestWindow {
 	private static final Player PLAYER_0 = new Player((byte) 0, new Team((byte) 0), (byte) 1, EPlayerType.HUMAN, ECivilisation.ROMAN);

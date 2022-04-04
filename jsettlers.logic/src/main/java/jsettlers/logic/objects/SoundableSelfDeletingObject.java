@@ -16,8 +16,8 @@ package jsettlers.logic.objects;
 
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.sound.ISoundable;
+import jsettlers.shared.ShortPoint2D;
 
 public class SoundableSelfDeletingObject extends SelfDeletingMapObject implements ISoundable {
 	private static final long serialVersionUID = 4114559167407857784L;

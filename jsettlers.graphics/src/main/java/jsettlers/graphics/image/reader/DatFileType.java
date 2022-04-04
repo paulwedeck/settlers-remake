@@ -15,11 +15,11 @@
 
 package jsettlers.graphics.image.reader;
 
+import static java.util.Arrays.stream;
+
 import java.io.File;
 
-import jsettlers.common.Color;
-
-import static java.util.Arrays.stream;
+import jsettlers.shared.Color;
 
 public enum DatFileType {
 	RGB555(".7c003e01f.dat", new byte[]{

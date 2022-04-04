@@ -33,7 +33,7 @@ import jsettlers.logic.map.loading.original.data.EOriginalMapSettlersType;
 import jsettlers.logic.map.loading.original.data.EOriginalMapStackType;
 import jsettlers.logic.map.loading.original.data.EOriginalMapObjectType;
 import jsettlers.logic.map.loading.original.data.OriginalLandscape;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * @author Thomas Zeugner

@@ -15,9 +15,9 @@
 package jsettlers.common.action;
 
 import jsettlers.common.map.shapes.MapRectangle;
+import jsettlers.shared.ShortPoint2D;
 import jsettlers.common.action.Action;
 import jsettlers.common.action.EActionType;
-import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This action is fired whenever the visible map area has been changed by the user.

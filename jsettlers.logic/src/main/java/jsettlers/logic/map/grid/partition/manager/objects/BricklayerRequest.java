@@ -19,8 +19,8 @@ import java.io.Serializable;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * 

@@ -14,11 +14,11 @@
  *******************************************************************************/
 package jsettlers.mapcreator.data.objects;
 
-import jsettlers.logic.map.loading.data.objects.DecorationMapDataObject;
-import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.logic.map.loading.data.objects.DecorationMapDataObject;
+import jsettlers.logic.map.loading.data.objects.MapDataObject;
+import jsettlers.shared.RelativePoint;
 
 public class MapObjectContainer implements ObjectContainer, IMapObject {
 

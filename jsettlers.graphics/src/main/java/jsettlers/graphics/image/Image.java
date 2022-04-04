@@ -16,7 +16,7 @@ package jsettlers.graphics.image;
 
 import go.graphics.GLDrawContext;
 import go.graphics.IllegalBufferException;
-import jsettlers.common.Color;
+import jsettlers.shared.Color;
 
 /**
  * This is an image that can be displayed on the GUI.

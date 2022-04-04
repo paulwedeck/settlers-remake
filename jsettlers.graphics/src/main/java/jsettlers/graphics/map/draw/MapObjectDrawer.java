@@ -20,7 +20,6 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import go.graphics.GLDrawContext;
-import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
@@ -50,11 +49,9 @@ import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.movable.IGraphicsThief;
 import jsettlers.common.movable.IShipInConstruction;
-import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.player.IPlayerable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.sound.ISoundable;
 import jsettlers.graphics.image.Image;
 import jsettlers.graphics.image.SettlerImage;
@@ -65,6 +62,8 @@ import jsettlers.graphics.map.MapDrawContext;
 import jsettlers.graphics.map.draw.settlerimages.SettlerImageMap;
 import jsettlers.graphics.map.geometry.MapCoordinateConverter;
 import jsettlers.graphics.sound.SoundManager;
+import jsettlers.shared.Color;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This class handles drawing of objects on the map.

@@ -25,13 +25,13 @@ import jsettlers.common.map.shapes.HexGridArea;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.movable.EDirection;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.logic.SerializationUtils;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.movable.interfaces.IAttackable;
 import jsettlers.logic.movable.interfaces.IInformable;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.coordinates.CoordinateStream;
 
 /**
  * This grid stores the objects located at each position.

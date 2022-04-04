@@ -17,7 +17,7 @@ package jsettlers.graphics.image;
 import go.graphics.EPrimitiveType;
 import go.graphics.GLDrawContext;
 import go.graphics.UnifiedDrawHandle;
-import jsettlers.common.Color;
+import jsettlers.shared.Color;
 
 /**
  * This is an image that is stored in the image index file.

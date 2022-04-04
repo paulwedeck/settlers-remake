@@ -8,7 +8,6 @@ import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.partition.manager.manageables.IManageableBearer;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IBarrack;
@@ -22,6 +21,7 @@ import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.movable.interfaces.IBearerMovable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 

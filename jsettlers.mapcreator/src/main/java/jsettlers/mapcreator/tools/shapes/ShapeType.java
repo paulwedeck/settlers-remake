@@ -16,8 +16,8 @@ package jsettlers.mapcreator.tools.shapes;
 
 import java.util.Hashtable;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.localization.EditorLabels;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a shape a tool can work with.

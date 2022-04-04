@@ -23,15 +23,12 @@ import java.util.BitSet;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-import jsettlers.common.Color;
-import java.util.Optional;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.position.RelativePoint;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.MainGrid;
 import jsettlers.logic.map.loading.EMapStartResources;
 import jsettlers.logic.map.loading.MapLoadException;
@@ -45,6 +42,9 @@ import jsettlers.logic.map.loading.original.data.OriginalDestroyBuildingsWinCond
 import jsettlers.logic.map.loading.original.data.OriginalProduceGoodsWinCondition;
 import jsettlers.logic.map.loading.original.data.OriginalSurviveDurationWinCondition;
 import jsettlers.logic.player.PlayerSetting;
+import jsettlers.shared.Color;
+import jsettlers.shared.RelativePoint;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * @author Thomas Zeugner

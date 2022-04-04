@@ -17,7 +17,7 @@ package jsettlers.logic.movable.interfaces;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This interface defines the methods needed by soldiers to able to attack the implementor of this interface.

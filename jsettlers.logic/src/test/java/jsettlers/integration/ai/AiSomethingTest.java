@@ -11,10 +11,11 @@ import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.logic.map.loading.list.DirectoryMapLister;
 import jsettlers.logic.player.PlayerSetting;
+import jsettlers.logic.utils.TestUtils;
 import jsettlers.main.JSettlersGame;
 import jsettlers.main.replay.ReplayUtils;
 import jsettlers.network.client.OfflineNetworkConnector;
-import jsettlers.testutils.TestUtils;
+
 import org.junit.Test;
 import static jsettlers.integration.ai.AiTestUtils.MINUTES;
 import static jsettlers.integration.ai.AiTestUtils.createStartingGame;

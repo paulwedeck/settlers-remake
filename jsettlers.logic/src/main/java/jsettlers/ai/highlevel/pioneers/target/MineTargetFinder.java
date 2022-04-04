@@ -20,7 +20,7 @@ import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.landscape.EResourceType;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * @author codingberlin

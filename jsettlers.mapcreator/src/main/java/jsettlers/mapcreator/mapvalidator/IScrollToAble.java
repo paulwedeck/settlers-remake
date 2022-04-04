@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator;
 
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Interface to scroll to defined position

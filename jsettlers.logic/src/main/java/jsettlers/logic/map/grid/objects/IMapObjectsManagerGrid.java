@@ -19,9 +19,9 @@ import java.io.Serializable;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.landscape.EResourceType;
 import jsettlers.common.mapobject.EMapObjectType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.objects.arrow.IArrowAttackableGrid;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 public interface IMapObjectsManagerGrid extends Serializable, IArrowAttackableGrid {
 	AbstractHexMapObject getMapObject(int x, int y, EMapObjectType mapObjectType);

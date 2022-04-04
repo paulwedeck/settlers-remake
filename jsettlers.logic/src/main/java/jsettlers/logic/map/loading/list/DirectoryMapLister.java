@@ -29,9 +29,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import jsettlers.common.CommonConstants;
-import jsettlers.common.utils.FileUtils;
 import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.logic.map.loading.newmap.MapFileHeader;
+import jsettlers.shared.utils.FileUtils;
 
 /**
  * Lists all maps in a directory.

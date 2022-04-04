@@ -38,7 +38,6 @@ import jsettlers.common.material.EMaterialType;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.input.tasks.ConstructBuildingTask;
 import jsettlers.input.tasks.ConvertGuiTask;
 import jsettlers.input.tasks.SimpleBuildingGuiTask;
@@ -50,6 +49,7 @@ import jsettlers.logic.map.grid.MainGrid;
 import jsettlers.logic.map.grid.movable.MovableGrid;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.network.client.interfaces.ITaskScheduler;
+import jsettlers.shared.ShortPoint2D;
 
 import static jsettlers.ai.highlevel.AiBuildingConstants.*;
 import static jsettlers.common.buildings.EBuildingType.*;

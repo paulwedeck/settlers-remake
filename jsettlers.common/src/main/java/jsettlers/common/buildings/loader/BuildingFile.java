@@ -40,7 +40,7 @@ import jsettlers.common.material.EMaterialType;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.ESoldierClass;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.shared.RelativePoint;
 
 /**
  * This class represents a building's xml file.

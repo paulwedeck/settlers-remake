@@ -14,11 +14,11 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator.tasks.error;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.objects.IPlayerIdProvider;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.mapcreator.mapvalidator.result.fix.DeleteObjectFix;
 import jsettlers.mapcreator.mapvalidator.tasks.AbstractValidationTask;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Check the all player are valid

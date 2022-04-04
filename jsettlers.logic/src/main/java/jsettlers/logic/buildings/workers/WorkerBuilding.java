@@ -20,8 +20,6 @@ import java.util.List;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.Tuple;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.buildings.WorkAreaBuilding;
 import jsettlers.logic.buildings.stack.IRequestStack;
@@ -29,6 +27,8 @@ import jsettlers.logic.map.grid.partition.manager.manageables.IManageableWorker;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IWorkerRequestBuilding;
 import jsettlers.logic.map.grid.partition.manager.settings.MaterialProductionSettings;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.Tuple;
 
 /**
  * This class is a building with a worker that can fulfill it's job.

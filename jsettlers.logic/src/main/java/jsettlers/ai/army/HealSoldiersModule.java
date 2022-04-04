@@ -3,10 +3,10 @@ package jsettlers.ai.army;
 import jsettlers.common.action.EMoveToType;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
+import jsettlers.shared.ShortPoint2D;
 
 import java.util.ArrayList;
 import java.util.HashMap;

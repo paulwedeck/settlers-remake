@@ -1,7 +1,7 @@
 package jsettlers.logic.trading;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.ITradeBuilding;
+import jsettlers.shared.ShortPoint2D;
 
 import java.io.Serializable;
 import java.util.Iterator;

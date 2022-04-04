@@ -16,7 +16,7 @@ package jsettlers.algorithms.path;
 
 import java.io.Serializable;
 
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * A path a movable can follow.

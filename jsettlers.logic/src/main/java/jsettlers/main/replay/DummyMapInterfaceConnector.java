@@ -19,8 +19,8 @@ import jsettlers.common.menu.IMapInterfaceListener;
 import jsettlers.common.menu.UIState;
 import jsettlers.common.action.IAction;
 import jsettlers.common.menu.messages.IMessage;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
+import jsettlers.shared.ShortPoint2D;
 
 class DummyMapInterfaceConnector implements IMapInterfaceConnector {
 

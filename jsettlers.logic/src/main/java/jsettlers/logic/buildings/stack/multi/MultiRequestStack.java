@@ -17,12 +17,12 @@ package jsettlers.logic.buildings.stack.multi;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.material.EPriority;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.stack.IRequestStack;
 import jsettlers.logic.buildings.stack.IRequestStackListener;
 import jsettlers.logic.buildings.stack.IRequestsStackGrid;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.map.grid.partition.manager.materials.requests.MaterialRequestObject;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * A stack that is capable of requesting multiple materials at the same time. When one of the requested materials will be delivered, the stack only requests that materials as long as it holds any of

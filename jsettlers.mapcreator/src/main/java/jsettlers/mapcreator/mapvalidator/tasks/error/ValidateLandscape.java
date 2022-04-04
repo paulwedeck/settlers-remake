@@ -15,9 +15,9 @@
 package jsettlers.mapcreator.mapvalidator.tasks.error;
 
 import jsettlers.common.landscape.ELandscapeType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.mapvalidator.result.fix.InvalidLandscapeFix;
 import jsettlers.mapcreator.mapvalidator.tasks.AbstractValidationTask;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Test landscape height and constelation

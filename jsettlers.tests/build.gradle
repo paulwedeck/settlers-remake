@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
 
 // This runs the unit tests and some more validation tests.
 
@@ -30,11 +31,4 @@ sourceSets {
 
 dependencies {
     testImplementation 'junit:junit:4.12'
-    testImplementation project(':go.graphics')
-    testImplementation project(':go.graphics.swing')
-    testImplementation project(':jsettlers.common')
-    testImplementation project(':jsettlers.graphics')
-    testImplementation project(':jsettlers.logic')
-    testImplementation project(':jsettlers.main.swing')
-    testImplementation project(':jsettlers.network')
 }

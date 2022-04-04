@@ -14,19 +14,17 @@
  */
 package jsettlers.graphics.map.controls.original.panel.content.material.priorities;
 
-import go.graphics.GLDrawContext;
-
 import java.util.Arrays;
 import java.util.BitSet;
 
+import go.graphics.GLDrawContext;
+import jsettlers.common.action.Action;
+import jsettlers.common.action.SetMaterialPrioritiesAction;
 import jsettlers.common.images.ImageLink;
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.partition.IPartitionData;
 import jsettlers.common.map.partition.IStockSettings;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.action.Action;
-import jsettlers.common.action.SetMaterialPrioritiesAction;
 import jsettlers.graphics.map.controls.original.panel.button.MaterialButton.DotColor;
 import jsettlers.graphics.map.controls.original.panel.button.SelectionManagedMaterialButton;
 import jsettlers.graphics.map.controls.original.panel.button.SelectionManager;
@@ -35,6 +33,7 @@ import jsettlers.graphics.map.controls.original.panel.content.ESecondaryTabType;
 import jsettlers.graphics.ui.Button;
 import jsettlers.graphics.ui.UIPanel;
 import jsettlers.graphics.ui.layout.MaterialPriorityLayout;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This panel lets the user select the priorities in which the materials should be transported by settlers.

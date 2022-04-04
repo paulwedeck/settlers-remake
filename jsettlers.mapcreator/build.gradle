@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id 'eclipse'
 }
 
 startScripts {
@@ -9,14 +10,8 @@ startScripts {
 mainClassName = 'jsettlers.mapcreator.main.MapCreatorApp'
 
 dependencies {
-    implementation project(':go.graphics')
-    implementation project(':go.graphics.swing')
-    implementation project(':jsettlers.common')
-    implementation project(':jsettlers.network')
-    implementation project(':jsettlers.graphics')
-    implementation project(':jsettlers.logic')
-    implementation project(':jsettlers.main.swing')
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation project(':jsettlers.main.swing')
 
     runtimeOnly 'com.sun.xml.bind:jaxb-impl:2.3.2'
     runtimeOnly 'com.sun.xml.bind:jaxb-core:2.3.0.1'

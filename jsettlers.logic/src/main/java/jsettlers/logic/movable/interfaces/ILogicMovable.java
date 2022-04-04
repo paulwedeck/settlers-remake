@@ -22,10 +22,10 @@ import jsettlers.common.movable.EEffectType;
 import jsettlers.common.action.EMoveToType;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.input.IGuiMovable;
 import jsettlers.logic.player.Player;
 import jsettlers.logic.timer.IScheduledTimerable;
+import jsettlers.shared.ShortPoint2D;
 
 public interface ILogicMovable extends IScheduledTimerable, IPathCalculatable, IDebugable, Serializable, IGuiMovable, ILocatable, IGraphicsMovable, MovableFoWTask {
 	void push(ILogicMovable pushingMovable);

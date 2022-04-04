@@ -17,10 +17,9 @@ package jsettlers.graphics.map.controls.original.panel.selection;
 import go.graphics.GLDrawContext;
 import go.graphics.text.EFontSize;
 import go.graphics.text.TextDrawer;
-import jsettlers.common.Color;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EDirection;
+import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.graphics.image.Image;
@@ -28,6 +27,7 @@ import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.map.MapDrawContext;
 import jsettlers.graphics.map.draw.settlerimages.SettlerImageMap;
 import jsettlers.graphics.ui.UIPanel;
+import jsettlers.shared.Color;
 
 public class SelectionRow extends UIPanel {
 

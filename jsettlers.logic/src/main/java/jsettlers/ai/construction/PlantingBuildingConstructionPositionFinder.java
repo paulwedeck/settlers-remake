@@ -19,9 +19,9 @@ import java.util.List;
 
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.common.position.RelativePoint;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.MainGrid;
+import jsettlers.shared.RelativePoint;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * @author codingberlin

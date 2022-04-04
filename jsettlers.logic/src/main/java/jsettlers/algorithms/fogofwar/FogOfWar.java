@@ -26,7 +26,6 @@ import jsettlers.common.CommonConstants;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.IGraphicsBackgroundListener;
 import jsettlers.common.mapobject.IMapObject;
-import jsettlers.common.position.ShortPoint2D;
 import go.graphics.FramerateComputer;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.constants.Constants;
@@ -36,6 +35,7 @@ import jsettlers.logic.map.grid.landscape.LandscapeGrid;
 import jsettlers.logic.map.grid.objects.AbstractHexMapObject;
 import jsettlers.logic.map.grid.objects.ObjectsGrid;
 import jsettlers.logic.movable.MovableManager;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This class holds the fog of war for a given map and team.

@@ -19,7 +19,7 @@ import java.util.Set;
 
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.shared.RelativePoint;
 
 /**
  * extension to IMapObject to get functions needed by the hex grid.

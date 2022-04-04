@@ -16,9 +16,9 @@ package jsettlers.ai.highlevel.pioneers.target;
 
 import jsettlers.ai.highlevel.AiPositions;
 import jsettlers.common.landscape.EResourceType;
-import jsettlers.common.position.RelativePoint;
 import jsettlers.logic.map.grid.MainGrid;
 import jsettlers.logic.map.grid.landscape.LandscapeGrid;
+import jsettlers.shared.RelativePoint;
 
 /**
  * @author codingberlin

@@ -15,8 +15,8 @@
 package jsettlers.logic.map.grid.partition;
 
 import jsettlers.common.map.shapes.MapCircle;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.Tuple;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.Tuple;
 
 import java.util.Iterator;
 import java.util.LinkedList;

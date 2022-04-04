@@ -2,12 +2,12 @@ package jsettlers.logic.movable.military;
 
 import jsettlers.common.movable.EEffectType;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.movable.interfaces.IBowmanMovable;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 public class BowmanMovable extends SoldierMovable implements IBowmanMovable {
 	private static final float BOWMAN_ATTACK_DURATION = 1.2f;

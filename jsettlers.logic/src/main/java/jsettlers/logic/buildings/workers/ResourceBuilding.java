@@ -17,9 +17,9 @@ package jsettlers.logic.buildings.workers;
 import jsettlers.algorithms.datastructures.BooleanMovingAverage;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * A {@link WorkerBuilding} implementing the {@link IResourceBuilding} interface to supply productivity information to the UI.

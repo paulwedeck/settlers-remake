@@ -37,10 +37,6 @@ import jsettlers.common.map.shapes.MapShapeFilter;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.position.ILocatable;
 import jsettlers.common.position.SRectangle;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.Tuple;
-import jsettlers.common.utils.coordinates.CoordinateStream;
-import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.logic.map.grid.partition.manager.settings.MaterialProductionSettings;
 import jsettlers.logic.map.grid.partition.PartitionsListingBorderVisitor.BorderPartitionInfo;
 import jsettlers.logic.map.grid.partition.manager.PartitionManager;
@@ -52,6 +48,10 @@ import jsettlers.logic.player.PlayerSetting;
 import jsettlers.logic.player.Team;
 import jsettlers.logic.timer.IScheduledTimerable;
 import jsettlers.logic.timer.RescheduleTimer;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.Tuple;
+import jsettlers.shared.utils.coordinates.CoordinateStream;
+import jsettlers.shared.utils.mutables.MutableInt;
 
 /**
  * This class handles the partitions of the map.

@@ -15,7 +15,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * @author codingberlin

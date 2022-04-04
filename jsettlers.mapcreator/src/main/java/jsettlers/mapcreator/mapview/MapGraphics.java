@@ -14,7 +14,6 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapview;
 
-import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.EDebugColorModes;
@@ -26,6 +25,7 @@ import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.IPlayer;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.data.objects.ObjectContainer;
+import jsettlers.shared.Color;
 
 /**
  * Wrapper for map display

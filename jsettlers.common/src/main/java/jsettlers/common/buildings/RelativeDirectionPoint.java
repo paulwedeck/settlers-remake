@@ -15,7 +15,7 @@
 package jsettlers.common.buildings;
 
 import jsettlers.common.movable.EDirection;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.shared.RelativePoint;
 
 /**
  * This is the relative point that also has a direction associated with it

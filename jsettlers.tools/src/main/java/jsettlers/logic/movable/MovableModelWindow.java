@@ -7,22 +7,24 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+
 import jsettlers.TestToolUtils;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.menu.IMapInterfaceConnector;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.map.draw.settlerimages.SettlerImageMap;
 import jsettlers.logic.movable.modelmap.FakeMovable;
 import jsettlers.logic.movable.modelmap.MovableController;
 import jsettlers.logic.movable.modelmap.MovableModelMap;
 import jsettlers.logic.movable.modelmap.SimpleStoppableClock;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
+import jsettlers.shared.ShortPoint2D;
 
 public class MovableModelWindow {
 

@@ -16,7 +16,7 @@ package jsettlers.common.buildings;
 
 import java.util.BitSet;
 
-import jsettlers.common.position.RelativePoint;
+import jsettlers.shared.RelativePoint;
 
 /**
  * This class defines the area for a building using a rectangular bitset.

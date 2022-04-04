@@ -15,11 +15,11 @@
 package jsettlers.logic.buildings.stack;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.stack.multi.StockSettings;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IOfferEmptiedListener;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
 import jsettlers.logic.map.grid.partition.manager.materials.requests.MaterialRequestObject;
+import jsettlers.shared.ShortPoint2D;
 
 import java.io.Serializable;
 

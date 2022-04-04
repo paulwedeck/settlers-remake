@@ -14,11 +14,11 @@
  *******************************************************************************/
 package jsettlers.mapcreator.tools;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.control.IPlayerSetter;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.tools.shapes.EShapeType;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Set the startup position of a player

@@ -15,7 +15,7 @@
 package jsettlers.mapcreator.data.objects;
 
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.shared.RelativePoint;
 
 public class ProtectContainer implements ObjectContainer {
 

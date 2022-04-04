@@ -14,6 +14,8 @@
  *******************************************************************************/
 package jsettlers.algorithms;
 
+import java.util.Set;
+
 import jsettlers.algorithms.path.IPathCalculatable;
 import jsettlers.algorithms.path.Path;
 import jsettlers.algorithms.path.astar.BucketQueueAStar;
@@ -22,9 +24,7 @@ import jsettlers.algorithms.path.dijkstra.DijkstraAlgorithm;
 import jsettlers.algorithms.path.dijkstra.IDijkstraPathMap;
 import jsettlers.common.material.ESearchType;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
-
-import java.util.Set;
+import jsettlers.shared.ShortPoint2D;
 
 public class SimpleDijkstraTester {
 	private static final short WIDTH = (short) 200;

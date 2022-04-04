@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import jsettlers.common.landscape.ELandscapeType;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 public final class LandscapeEditor {
 	private final Function<ShortPoint2D, ELandscapeType> getLandscape;

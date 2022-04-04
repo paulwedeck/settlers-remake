@@ -19,7 +19,7 @@ import jsettlers.algorithms.traversing.area.AreaTraversingAlgorithm;
 import jsettlers.algorithms.traversing.borders.BorderTraversingAlgorithm;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Algorithm to correct the landmarks. For example if Pioneers set all landmarks around a lake, this Thread will recognize it and take over the area of the lake.

@@ -16,8 +16,8 @@ package jsettlers.algorithms.traversing.borders;
 
 import jsettlers.algorithms.interfaces.IContainingProvider;
 import jsettlers.common.movable.EDirection;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.mutables.MutableInt;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.mutables.MutableInt;
 
 /**
  * 

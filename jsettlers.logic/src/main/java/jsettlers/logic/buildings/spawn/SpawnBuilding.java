@@ -17,12 +17,12 @@ package jsettlers.logic.buildings.spawn;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Abstract parent class for buildings that spawn new movables.

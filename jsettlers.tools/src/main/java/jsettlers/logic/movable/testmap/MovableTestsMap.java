@@ -15,13 +15,12 @@
 package jsettlers.logic.movable.testmap;
 
 import java.util.LinkedList;
-
 import java.util.Objects;
+
 import jsettlers.algorithms.path.IPathCalculatable;
 import jsettlers.algorithms.path.Path;
 import jsettlers.algorithms.path.astar.BucketQueueAStar;
 import jsettlers.algorithms.path.astar.IAStarPathMap;
-import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.landscape.EResourceType;
@@ -36,7 +35,6 @@ import jsettlers.common.material.ESearchType;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.partition.manager.manageables.IManageableBearer;
 import jsettlers.logic.map.grid.partition.manager.manageables.IManageableBricklayer;
@@ -51,6 +49,8 @@ import jsettlers.logic.movable.interfaces.IAttackableMovable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.objects.stack.StackMapObject;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.Color;
+import jsettlers.shared.ShortPoint2D;
 
 public class MovableTestsMap implements IGraphicsGrid, IAStarPathMap {
 

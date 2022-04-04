@@ -16,7 +16,7 @@
 package jsettlers.logic.buildings;
 
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Created by Andreas Eberle on 31.07.2017.

@@ -47,8 +47,6 @@ import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.EWinState;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.RelativePoint;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.WorkAreaBuilding;
 import jsettlers.logic.map.grid.MainGrid;
@@ -60,6 +58,8 @@ import jsettlers.logic.map.grid.objects.ObjectsGrid;
 import jsettlers.logic.map.grid.partition.PartitionsGrid;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.RelativePoint;
+import jsettlers.shared.ShortPoint2D;
 
 import static jsettlers.common.buildings.EBuildingType.BIG_TOWER;
 import static jsettlers.common.buildings.EBuildingType.CASTLE;

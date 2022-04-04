@@ -22,12 +22,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import jsettlers.testutils.TestUtils;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EPriority;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.constants.MatchConstants;
+import jsettlers.logic.utils.TestUtils;
+import jsettlers.shared.ShortPoint2D;
 
 import org.junit.Test;
 

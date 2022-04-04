@@ -15,8 +15,8 @@ import jsettlers.common.movable.IGraphicsCargoShip;
 import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.movable.IGraphicsThief;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
+import jsettlers.shared.ShortPoint2D;
 
 public class FakeMovable implements IGraphicsMovable, IGraphicsBuildingWorker, IGraphicsThief, IGraphicsFerry,
 		IGraphicsCargoShip {

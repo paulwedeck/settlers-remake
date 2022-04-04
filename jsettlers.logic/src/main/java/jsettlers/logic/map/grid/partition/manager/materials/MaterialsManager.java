@@ -18,7 +18,6 @@ import java.io.Serializable;
 
 import jsettlers.common.map.partition.IPartitionSettings;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IJoblessSupplier;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IManagerBearer;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
@@ -29,6 +28,7 @@ import jsettlers.logic.map.grid.partition.manager.materials.requests.MaterialReq
 import jsettlers.logic.map.grid.partition.manager.materials.requests.MaterialsForBuildingsRequestPriorityQueue;
 import jsettlers.logic.map.grid.partition.manager.materials.requests.SimpleMaterialRequestPriorityQueue;
 import jsettlers.logic.map.grid.partition.manager.settings.PartitionManagerSettings;
+import jsettlers.shared.ShortPoint2D;
 
 
 /**

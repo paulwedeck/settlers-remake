@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.common.menu;
 
-import jsettlers.common.utils.collections.ChangingList;
+import jsettlers.shared.utils.collections.ChangingList;
 
 /**
  * This interface offers the methods that interact with a multiplayer server.

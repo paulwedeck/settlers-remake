@@ -17,8 +17,8 @@ package jsettlers.logic.map.grid.partition.manager.objects;
 import java.io.Serializable;
 
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IBarrack;
+import jsettlers.shared.ShortPoint2D;
 
 public final class SoldierCreationRequest implements ILocatable, Serializable {
 	private static final long serialVersionUID = -3108188242025391145L;

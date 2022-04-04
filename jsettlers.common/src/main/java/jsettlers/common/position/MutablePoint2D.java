@@ -14,6 +14,8 @@
  *******************************************************************************/
 package jsettlers.common.position;
 
+import jsettlers.shared.ShortPoint2D;
+
 /**
  * Created by Andreas Eberle
  */

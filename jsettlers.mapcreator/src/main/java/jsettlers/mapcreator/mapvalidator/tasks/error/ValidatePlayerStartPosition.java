@@ -14,8 +14,8 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator.tasks.error;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.mapvalidator.tasks.AbstractValidationTask;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Validate all players start position

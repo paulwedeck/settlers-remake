@@ -22,7 +22,6 @@ import java.util.function.Supplier;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.player.EWinState;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.MainGrid;
@@ -31,6 +30,7 @@ import jsettlers.logic.map.loading.original.data.OriginalDestroyBuildingsWinCond
 import jsettlers.logic.map.loading.original.data.OriginalProduceGoodsWinCondition;
 import jsettlers.logic.map.loading.original.data.OriginalSurviveDurationWinCondition;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 public class OriginalSinglePlayerWinCondition extends WinLoseHandler implements Serializable {
 	private static final long serialVersionUID = 1;

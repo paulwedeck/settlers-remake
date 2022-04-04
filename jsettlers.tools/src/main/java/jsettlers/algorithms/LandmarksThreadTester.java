@@ -20,8 +20,9 @@ import jsettlers.TestToolUtils;
 import jsettlers.algorithms.landmarks.EnclosedBlockedAreaFinderAlgorithm;
 import jsettlers.algorithms.landmarks.IEnclosedBlockedAreaFinderGrid;
 import jsettlers.algorithms.traversing.area.IAreaVisitor;
-import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
+import jsettlers.common.action.EActionType;
+import jsettlers.common.action.PointAction;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.EDebugColorModes;
 import jsettlers.common.map.IGraphicsBackgroundListener;
@@ -29,12 +30,11 @@ import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.partition.IPartitionData;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.menu.IMapInterfaceConnector;
-import jsettlers.common.action.EActionType;
 import jsettlers.common.movable.IGraphicsMovable;
-import jsettlers.common.action.PointAction;
 import jsettlers.common.player.IPlayer;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
 import jsettlers.main.swing.resources.SwingResourceLoader;
+import jsettlers.shared.Color;
 
 public class LandmarksThreadTester {
 	private static final int WIDTH = 20;

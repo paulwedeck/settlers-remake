@@ -24,7 +24,7 @@ import jsettlers.algorithms.path.Path;
 import jsettlers.algorithms.path.astar.AbstractAStar;
 import jsettlers.common.map.shapes.MapCircle;
 import jsettlers.common.material.ESearchType;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * this class implements a strict dijkstra algorithm

@@ -17,7 +17,7 @@ package jsettlers.algorithms.construction;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.map.shapes.IMapArea;
 import jsettlers.common.map.shapes.MapRectangle;
-import jsettlers.common.position.RelativePoint;
+import jsettlers.shared.RelativePoint;
 
 /**
  * Algorithm to calculate the construction marks for the user.

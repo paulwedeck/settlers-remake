@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This {@link Action} is used to set the priority order of {@link EMaterialType}s.

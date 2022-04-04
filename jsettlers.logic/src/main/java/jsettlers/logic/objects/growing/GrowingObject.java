@@ -15,8 +15,8 @@
 package jsettlers.logic.objects.growing;
 
 import jsettlers.common.mapobject.EMapObjectType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.objects.ProgressingObject;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is an abstract class used for growing objects.

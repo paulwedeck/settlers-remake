@@ -21,9 +21,9 @@ import java.util.Iterator;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EPriority;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.collections.list.DoubleLinkedList;
 import jsettlers.logic.map.grid.partition.manager.settings.MaterialDistributionSettings;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.collections.list.DoubleLinkedList;
 
 /**
  * This class is an advanced priority queue for material requests. The requests are served according to the settings. The settings specify the probability that a given type of building will be served.

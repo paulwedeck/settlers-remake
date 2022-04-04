@@ -18,8 +18,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.network.client.task.packets.TaskPacket;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * 

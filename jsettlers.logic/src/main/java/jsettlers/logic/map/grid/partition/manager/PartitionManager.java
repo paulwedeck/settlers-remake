@@ -23,7 +23,6 @@ import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ILocatable;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.workers.WorkerBuilding;
 import jsettlers.logic.map.grid.partition.data.MaterialCounts;
@@ -57,6 +56,7 @@ import jsettlers.logic.map.grid.partition.manager.settings.SingleProfessionLimit
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.timer.IScheduledTimerable;
 import jsettlers.logic.timer.RescheduleTimer;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a manager for a partition. It stores offers, requests and jobless to build up jobs and give them to the jobless.

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 public class ChangeMovableSettingsTask extends SimpleGuiTask {
 

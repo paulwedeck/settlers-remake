@@ -16,9 +16,9 @@ package jsettlers.logic.buildings.workers;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a slaughterhouse building

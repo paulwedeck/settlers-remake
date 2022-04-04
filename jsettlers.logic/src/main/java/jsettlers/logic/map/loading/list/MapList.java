@@ -26,7 +26,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.logging.MilliStopWatch;
-import jsettlers.common.utils.collections.ChangingList;
 import jsettlers.input.PlayerState;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.GameSerializer;
@@ -39,6 +38,7 @@ import jsettlers.logic.map.loading.newmap.MapFileHeader;
 import jsettlers.logic.map.loading.newmap.MapFileHeader.MapType;
 import jsettlers.logic.map.loading.newmap.RemakeMapLoader;
 import jsettlers.logic.timer.RescheduleTimer;
+import jsettlers.shared.utils.collections.ChangingList;
 
 /**
  * This is the main map list.

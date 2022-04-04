@@ -3,8 +3,8 @@ package jsettlers.logic.map.grid.objects;
 import jsettlers.algorithms.fogofwar.FogOfWar;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.objects.SoundableSelfDeletingObject;
+import jsettlers.shared.ShortPoint2D;
 
 public class EyeMapObject extends SoundableSelfDeletingObject {
 

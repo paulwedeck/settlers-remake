@@ -36,7 +36,6 @@ import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EEffectType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.constants.MatchConstants;
@@ -65,6 +64,7 @@ import jsettlers.logic.movable.specialist.GeologistMovable;
 import jsettlers.logic.movable.specialist.PioneerMovable;
 import jsettlers.logic.movable.specialist.ThiefMovable;
 import jsettlers.logic.player.Player;
+import jsettlers.shared.ShortPoint2D;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

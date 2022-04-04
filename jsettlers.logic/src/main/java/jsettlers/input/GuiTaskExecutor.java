@@ -28,8 +28,6 @@ import jsettlers.common.action.EMoveToType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.map.shapes.HexGridArea;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.input.tasks.CastSpellGuiTask;
 import jsettlers.input.tasks.ChangeTowerSoldiersGuiTask;
 import jsettlers.input.tasks.ChangeTradingRequestGuiTask;
@@ -70,6 +68,8 @@ import jsettlers.logic.movable.interfaces.IMageMovable;
 import jsettlers.logic.movable.interfaces.IPioneerMovable;
 import jsettlers.network.client.task.packets.TaskPacket;
 import jsettlers.network.synchronic.timer.ITaskExecutor;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.mutables.MutableInt;
 
 /**
  * @author Andreas Eberle

@@ -17,10 +17,10 @@ package jsettlers.logic.buildings.stack.multi;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.material.EPriority;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.stack.IRequestsStackGrid;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IOfferEmptiedListener;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Created by Andreas Eberle on 18.09.2016.

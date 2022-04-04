@@ -22,7 +22,7 @@ import jsettlers.algorithms.path.Path;
 import jsettlers.algorithms.path.astar.queues.bucket.AbstractBucketQueue;
 import jsettlers.algorithms.path.astar.queues.bucket.ListMinBucketQueue;
 import jsettlers.common.movable.EDirection;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * AStar algorithm to find paths from A to B on a hex grid

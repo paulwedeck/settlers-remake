@@ -16,8 +16,8 @@ package jsettlers.logic.map.grid.partition.manager.materials.interfaces;
 
 import java.io.Serializable;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.materials.MaterialsManager;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This interface defines methods needed by the {@link MaterialsManager} to get jobless movables to give them jobs.

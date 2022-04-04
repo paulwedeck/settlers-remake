@@ -1,8 +1,8 @@
 package jsettlers.logic.map.grid.objects;
 
 import jsettlers.common.mapobject.EMapObjectType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.objects.ProgressingObject;
+import jsettlers.shared.ShortPoint2D;
 
 public class SmokeMapObject extends ProgressingObject {
 

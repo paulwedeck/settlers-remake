@@ -15,13 +15,13 @@
 package jsettlers.logic.buildings.trading;
 
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.buildings.stack.IRequestStack;
 import jsettlers.logic.buildings.stack.IStackSizeSupplier;
 import jsettlers.logic.movable.cargo.DonkeyMovable;
 import jsettlers.logic.player.Player;
 import jsettlers.logic.trading.TradeManager;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  *

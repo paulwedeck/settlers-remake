@@ -7,7 +7,7 @@ import java.util.Set;
 
 import jsettlers.common.images.ImageLink;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.utils.coordinates.ICoordinatePredicate;
+import jsettlers.shared.ICoordinatePredicate;
 
 public enum ESpellType {
 	ROMAN_EYE(10, false, ECivilisation.ROMAN, "original_14_GUI_246"),

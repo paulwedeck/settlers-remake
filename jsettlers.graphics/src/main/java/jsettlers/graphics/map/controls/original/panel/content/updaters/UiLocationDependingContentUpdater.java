@@ -17,7 +17,7 @@ package jsettlers.graphics.map.controls.original.panel.content.updaters;
 
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.player.IInGamePlayer;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 public class UiLocationDependingContentUpdater<T> extends UiContentUpdater<T> {
 

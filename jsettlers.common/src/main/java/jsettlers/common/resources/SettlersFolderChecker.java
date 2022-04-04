@@ -16,8 +16,8 @@ package jsettlers.common.resources;
 
 import java.io.File;
 
-import jsettlers.common.utils.FileUtils;
-import jsettlers.common.utils.mutables.Mutable;
+import jsettlers.shared.utils.FileUtils;
+import jsettlers.shared.utils.mutables.Mutable;
 
 /**
  * Checks if a settler folder is valid

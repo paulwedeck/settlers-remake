@@ -15,12 +15,10 @@
 package jsettlers.graphics.map.controls.original.panel.content.material.inventory;
 
 import go.graphics.text.EFontSize;
-
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.partition.IPartitionData;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.IInGamePlayer;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.map.controls.original.panel.content.AbstractContentProvider;
@@ -32,6 +30,7 @@ import jsettlers.graphics.ui.Button;
 import jsettlers.graphics.ui.Label;
 import jsettlers.graphics.ui.UIPanel;
 import jsettlers.graphics.ui.layout.MaterialInventoryLayout;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a statistics panel that displays the number of items the user has on the current partition.

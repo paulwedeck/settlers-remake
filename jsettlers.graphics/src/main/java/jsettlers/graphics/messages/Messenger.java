@@ -17,8 +17,8 @@ package jsettlers.graphics.messages;
 import java.util.LinkedList;
 
 import jsettlers.common.menu.messages.IMessage;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.statistics.IGameTimeProvider;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a messenger, that lets you display messages on the users screen.

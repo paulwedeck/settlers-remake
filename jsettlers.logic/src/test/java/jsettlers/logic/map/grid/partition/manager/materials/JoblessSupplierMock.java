@@ -17,11 +17,11 @@ package jsettlers.logic.map.grid.partition.manager.materials;
 import java.util.LinkedList;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IJoblessSupplier;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IManagerBearer;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IMaterialOffer;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IMaterialRequest;
+import jsettlers.shared.ShortPoint2D;
 
 public class JoblessSupplierMock implements IJoblessSupplier {
 	private static final long serialVersionUID = -4698558305428775896L;

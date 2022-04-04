@@ -14,8 +14,8 @@
  *******************************************************************************/
 package jsettlers.common.map.shapes;
 
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.utils.coordinates.CoordinateStream;
+import jsettlers.shared.ShortPoint2D;
+import jsettlers.shared.utils.coordinates.CoordinateStream;
 
 import java.io.Serializable;
 import java.util.Iterator;

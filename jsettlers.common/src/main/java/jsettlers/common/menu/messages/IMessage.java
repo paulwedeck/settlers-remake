@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.common.menu.messages;
 
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a message for the user, that is displayed at the users screen.

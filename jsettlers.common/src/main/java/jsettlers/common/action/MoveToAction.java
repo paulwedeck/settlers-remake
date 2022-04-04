@@ -1,6 +1,6 @@
 package jsettlers.common.action;
 
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Action for {@link EActionType#MOVE_TO}

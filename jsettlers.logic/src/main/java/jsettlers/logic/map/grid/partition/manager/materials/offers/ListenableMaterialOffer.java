@@ -15,8 +15,8 @@
 package jsettlers.logic.map.grid.partition.manager.materials.offers;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IOfferEmptiedListener;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * Created by Andreas Eberle on 05.03.2017.

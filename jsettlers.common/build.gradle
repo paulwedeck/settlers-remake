@@ -1,5 +1,5 @@
 apply plugin: 'java-library'
-
+apply plugin: "eclipse"
 
 import jsettlers.textures.generation.TextureGenerationTask
 import org.eclipse.jgit.lib.Repository
@@ -64,7 +64,7 @@ clean {
 
 dependencies {
     api project(':go.graphics')
-    testImplementation project(':jsettlers.testutils')
+    implementation project(':jsettlers.shared')
 }
 
 copyMainResources {

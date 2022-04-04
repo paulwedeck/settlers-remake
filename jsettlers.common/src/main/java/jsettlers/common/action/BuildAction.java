@@ -15,7 +15,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.common.position.ShortPoint2D;
+import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a build action. This happens when the user clicks on a map position to build a building there.

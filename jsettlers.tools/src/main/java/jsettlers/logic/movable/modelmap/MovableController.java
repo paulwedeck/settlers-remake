@@ -4,17 +4,19 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.movable.MovableModelWindow;
+import jsettlers.shared.ShortPoint2D;
 
 public class MovableController extends JPanel implements Cloneable {
 
