@@ -49,6 +49,7 @@ import jsettlers.common.menu.IMapInterfaceConnector;
 import jsettlers.common.menu.IMapInterfaceListener;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.player.ECivilisation;
+import jsettlers.main.swing.SwingManagedJSettlers;
 import jsettlers.shared.Color;
 import jsettlers.shared.RelativePoint;
 import jsettlers.shared.ShortPoint2D;

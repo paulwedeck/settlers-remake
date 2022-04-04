@@ -1,15 +1,5 @@
 package jsettlers.ai.army;
 
-import jsettlers.common.CommonConstants;
-import jsettlers.common.action.EMoveToType;
-import jsettlers.common.buildings.EBuildingType;
-import jsettlers.common.movable.EMovableType;
-import jsettlers.common.player.IPlayer;
-import jsettlers.common.position.ShortPoint2D;
-import jsettlers.logic.movable.MovableManager;
-import jsettlers.logic.movable.interfaces.ILogicMovable;
-import jsettlers.logic.movable.military.SoldierMovable;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -18,11 +8,18 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import jsettlers.common.CommonConstants;
+import jsettlers.common.action.EMoveToType;
+import jsettlers.common.buildings.EBuildingType;
+import jsettlers.common.movable.EMovableType;
+import jsettlers.common.player.IPlayer;
+import jsettlers.logic.movable.MovableManager;
+import jsettlers.logic.movable.interfaces.ILogicMovable;
+import jsettlers.shared.ShortPoint2D;
 
 public class RegroupArmyModule extends ArmyModule {
 
