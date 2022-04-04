@@ -14,10 +14,10 @@
  *******************************************************************************/
 package jsettlers.common.map.shapes;
 
+import jsettlers.common.position.RelativePoint;
 import jsettlers.common.position.SRectangle;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.coordinates.CoordinateStream;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.coordinates.CoordinateStream;
 
 import java.util.ArrayList;
 import java.util.Iterator;

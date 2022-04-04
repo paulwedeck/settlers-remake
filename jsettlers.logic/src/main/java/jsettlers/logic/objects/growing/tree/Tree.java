@@ -15,10 +15,10 @@
 package jsettlers.logic.objects.growing.tree;
 
 import jsettlers.common.mapobject.EMapObjectType;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.sound.ISoundable;
 import jsettlers.logic.objects.growing.GrowingObject;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a tree on the map.

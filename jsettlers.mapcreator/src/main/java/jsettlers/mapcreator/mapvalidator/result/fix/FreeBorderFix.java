@@ -23,9 +23,9 @@ import javax.swing.JPopupMenu;
 
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.shapes.IMapArea;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.mapcreator.localization.EditorLabels;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.coordinates.CoordinateStream;
 
 /**
  * Delete invalid resources

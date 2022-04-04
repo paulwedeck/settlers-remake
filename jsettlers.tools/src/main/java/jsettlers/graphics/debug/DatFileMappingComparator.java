@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jsettlers.common.utils.Tuple;
 import jsettlers.graphics.image.reader.AdvancedDatFileReader;
 import jsettlers.graphics.image.reader.DatFileType;
 import jsettlers.graphics.image.reader.DatFileUtils;
 import jsettlers.graphics.image.reader.versions.IndexingDatFileMapping;
 import jsettlers.graphics.image.reader.versions.IndexingGfxFolderMapping;
 import jsettlers.graphics.image.reader.versions.SettlersVersionMapping;
-import jsettlers.shared.utils.Tuple;
 
 /**
  * Small application that finds the mapping differences between dat files.

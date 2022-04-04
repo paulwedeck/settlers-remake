@@ -35,13 +35,13 @@ import jsettlers.common.map.IGraphicsBackgroundListener;
 import jsettlers.common.map.shapes.HexGridArea;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.ESpellType;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.MainGrid;
 import jsettlers.logic.map.grid.flags.IProtectedProvider;
 import jsettlers.logic.map.grid.flags.IProtectedProvider.IProtectedChangedListener;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This grid stores the height and the {@link ELandscapeType} of every position.

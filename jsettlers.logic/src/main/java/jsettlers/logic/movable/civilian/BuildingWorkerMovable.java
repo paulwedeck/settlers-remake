@@ -16,6 +16,7 @@ import jsettlers.common.material.ESearchType;
 import jsettlers.common.menu.messages.SimpleMessage;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.partition.manager.manageables.IManageableWorker;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IWorkerRequestBuilding;
@@ -23,7 +24,6 @@ import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.movable.interfaces.IBuildingWorkerMovable;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

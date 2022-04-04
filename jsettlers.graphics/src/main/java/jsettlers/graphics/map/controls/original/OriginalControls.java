@@ -31,6 +31,7 @@ import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.menu.IStartedGame;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.position.FloatRectangle;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.action.ChangePanelAction;
@@ -51,7 +52,6 @@ import jsettlers.graphics.map.minimap.Minimap;
 import jsettlers.graphics.map.minimap.MinimapMode;
 import jsettlers.graphics.ui.Button;
 import jsettlers.graphics.ui.UIPanel;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is the entry class for the {@link OriginalControls} map overlay.

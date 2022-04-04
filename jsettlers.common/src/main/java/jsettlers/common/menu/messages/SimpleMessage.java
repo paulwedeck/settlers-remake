@@ -16,7 +16,7 @@ package jsettlers.common.menu.messages;
 
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This is a messageLabel that states that the user was attacked by an other player.

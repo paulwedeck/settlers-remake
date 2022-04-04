@@ -24,10 +24,10 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import jsettlers.common.utils.collections.list.DoubleLinkedIntListItem;
+import jsettlers.common.utils.collections.list.DoubleLinkedList;
+import jsettlers.common.utils.collections.list.DoubleLinkedListItem;
 import jsettlers.logic.utils.TestUtils;
-import jsettlers.shared.utils.collections.list.DoubleLinkedIntListItem;
-import jsettlers.shared.utils.collections.list.DoubleLinkedList;
-import jsettlers.shared.utils.collections.list.DoubleLinkedListItem;
 
 /**
  * Test for the class {@link DoubleLinkedList}.

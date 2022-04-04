@@ -19,8 +19,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.IDockBuilding;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Created by Andreas Eberle on 01.08.2017.

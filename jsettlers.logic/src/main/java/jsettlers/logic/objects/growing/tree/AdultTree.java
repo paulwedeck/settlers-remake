@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.logic.objects.growing.tree;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This is a tree on the map, that's adult from the beginning.

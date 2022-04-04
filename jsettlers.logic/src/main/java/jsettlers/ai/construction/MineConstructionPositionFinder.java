@@ -17,9 +17,9 @@ package jsettlers.ai.construction;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.landscape.EResourceType;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.landscape.LandscapeGrid;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
 
 import java.util.ArrayList;
 import java.util.List;

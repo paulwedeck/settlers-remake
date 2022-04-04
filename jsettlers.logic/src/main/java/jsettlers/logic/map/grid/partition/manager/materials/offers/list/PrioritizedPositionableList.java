@@ -17,8 +17,8 @@ package jsettlers.logic.map.grid.partition.manager.materials.offers.list;
 import java.io.Serializable;
 
 import jsettlers.common.position.ILocatable;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.MathUtils;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.MathUtils;
 
 import java.util.function.Consumer;
 

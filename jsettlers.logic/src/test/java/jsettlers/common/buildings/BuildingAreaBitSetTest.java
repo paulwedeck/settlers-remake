@@ -20,7 +20,7 @@ import java.util.BitSet;
 
 import org.junit.Test;
 
-import jsettlers.shared.RelativePoint;
+import jsettlers.common.position.RelativePoint;
 
 /**
  * Test for class {@link BuildingAreaBitSet}.

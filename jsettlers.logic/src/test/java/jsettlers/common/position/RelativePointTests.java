@@ -16,9 +16,6 @@ package jsettlers.common.position;
 
 import static org.junit.Assert.assertEquals;
 
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
-
 import org.junit.Test;
 
 public class RelativePointTests {

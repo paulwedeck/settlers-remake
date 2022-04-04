@@ -14,8 +14,8 @@
  *******************************************************************************/
 package jsettlers.algorithms.path.astar.queues.bucket;
 
-import jsettlers.shared.utils.collections.list.DoubleLinkedIntListItem;
-import jsettlers.shared.utils.collections.list.DoubleLinkedList;
+import jsettlers.common.utils.collections.list.DoubleLinkedIntListItem;
+import jsettlers.common.utils.collections.list.DoubleLinkedList;
 
 /**
  * This class implements a minimum bucket priority queue with double liked lists.

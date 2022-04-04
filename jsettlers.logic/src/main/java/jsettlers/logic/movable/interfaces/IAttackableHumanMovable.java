@@ -1,7 +1,7 @@
 package jsettlers.logic.movable.interfaces;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 public interface IAttackableHumanMovable extends IAttackableMovable {
 

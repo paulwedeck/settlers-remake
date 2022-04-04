@@ -1,7 +1,7 @@
 package jsettlers.input.tasks;
 
 import jsettlers.common.movable.EMovableType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

@@ -18,11 +18,11 @@ import java.io.Serializable;
 
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.position.ILocatable;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.materials.MaterialsManager;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IMaterialOffer;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.list.IListManageable;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.list.IPrioritizable;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This class is used by {@link MaterialsManager} to store offers of materials.

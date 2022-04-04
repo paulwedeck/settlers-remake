@@ -23,8 +23,8 @@ import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.material.EPriority;
 import jsettlers.common.player.IPlayer;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a fake building that is drawn under the mouse while we are in the build mode.

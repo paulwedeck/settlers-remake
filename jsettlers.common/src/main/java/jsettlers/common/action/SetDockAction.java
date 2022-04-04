@@ -14,7 +14,7 @@
  */
 package jsettlers.common.action;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * Sets the dock position for the selected building.

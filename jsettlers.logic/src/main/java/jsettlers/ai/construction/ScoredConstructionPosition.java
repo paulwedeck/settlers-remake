@@ -16,7 +16,7 @@ package jsettlers.ai.construction;
 
 import java.util.List;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * The ScoredConstructionPosition helps to create lists of possible construction positions with their score for the low level KI

@@ -15,7 +15,7 @@
 package jsettlers.ai.construction;
 
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * @author codingberlin

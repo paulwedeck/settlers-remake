@@ -27,6 +27,8 @@ import jsettlers.common.material.EMaterialType;
 import jsettlers.common.material.ESearchType;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IPlayer;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.stack.IStackSizeSupplier;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.constants.MatchConstants;
@@ -54,8 +56,6 @@ import jsettlers.logic.objects.stone.Stone;
 import jsettlers.logic.player.Player;
 import jsettlers.logic.timer.IScheduledTimerable;
 import jsettlers.logic.timer.RescheduleTimer;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
 
 import java.util.Optional;
 

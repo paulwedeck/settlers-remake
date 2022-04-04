@@ -16,8 +16,8 @@ package jsettlers.algorithms.path.area;
 
 import jsettlers.algorithms.path.IPathCalculatable;
 import jsettlers.common.material.ESearchType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * 

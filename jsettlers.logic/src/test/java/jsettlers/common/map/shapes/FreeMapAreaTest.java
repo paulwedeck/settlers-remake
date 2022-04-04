@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jsettlers.common.map.shapes.FreeMapArea;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import org.junit.Test;
 

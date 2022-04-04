@@ -14,10 +14,10 @@
  *******************************************************************************/
 package jsettlers.mapcreator.tools.landscape;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.tools.AbstractTool;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Makes a flat space on the landscape

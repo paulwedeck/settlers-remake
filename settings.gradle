@@ -5,7 +5,6 @@ gradle.ext.projectsWithExtraTest = []
 include ':go.graphics'
 include ':go.graphics.swing'
 include ':jsettlers.common'
-include ':jsettlers.shared'
 include ':jsettlers.graphics'
 include ':jsettlers.graphics:layoutbuilder'
 include ':jsettlers.logic'

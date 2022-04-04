@@ -42,6 +42,8 @@ import jsettlers.common.Color;
 import jsettlers.common.resources.ResourceManager;
 import jsettlers.common.resources.SettlersFolderChecker;
 import jsettlers.common.resources.SwingResourceProvider;
+import jsettlers.common.utils.FileUtils;
+import jsettlers.common.utils.mutables.Mutable;
 import jsettlers.graphics.image.Image;
 import jsettlers.graphics.image.SettlerImage;
 import jsettlers.graphics.image.SingleImage;
@@ -51,8 +53,6 @@ import jsettlers.graphics.image.reader.DatFileType;
 import jsettlers.graphics.image.sequence.Sequence;
 import jsettlers.graphics.image.sequence.SequenceList;
 import jsettlers.main.swing.settings.SettingsManager;
-import jsettlers.shared.utils.FileUtils;
-import jsettlers.shared.utils.mutables.Mutable;
 
 public class DatFileTester {
 	private static final int DAT_FILE_INDEX = 13;

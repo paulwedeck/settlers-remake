@@ -22,9 +22,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import jsettlers.common.map.shapes.FreeMapArea;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.timer.IScheduledTimerable;
 import jsettlers.logic.timer.RescheduleTimer;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Resets the positions flattened by movables to grass after a while.

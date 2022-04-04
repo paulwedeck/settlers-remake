@@ -29,10 +29,10 @@ import go.graphics.UnifiedDrawHandle;
 import go.graphics.VkDrawContext;
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.shapes.MapRectangle;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.map.MapDrawContext;
 import jsettlers.graphics.map.controls.original.MiniMapLayoutProperties;
 import jsettlers.graphics.map.geometry.MapCoordinateConverter;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is the minimap. It is drawn on on the rectangle:

@@ -15,8 +15,8 @@ import jsettlers.common.material.EMaterialType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.ECivilisation;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.movable.MovableModelWindow;
-import jsettlers.shared.ShortPoint2D;
 
 public class MovableController extends JPanel implements Cloneable {
 

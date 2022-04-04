@@ -31,7 +31,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import jsettlers.common.buildings.stacks.RelativeStack;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.shared.RelativePoint;
+import jsettlers.common.position.RelativePoint;
 
 @RunWith(Parameterized.class)
 public class BuildingConfigurationsTest {

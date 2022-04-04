@@ -21,7 +21,7 @@ import java.util.Optional;
 
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.position.ILocatable;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  *

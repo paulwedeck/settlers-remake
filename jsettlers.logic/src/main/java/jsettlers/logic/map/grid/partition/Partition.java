@@ -17,11 +17,11 @@ package jsettlers.logic.map.grid.partition;
 import java.io.Serializable;
 
 import jsettlers.common.player.IPlayer;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.data.PartitionDataSupplier;
 import jsettlers.logic.map.grid.partition.manager.PartitionManager;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.IOffersCountListener;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This class holds the metadata of a partition.

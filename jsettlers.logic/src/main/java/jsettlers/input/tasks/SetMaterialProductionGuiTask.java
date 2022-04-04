@@ -15,7 +15,7 @@
 package jsettlers.input.tasks;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.action.SetMaterialProductionAction;
 
 import java.io.DataInputStream;

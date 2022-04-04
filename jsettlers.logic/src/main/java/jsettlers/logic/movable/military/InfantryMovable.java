@@ -2,11 +2,11 @@ package jsettlers.logic.movable.military;
 
 import jsettlers.common.movable.EEffectType;
 import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 public class InfantryMovable extends SoldierMovable {
 	private static final float INFANTRY_ATTACK_DURATION = 1;

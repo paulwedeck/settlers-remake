@@ -17,7 +17,7 @@ package jsettlers.common.buildings;
 import java.io.Serializable;
 
 import jsettlers.common.movable.ESoldierClass;
-import jsettlers.shared.RelativePoint;
+import jsettlers.common.position.RelativePoint;
 
 /**
  * A place an occuping person can be in a building.

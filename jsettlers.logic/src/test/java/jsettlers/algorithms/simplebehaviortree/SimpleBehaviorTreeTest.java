@@ -3,7 +3,7 @@ package jsettlers.algorithms.simplebehaviortree;
 import org.junit.Test;
 
 import jsettlers.algorithms.simplebehaviortree.nodes.Parallel;
-import jsettlers.shared.utils.mutables.MutableInt;
+import jsettlers.common.utils.mutables.MutableInt;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 import static jsettlers.algorithms.simplebehaviortree.NodeStatus.*;

@@ -15,10 +15,10 @@
 package jsettlers.logic.map.grid.partition.manager.materials.offers;
 
 import jsettlers.common.material.EMaterialType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.data.MaterialCounts;
 import jsettlers.logic.map.grid.partition.manager.materials.interfaces.IOfferEmptiedListener;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.list.PrioritizedPositionableList;
-import jsettlers.shared.ShortPoint2D;
 
 import java.io.Serializable;
 

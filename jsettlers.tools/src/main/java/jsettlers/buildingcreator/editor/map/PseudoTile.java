@@ -18,7 +18,7 @@ import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.movable.IGraphicsMovable;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public class PseudoTile {
 

@@ -19,7 +19,7 @@ import java.awt.geom.AffineTransform;
 import go.graphics.UIPoint;
 import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.position.FloatRectangle;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This class converts map coordinates to e.g. draw coordinates.

@@ -20,6 +20,7 @@ import java.util.Locale;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.shapes.IMapArea;
 import jsettlers.common.map.shapes.MapCircle;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.localization.EditorLabels;
 import jsettlers.mapcreator.main.window.sidebar.RectIcon;
@@ -28,7 +29,6 @@ import jsettlers.mapcreator.tools.buffers.ByteMapArea;
 import jsettlers.mapcreator.tools.buffers.GlobalShapeBuffer;
 import jsettlers.mapcreator.tools.shapes.EShapeType;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Tool to set landscape

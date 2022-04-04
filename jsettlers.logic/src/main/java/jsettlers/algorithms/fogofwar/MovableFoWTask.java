@@ -1,6 +1,6 @@
 package jsettlers.algorithms.fogofwar;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public interface MovableFoWTask extends FoWTask {
 

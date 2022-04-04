@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import jsettlers.algorithms.interfaces.IContainingProvider;
 import jsettlers.common.map.shapes.FreeMapArea;
 import jsettlers.common.map.shapes.MapCircle;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import org.junit.Test;
 

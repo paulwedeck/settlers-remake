@@ -16,10 +16,10 @@ package jsettlers.mapcreator.tools;
 
 import java.util.Set;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.tools.shapes.EShapeType;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Interface for all tools, displayed in the tree

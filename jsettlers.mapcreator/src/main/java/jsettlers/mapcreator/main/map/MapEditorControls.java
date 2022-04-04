@@ -25,6 +25,7 @@ import jsettlers.common.action.Action;
 import jsettlers.common.action.EMoveToType;
 import jsettlers.common.action.IAction;
 import jsettlers.common.map.shapes.MapRectangle;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.map.MapDrawContext;
@@ -32,7 +33,6 @@ import jsettlers.graphics.map.controls.IControls;
 import jsettlers.mapcreator.main.action.DrawLineAction;
 import jsettlers.mapcreator.main.action.EndDrawingAction;
 import jsettlers.mapcreator.main.action.StartDrawingAction;
-import jsettlers.shared.ShortPoint2D;
 
 public class MapEditorControls implements IControls {
 

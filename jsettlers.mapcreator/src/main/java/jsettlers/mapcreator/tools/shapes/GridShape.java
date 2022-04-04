@@ -14,8 +14,8 @@
  *******************************************************************************/
 package jsettlers.mapcreator.tools.shapes;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.localization.EditorLabels;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This shape lets space between its points.

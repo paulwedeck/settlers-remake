@@ -37,7 +37,7 @@ import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IPlayer;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public class TestMap implements IGraphicsGrid {
 	private static final int HEIGHT = 150;

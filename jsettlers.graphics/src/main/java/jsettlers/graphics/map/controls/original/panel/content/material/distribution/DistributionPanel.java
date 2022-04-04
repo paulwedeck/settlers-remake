@@ -29,6 +29,7 @@ import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.position.IPositionSupplier;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.action.ExecutableAction;
 import jsettlers.graphics.localization.Labels;
@@ -42,7 +43,6 @@ import jsettlers.graphics.map.controls.original.panel.content.updaters.UiLocatio
 import jsettlers.graphics.ui.Label;
 import jsettlers.graphics.ui.Label.EHorizontalAlignment;
 import jsettlers.graphics.ui.UIPanel;
-import jsettlers.shared.ShortPoint2D;
 
 public class DistributionPanel extends AbstractContentProvider implements IUiContentReceiver<IMaterialDistributionSettings> {
 	private static final float contentHeight_px = 216;

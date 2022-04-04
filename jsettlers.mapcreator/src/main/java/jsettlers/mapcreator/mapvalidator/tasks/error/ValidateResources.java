@@ -16,11 +16,11 @@ package jsettlers.mapcreator.mapvalidator.tasks.error;
 
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.landscape.EResourceType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.mapcreator.localization.EditorLabels;
 import jsettlers.mapcreator.mapvalidator.result.fix.InvalidResourceFix;
 import jsettlers.mapcreator.mapvalidator.tasks.AbstractValidationTask;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Validate resources on wrong lanscape

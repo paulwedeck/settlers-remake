@@ -31,6 +31,7 @@ import jsettlers.common.landscape.EResourceType;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.material.EPriority;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.buildings.stack.IRequestStack;
@@ -40,7 +41,6 @@ import jsettlers.logic.buildings.stack.multi.MultiRequestStackSharedData;
 import jsettlers.logic.buildings.ITradeBuilding;
 import jsettlers.logic.player.Player;
 import jsettlers.logic.trading.TradeManager;
-import jsettlers.shared.ShortPoint2D;
 
 public abstract class TradingBuilding extends Building implements IBuilding.ITrading, ITradeBuilding {
 	private static final short WAYPOINT_SEARCH_RADIUS = (short) 20;

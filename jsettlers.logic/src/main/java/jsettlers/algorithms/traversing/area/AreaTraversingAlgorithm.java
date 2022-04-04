@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import jsettlers.algorithms.interfaces.IContainingProvider;
 import jsettlers.algorithms.traversing.borders.IBorderVisitor;
 import jsettlers.common.movable.EDirection;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This algorithm offers a method to traverse a connected area with an {@link IBorderVisitor}.

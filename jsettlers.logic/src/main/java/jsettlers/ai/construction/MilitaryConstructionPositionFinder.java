@@ -16,7 +16,7 @@ package jsettlers.ai.construction;
 
 import jsettlers.algorithms.construction.AbstractConstructionMarkableMap;
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import java.util.Collection;
 

@@ -14,9 +14,9 @@
  *******************************************************************************/
 package jsettlers.logic;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.movable.interfaces.IFerryMovable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Created by Rudolf Polzer on 14.06.17.

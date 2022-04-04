@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This task is used to set the distribution settings for a material in a manager.

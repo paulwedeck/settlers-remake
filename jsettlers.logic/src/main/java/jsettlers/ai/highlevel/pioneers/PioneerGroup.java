@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 import jsettlers.ai.highlevel.AiStatistics;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.input.tasks.ConvertGuiTask;
 import jsettlers.logic.map.grid.movable.MovableGrid;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.network.client.interfaces.ITaskScheduler;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * @author codingberlin

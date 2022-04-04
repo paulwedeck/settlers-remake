@@ -8,13 +8,13 @@ import jsettlers.common.material.ESearchType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.MutablePoint2D;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.mutables.MutableDouble;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.other.AttackableHumanMovable;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.mutables.MutableDouble;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 

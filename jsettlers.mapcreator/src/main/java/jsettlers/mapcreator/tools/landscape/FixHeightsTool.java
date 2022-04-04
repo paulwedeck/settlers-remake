@@ -15,13 +15,13 @@
 package jsettlers.mapcreator.tools.landscape;
 
 import jsettlers.common.landscape.ELandscapeType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.LandscapeConstraint;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.data.objects.ObjectContainer;
 import jsettlers.mapcreator.mapvalidator.tasks.error.ValidateLandscape;
 import jsettlers.mapcreator.tools.AbstractTool;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Fix height problems

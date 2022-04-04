@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 import jsettlers.common.action.EMoveToType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * 

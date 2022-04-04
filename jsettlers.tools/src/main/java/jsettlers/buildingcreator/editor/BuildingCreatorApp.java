@@ -50,9 +50,9 @@ import jsettlers.common.menu.IMapInterfaceConnector;
 import jsettlers.common.menu.IMapInterfaceListener;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.player.ECivilisation;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.main.swing.SwingManagedJSettlers;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is the main building creator class.

@@ -15,7 +15,7 @@
 package jsettlers.common.buildings.stacks;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.shared.RelativePoint;
+import jsettlers.common.position.RelativePoint;
 
 /**
  * This is a stack request that can be positioned relatively to a building.

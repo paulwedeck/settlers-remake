@@ -24,8 +24,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import jsettlers.common.Color;
-import jsettlers.shared.ICoordinatePredicate;
-import jsettlers.shared.utils.coordinates.ICoordinateFunction;
+import jsettlers.common.utils.coordinates.ICoordinateFunction;
+import jsettlers.common.utils.coordinates.ICoordinatePredicate;
 
 /**
  * Created by Andreas Eberle on 06.01.2017.

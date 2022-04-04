@@ -15,7 +15,7 @@
 package jsettlers.common.map.shapes;
 
 import jsettlers.common.position.SRectangle;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import org.junit.Test;
 

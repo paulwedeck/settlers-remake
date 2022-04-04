@@ -22,8 +22,8 @@ import jsettlers.ai.highlevel.AiStatistics;
 import jsettlers.algorithms.construction.AbstractConstructionMarkableMap;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.player.ECivilisation;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.MainGrid;
-import jsettlers.shared.ShortPoint2D;
 
 import static jsettlers.common.buildings.EBuildingType.*;
 import static jsettlers.common.landscape.EResourceType.COAL;

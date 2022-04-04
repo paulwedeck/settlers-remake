@@ -16,7 +16,7 @@ package jsettlers.logic.map.grid.objects;
 
 import java.io.Serializable;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * 

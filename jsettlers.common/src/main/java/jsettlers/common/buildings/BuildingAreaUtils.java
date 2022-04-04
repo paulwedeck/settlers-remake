@@ -16,7 +16,7 @@ package jsettlers.common.buildings;
 
 import java.util.ArrayList;
 
-import jsettlers.shared.RelativePoint;
+import jsettlers.common.position.RelativePoint;
 
 /**
  * Created by Andreas Eberle on 25.04.2016.

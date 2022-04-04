@@ -2,10 +2,10 @@ package jsettlers.logic.map.grid.objects;
 
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.ISpecializedMapObject;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.objects.SelfDeletingMapObject;
 import jsettlers.logic.objects.SoundableSelfDeletingObject;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 class SpecializedSoundableSelfDeletingObject extends SoundableSelfDeletingObject implements ISpecializedMapObject {
 

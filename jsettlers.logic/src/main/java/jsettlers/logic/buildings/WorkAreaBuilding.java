@@ -16,9 +16,9 @@ package jsettlers.logic.buildings;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EPriority;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * A {@link Building} that has a work area that can be changed and drawn to the screen.

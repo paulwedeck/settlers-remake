@@ -34,6 +34,7 @@ import jsettlers.common.menu.IMultiplayerPlayer;
 import jsettlers.common.menu.IMultiplayerSlot;
 import jsettlers.common.menu.IOpenMultiplayerGameInfo;
 import jsettlers.common.player.ECivilisation;
+import jsettlers.common.utils.collections.ChangingList;
 import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.logic.map.loading.list.MapList;
 import jsettlers.logic.player.InitialGameState;
@@ -51,7 +52,6 @@ import jsettlers.network.common.packets.MatchStartPacket;
 import jsettlers.network.common.packets.PlayerInfoPacket;
 import jsettlers.network.common.packets.SlotInfoPacket;
 import jsettlers.network.server.match.EPlayerState;
-import jsettlers.shared.utils.collections.ChangingList;
 
 /**
  * 

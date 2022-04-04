@@ -71,6 +71,7 @@ import jsettlers.common.player.EWinState;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.FloatRectangle;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
 import jsettlers.common.statistics.IGameTimeProvider;
 import jsettlers.common.statistics.IntervalTimeRateCalculator;
@@ -88,7 +89,6 @@ import jsettlers.graphics.messages.Messenger;
 import jsettlers.graphics.sound.BackgroundSound;
 import jsettlers.graphics.sound.MusicManager;
 import jsettlers.graphics.sound.SoundManager;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is the main map content class. It manages the map drawing on the screen region.

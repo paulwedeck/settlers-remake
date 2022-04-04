@@ -15,7 +15,6 @@
 package jsettlers.common.position;
 
 import jsettlers.common.map.shapes.HexGridArea;
-import jsettlers.shared.ShortPoint2D;
 
 import org.junit.Test;
 

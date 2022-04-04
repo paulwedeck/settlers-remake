@@ -21,11 +21,11 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import jsettlers.common.map.shapes.MapCircle;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.logic.map.loading.data.objects.MapTreeObject;
 import jsettlers.logic.map.loading.data.objects.StoneMapDataObject;
 import jsettlers.mapcreator.data.MapData;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Display player diagram

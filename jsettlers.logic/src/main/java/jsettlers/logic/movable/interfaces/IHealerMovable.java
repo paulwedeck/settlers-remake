@@ -1,6 +1,6 @@
 package jsettlers.logic.movable.interfaces;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public interface IHealerMovable extends IBuildingWorkerMovable {
 

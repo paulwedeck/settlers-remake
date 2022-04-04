@@ -4,7 +4,7 @@ import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IMaterialProductionSettings;
 import jsettlers.common.map.partition.IPartitionData;
 import jsettlers.common.movable.EMovableType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import java.util.ArrayList;
 import java.util.Arrays;

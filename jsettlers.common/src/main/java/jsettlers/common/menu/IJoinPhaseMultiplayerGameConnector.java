@@ -16,7 +16,7 @@ package jsettlers.common.menu;
 
 import jsettlers.common.ai.EPlayerType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.shared.utils.collections.ChangingList;
+import jsettlers.common.utils.collections.ChangingList;
 
 /**
  * This is the screen that is displayed when a multiplayer game is in the join phase.

@@ -19,7 +19,7 @@ import org.junit.Test;
 import jsettlers.algorithms.path.IPathCalculatable;
 import jsettlers.algorithms.path.Path;
 import jsettlers.common.player.IPlayer;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import static org.junit.Assert.assertEquals;
 

@@ -16,12 +16,12 @@ package jsettlers.mapcreator.mapvalidator.tasks;
 
 import java.util.Formatter;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.newmap.MapFileHeader;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.localization.EditorLabels;
 import jsettlers.mapcreator.mapvalidator.result.ValidationList;
 import jsettlers.mapcreator.mapvalidator.result.fix.AbstractFix;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Base class for validation tasks, have to be inserted in the validation list in #ValidatorRunnable

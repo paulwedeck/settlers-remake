@@ -25,11 +25,11 @@ import org.junit.Test;
 import jsettlers.common.logging.MilliStopWatch;
 import jsettlers.common.map.shapes.HexGridArea;
 import jsettlers.common.player.ECivilisation;
+import jsettlers.common.utils.coordinates.ICoordinatePredicate;
 import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.logic.map.loading.data.IMapData;
 import jsettlers.logic.map.loading.list.MapList;
-import jsettlers.shared.ICoordinatePredicate;
 import jsettlers.testutils.DebugImagesHelper;
 
 /**

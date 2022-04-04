@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 
 import org.junit.Test;
 
+import jsettlers.common.utils.collections.map.ArrayListMap;
 import jsettlers.logic.utils.TestUtils;
-import jsettlers.shared.utils.collections.map.ArrayListMap;
 
 /**
  * Created by Andreas Eberle on 16.05.2016.

@@ -16,7 +16,7 @@ package jsettlers.common.menu;
 
 import java.io.Serializable;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This class contains the data needed for the GUI to restore it's state.

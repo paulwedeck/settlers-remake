@@ -16,9 +16,9 @@ package jsettlers.logic.buildings.military.occupying;
 
 import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.position.ILocatable;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.movable.interfaces.ISoldierMovable;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This interface defines the methods needed by a tower that it can request soldiers to get in.

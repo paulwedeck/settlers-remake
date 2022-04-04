@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator.result;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * An error / warning entry in the validation list

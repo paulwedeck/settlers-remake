@@ -15,7 +15,7 @@
 package jsettlers.algorithms.distances;
 
 import jsettlers.common.movable.EDirection;
-import jsettlers.shared.ICoordinatePredicate;
+import jsettlers.common.utils.coordinates.ICoordinatePredicate;
 
 import java.util.BitSet;
 

@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 
-import jsettlers.shared.utils.collections.IteratorFilter;
+import jsettlers.common.utils.collections.IteratorFilter;
 
 public class IteratorFilterTest {
 

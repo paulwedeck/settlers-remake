@@ -16,8 +16,8 @@ package jsettlers.logic.map.grid.partition.manager.datastructures;
 
 import java.util.function.Predicate;
 import jsettlers.common.position.ILocatable;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.MathUtils;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.MathUtils;
 
 /**
  * This is a data structure for storing and retrieving objects at given positions.<br>

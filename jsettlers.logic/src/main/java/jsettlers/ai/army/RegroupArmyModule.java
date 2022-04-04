@@ -17,9 +17,9 @@ import jsettlers.common.action.EMoveToType;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IPlayer;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
-import jsettlers.shared.ShortPoint2D;
 
 public class RegroupArmyModule extends ArmyModule {
 

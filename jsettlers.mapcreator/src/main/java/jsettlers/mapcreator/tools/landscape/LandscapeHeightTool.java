@@ -17,11 +17,11 @@ package jsettlers.mapcreator.tools.landscape;
 import java.util.HashSet;
 import java.util.Set;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.tools.AbstractTool;
 import jsettlers.mapcreator.tools.shapes.EShapeType;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Change the height up / down

@@ -1,7 +1,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.movable.EMovableType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import java.util.Objects;
 

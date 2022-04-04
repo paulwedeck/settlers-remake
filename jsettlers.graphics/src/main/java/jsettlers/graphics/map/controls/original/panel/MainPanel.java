@@ -30,6 +30,7 @@ import jsettlers.common.images.OriginalImageLink;
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.menu.IStartedGame;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.AskSetTradingWaypointAction;
 import jsettlers.graphics.action.ExecutableAction;
 import jsettlers.graphics.localization.Labels;
@@ -44,7 +45,6 @@ import jsettlers.graphics.ui.CountArrows;
 import jsettlers.graphics.ui.Label;
 import jsettlers.graphics.ui.LabeledButton;
 import jsettlers.graphics.ui.UIPanel;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This class handles the contents of the main panel.

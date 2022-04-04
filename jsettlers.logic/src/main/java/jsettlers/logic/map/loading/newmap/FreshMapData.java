@@ -16,9 +16,9 @@ package jsettlers.logic.map.loading.newmap;
 
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.landscape.EResourceType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.IMapData;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a map data receiver that stores the given data and provides access to it via the {@link IMapData} interface.

@@ -7,6 +7,7 @@ import jsettlers.common.map.shapes.MapCircleIterator;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
@@ -14,7 +15,6 @@ import jsettlers.logic.movable.interfaces.IAttackableHumanMovable;
 import jsettlers.logic.movable.interfaces.IHealerMovable;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 

@@ -16,7 +16,7 @@ package jsettlers.algorithms.construction;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.landscape.ELandscapeType;
-import jsettlers.shared.RelativePoint;
+import jsettlers.common.position.RelativePoint;
 
 import java.util.Set;
 

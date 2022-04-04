@@ -17,6 +17,7 @@ package jsettlers.logic.buildings.trading;
 import jsettlers.common.action.SetTradingWaypointAction;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.DockPosition;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.buildings.IDockBuilding;
@@ -25,7 +26,6 @@ import jsettlers.logic.constants.Constants;
 import jsettlers.logic.movable.cargo.CargoShipMovable;
 import jsettlers.logic.player.Player;
 import jsettlers.logic.trading.TradeManager;
-import jsettlers.shared.ShortPoint2D;
 
 import java.util.HashMap;
 import java.util.Map;

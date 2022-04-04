@@ -5,11 +5,11 @@ import java.util.function.Consumer;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.shapes.MapCircle;
 import jsettlers.common.mapobject.EMapObjectType;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.objects.IMapObjectsManagerGrid;
 import jsettlers.logic.map.grid.objects.MapObjectsManager;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.coordinates.CoordinateStream;
 
 public class BurningTree extends ProgressingObject {
 	private static final long serialVersionUID = 582760927711297568L;

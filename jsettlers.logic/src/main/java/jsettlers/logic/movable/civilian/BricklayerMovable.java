@@ -5,13 +5,13 @@ import jsettlers.algorithms.simplebehaviortree.Root;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.manageables.IManageableBricklayer;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IConstructableBuilding;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 

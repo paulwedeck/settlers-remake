@@ -16,8 +16,8 @@ package jsettlers.common.menu;
 
 import jsettlers.common.action.IAction;
 import jsettlers.common.menu.messages.IMessenger;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is the interface that the map logic uses to access the UI.

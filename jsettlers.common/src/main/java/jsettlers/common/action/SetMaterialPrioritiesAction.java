@@ -15,7 +15,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.material.EMaterialType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This {@link Action} is used to set the priority order of {@link EMaterialType}s.

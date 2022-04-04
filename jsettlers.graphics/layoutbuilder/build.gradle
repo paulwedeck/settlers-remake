@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
 
 dependencies {
     implementation project(':jsettlers.common')

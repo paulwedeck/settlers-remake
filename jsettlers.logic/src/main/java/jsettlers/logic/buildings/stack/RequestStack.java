@@ -19,9 +19,9 @@ import java.io.Serializable;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.material.EPriority;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.map.grid.partition.manager.materials.requests.MaterialRequestObject;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This class represents a requesting stack of a building. It can handle unlimited and bounded amounts of requests.

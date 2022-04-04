@@ -17,7 +17,7 @@ package jsettlers.logic.map.grid.partition.manager.manageables.interfaces;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.player.IPlayerable;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public interface IConstructableBuilding extends IPlayerable {
 	boolean tryToTakeMaterial();

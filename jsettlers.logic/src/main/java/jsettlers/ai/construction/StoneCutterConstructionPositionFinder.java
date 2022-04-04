@@ -21,7 +21,7 @@ import jsettlers.ai.highlevel.AiStatistics;
 import jsettlers.algorithms.construction.AbstractConstructionMarkableMap;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * Assumptions: stones are placed as groups at the map, never alone without other stones

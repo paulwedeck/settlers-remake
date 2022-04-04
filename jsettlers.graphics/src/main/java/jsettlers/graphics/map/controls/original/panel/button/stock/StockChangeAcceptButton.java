@@ -20,9 +20,9 @@ import jsettlers.common.action.Action;
 import jsettlers.common.action.SetAcceptedStockMaterialAction;
 import jsettlers.common.images.ImageLink;
 import jsettlers.common.material.EMaterialType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.map.controls.original.panel.content.material.priorities.MaterialPriorityContent;
 import jsettlers.graphics.ui.Button;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a button that changes the storage accepting state for that material.

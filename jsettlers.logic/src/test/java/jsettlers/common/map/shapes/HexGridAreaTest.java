@@ -27,8 +27,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import jsettlers.common.map.shapes.HexGridArea.HexGridAreaIterator;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.mutables.MutableInt;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.testutils.DebugImagesHelper;
 
 public class HexGridAreaTest {

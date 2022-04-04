@@ -17,7 +17,7 @@ package jsettlers.logic.objects;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.player.IPlayerable;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * Object that can show any {@link EMapObjectType} on the map for a given time. When the time is finished, it removes itself from the map.

@@ -15,7 +15,7 @@
 package jsettlers.mapcreator.tools.shapes;
 
 import jsettlers.common.movable.EDirection;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public class LineShape extends ShapeType {
 

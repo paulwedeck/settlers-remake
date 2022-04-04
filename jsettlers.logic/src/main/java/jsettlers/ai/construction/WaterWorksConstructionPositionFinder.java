@@ -19,7 +19,7 @@ import java.util.List;
 
 import jsettlers.ai.highlevel.AiPositions;
 import jsettlers.common.buildings.BuildingVariant;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import static jsettlers.common.buildings.EBuildingType.WATERWORKS;
 

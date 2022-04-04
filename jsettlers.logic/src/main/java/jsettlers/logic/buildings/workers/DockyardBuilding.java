@@ -23,6 +23,7 @@ import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.stacks.RelativeStack;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EShipType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.DockPosition;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.buildings.IDockBuilding;
@@ -31,7 +32,6 @@ import jsettlers.logic.buildings.stack.RequestStack;
 import jsettlers.logic.movable.Movable;
 import jsettlers.logic.objects.ShipInConstructionMapObject;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * An extension to the worker building for dockyards

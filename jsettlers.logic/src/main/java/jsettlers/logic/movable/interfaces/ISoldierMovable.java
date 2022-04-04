@@ -1,7 +1,7 @@
 package jsettlers.logic.movable.interfaces;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.military.occupying.IOccupyableBuilding;
-import jsettlers.shared.ShortPoint2D;
 
 public interface ISoldierMovable extends IAttackableHumanMovable {
 

@@ -18,13 +18,13 @@ import javax.swing.SwingUtilities;
 import jsettlers.TestToolUtils;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.menu.IMapInterfaceConnector;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.map.draw.settlerimages.SettlerImageMap;
 import jsettlers.logic.movable.modelmap.FakeMovable;
 import jsettlers.logic.movable.modelmap.MovableController;
 import jsettlers.logic.movable.modelmap.MovableModelMap;
 import jsettlers.logic.movable.modelmap.SimpleStoppableClock;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
-import jsettlers.shared.ShortPoint2D;
 
 public class MovableModelWindow {
 

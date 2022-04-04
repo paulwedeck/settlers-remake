@@ -5,6 +5,8 @@ import jsettlers.algorithms.simplebehaviortree.Root;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.movable.EMovableAction;
 import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.partition.manager.manageables.IManageableDigger;
 import jsettlers.logic.map.grid.partition.manager.manageables.interfaces.IDiggerRequester;
@@ -12,8 +14,6 @@ import jsettlers.logic.movable.Movable;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.AbstractMovableGrid;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 

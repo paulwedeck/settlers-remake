@@ -34,10 +34,10 @@ import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import jsettlers.common.utils.collections.ChangingList;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.main.swing.lookandfeel.ELFStyle;
-import jsettlers.shared.utils.collections.ChangingList;
 
 /**
  * Panel to open an existing map

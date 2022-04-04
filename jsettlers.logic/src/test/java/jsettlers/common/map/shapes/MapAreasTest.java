@@ -19,7 +19,7 @@ package jsettlers.common.map.shapes;
 
 import org.junit.Test;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +31,7 @@ public class MapAreasTest {
 	private static final int TEST_WIDTH = 100;
 
 	/**
-	 * Test method for {@link jsettlers.common.map.shapes.MapCircle#contains(jsettlers.shared.ShortPoint2D)} .
+	 * Test method for {@link jsettlers.common.map.shapes.MapCircle#contains(jsettlers.common.position.ShortPoint2D)} .
 	 */
 	@Test
 	public void testContainsShortPoint2D() {

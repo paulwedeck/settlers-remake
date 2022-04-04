@@ -19,13 +19,13 @@ import jsettlers.common.landscape.EResourceType;
 import jsettlers.common.map.shapes.FreeMapArea;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.material.EMaterialType;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.RelativeToRealPointIterable;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.buildings.IBuildingsGrid;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.objects.MapObjectsManager;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.RelativeToRealPointIterable;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a mine building. It's ground won't be flattened.

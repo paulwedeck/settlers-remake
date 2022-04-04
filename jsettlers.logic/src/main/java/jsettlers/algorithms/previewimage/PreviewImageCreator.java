@@ -14,8 +14,8 @@
  *******************************************************************************/
 package jsettlers.algorithms.previewimage;
 
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * This class creates a preview image of a map that can be saved in the map header.

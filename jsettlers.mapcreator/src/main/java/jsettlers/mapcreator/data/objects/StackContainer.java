@@ -18,9 +18,9 @@ import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.mapobject.IStackMapObject;
 import jsettlers.common.material.EMaterialType;
+import jsettlers.common.position.RelativePoint;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.logic.map.loading.data.objects.StackMapDataObject;
-import jsettlers.shared.RelativePoint;
 
 public class StackContainer implements ObjectContainer, IStackMapObject {
 

@@ -17,9 +17,9 @@ package jsettlers.mapcreator.tools.buffers;
 import java.util.Iterator;
 
 import jsettlers.common.map.shapes.IMapArea;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.coordinates.CoordinateStream;
-import jsettlers.shared.utils.coordinates.IBooleanCoordinateFunction;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.coordinates.CoordinateStream;
+import jsettlers.common.utils.coordinates.IBooleanCoordinateFunction;
 
 /**
  * This class represents a two dimensional array, used as helper class for editing tools

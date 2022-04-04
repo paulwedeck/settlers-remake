@@ -22,7 +22,7 @@ import java.util.List;
 import jsettlers.ai.highlevel.AiStatistics;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * Algorithm: find all possible construction points within the land of the player - calculates a score and take the position with the best score - score is affected by the distance to diggers - score

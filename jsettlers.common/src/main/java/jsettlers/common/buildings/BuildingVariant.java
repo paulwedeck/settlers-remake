@@ -17,7 +17,7 @@ import jsettlers.common.material.EMaterialType;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.shared.RelativePoint;
+import jsettlers.common.position.RelativePoint;
 
 public class BuildingVariant {
 	public final int ordinal;

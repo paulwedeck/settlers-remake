@@ -14,9 +14,9 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator.tasks.error;
 
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.mapvalidator.result.fix.FreeBorderFix;
 import jsettlers.mapcreator.mapvalidator.tasks.AbstractValidationTask;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Check if all border positions are blocking

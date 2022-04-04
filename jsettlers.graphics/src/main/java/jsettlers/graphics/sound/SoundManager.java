@@ -23,10 +23,10 @@ import go.graphics.sound.ISoundDataRetriever;
 import go.graphics.sound.SoundPlayer;
 import jsettlers.common.CommonConstants;
 import jsettlers.common.map.shapes.MapRectangle;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.FileUtils;
 import jsettlers.graphics.image.reader.bytereader.ByteReader;
 import jsettlers.graphics.map.MapDrawContext;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.FileUtils;
 
 /*
  * This class manages reading and playing of the sound file.

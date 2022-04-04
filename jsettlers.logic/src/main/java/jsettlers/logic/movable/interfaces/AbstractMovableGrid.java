@@ -18,8 +18,8 @@ import jsettlers.algorithms.path.IPathCalculatable;
 import jsettlers.algorithms.path.Path;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.material.ESearchType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.player.Player;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Defines all methods needed by a {@link Movable} to use the implementor as its grid.

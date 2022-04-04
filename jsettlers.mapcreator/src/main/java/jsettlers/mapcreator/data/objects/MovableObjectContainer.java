@@ -29,11 +29,11 @@ import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.movable.IGraphicsThief;
 import jsettlers.common.player.IPlayer;
+import jsettlers.common.position.RelativePoint;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.logic.map.loading.data.objects.MovableObject;
-import jsettlers.shared.RelativePoint;
-import jsettlers.shared.ShortPoint2D;
 
 public class MovableObjectContainer implements ObjectContainer, IGraphicsMovable, IGraphicsCargoShip, IGraphicsFerry, IGraphicsThief, IGraphicsBuildingWorker {
 

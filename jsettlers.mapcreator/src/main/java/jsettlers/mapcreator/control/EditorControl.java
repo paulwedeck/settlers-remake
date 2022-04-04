@@ -51,6 +51,7 @@ import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.menu.FakeMapGame;
 import jsettlers.common.menu.IMapInterfaceListener;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.resources.ResourceManager;
 import jsettlers.exceptionhandler.ExceptionHandler;
 import jsettlers.graphics.action.ActionFireable;
@@ -93,7 +94,6 @@ import jsettlers.mapcreator.tools.Tool;
 import jsettlers.mapcreator.tools.landscape.ResourceTool;
 import jsettlers.mapcreator.tools.objects.PlaceBuildingTool;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * Controller for map editing

@@ -17,8 +17,8 @@ package jsettlers.logic.objects;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.player.IPlayerable;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.objects.AbstractObjectsManagerObject;
-import jsettlers.shared.ShortPoint2D;
 
 /**
  * This is a donkey in the donkey farm. It can be fed 4 times until it is grown up. Growing up takes time.

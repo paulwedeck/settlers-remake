@@ -15,8 +15,8 @@
 package jsettlers.algorithms.partitions;
 
 import jsettlers.common.movable.EDirection;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.coordinates.CoordinateStream;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.coordinates.CoordinateStream;
 
 import java.util.BitSet;
 

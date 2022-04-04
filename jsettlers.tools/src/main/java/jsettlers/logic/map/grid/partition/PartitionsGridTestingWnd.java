@@ -40,10 +40,10 @@ import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IPlayer;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.player.PlayerSetting;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
 import jsettlers.main.swing.resources.SwingResourceLoader;
-import jsettlers.shared.ShortPoint2D;
 
 public class PartitionsGridTestingWnd {
 

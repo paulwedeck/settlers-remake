@@ -15,9 +15,9 @@
 package jsettlers.logic.map.grid.partition;
 
 import jsettlers.algorithms.traversing.borders.BorderTraversingAlgorithm;
+import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.logic.map.grid.partition.PartitionsListingBorderVisitor.BorderPartitionInfo;
-import jsettlers.shared.ShortPoint2D;
-import jsettlers.shared.utils.mutables.MutableInt;
 
 /**
  * This class implements an algorithm used by the {@link PartitionsGrid} to check if two positions of a partition are divided.

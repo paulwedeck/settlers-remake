@@ -27,12 +27,12 @@ import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.partition.IBuildingCounts;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.map.controls.original.panel.content.AbstractContentProvider;
 import jsettlers.graphics.map.controls.original.panel.content.ESecondaryTabType;
 import jsettlers.graphics.map.controls.original.panel.content.updaters.UiLocationDependingContentUpdater;
 import jsettlers.graphics.ui.UIPanel;
-import jsettlers.shared.ShortPoint2D;
 
 public class BuildingBuildContent extends AbstractContentProvider {
 

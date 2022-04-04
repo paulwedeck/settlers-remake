@@ -16,7 +16,7 @@ package jsettlers.ai.highlevel.pioneers.target;
 
 import jsettlers.ai.highlevel.AiPositions;
 import jsettlers.ai.highlevel.AiStatistics;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * @author codingberlin

@@ -1,7 +1,7 @@
 package jsettlers.logic.movable.interfaces;
 
 import jsettlers.common.movable.ESpellType;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public interface IMageMovable extends IAttackableHumanMovable {
 

@@ -14,7 +14,7 @@
  *******************************************************************************/
 package jsettlers.mapcreator.tools.shapes;
 
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.common.position.ShortPoint2D;
 
 public class LineCircleShape extends ShapeType {
 

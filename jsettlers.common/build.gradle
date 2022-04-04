@@ -64,7 +64,6 @@ clean {
 
 dependencies {
     api project(':go.graphics')
-    implementation project(':jsettlers.shared')
 }
 
 copyMainResources {
