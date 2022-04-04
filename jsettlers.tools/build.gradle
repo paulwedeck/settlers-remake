@@ -1,7 +1,17 @@
-apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
+
+mainClassName = 'jsettlers.ToolsMain'
 
 dependencies {
     implementation 'junit:junit:4.12'
     implementation project(':jsettlers.main.swing')
+}
+
+jar {
+    archiveBaseName = 'JSettlersTools'
+    manifest {
+        attributes 'Main-Class': mainClassName
+        attributes 'Class-Path' : 'JSettlers.jar'
+    }
 }

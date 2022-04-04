@@ -423,7 +423,7 @@ class GuiTaskExecutor implements ITaskExecutor {
 
 	private boolean canMoveTo(ILogicMovable movable, int x, int y) {
 		ShortPoint2D movablePosition = movable.getPosition();
-		return grid.isReachable(movablePosition.x, movablePosition.y, x, y, movable.isShip());
+		return (movable.isShip() || !grid.isBlocked(x, y)) && grid.isReachable(movablePosition.x, movablePosition.y, x, y, movable.isShip());
 	}
 
 	private void setWorkArea(WorkAreaGuiTask task) {

@@ -139,6 +139,10 @@ public class BuildingState {
 			}
 			return Labels.getString(label, count, required);
 		}
+
+		public boolean isValid() {
+			return type != null;
+		}
 	}
 
 	/**
@@ -197,7 +201,10 @@ public class BuildingState {
 		stockStates = computeStockStates(building);
 		tradingCounts = computeTradingCounts(building);
 		for (IBuildingMaterial mat : building.getMaterials()) {
-			stackStates.add(new StackState(mat));
+			StackState newState = new StackState(mat);
+			if(newState.isValid()) {
+				stackStates.add(newState);
+			}
 		}
 		mergeConstructionStacks(building);
 		isSeaTrading = building instanceof IBuilding.ITrading && ((IBuilding.ITrading) building).isSeaTrading();

@@ -61,9 +61,11 @@ import jsettlers.graphics.image.Image;
 import jsettlers.graphics.image.SettlerImage;
 import jsettlers.graphics.image.SingleImage;
 import jsettlers.graphics.image.reader.AdvancedDatFileReader;
+import jsettlers.graphics.image.reader.DatFileReader;
 import jsettlers.graphics.image.reader.DatFileType;
 import jsettlers.graphics.image.sequence.Sequence;
 import jsettlers.graphics.image.sequence.SequenceList;
+import jsettlers.graphics.map.draw.ImageProvider;
 import jsettlers.main.swing.SwingManagedJSettlers;
 import jsettlers.main.swing.settings.SettingsManager;
 import jsettlers.shared.Color;
@@ -213,6 +215,7 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 	private void updateDirectory(File dir) {
 		gfxDirectory = dir;
 		directoryLabel.setText(gfxDirectory.getAbsolutePath());
+		ImageProvider.setLookupPath(gfxDirectory, "");
 		listItems.clear();
 		FileUtils.iterateChildren(gfxDirectory, (currentFile) -> {
 			String fileName = currentFile.getName();
@@ -264,18 +267,14 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 		openDirDlg.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		if (openDirDlg.showDialog(null, null) == JFileChooser.APPROVE_OPTION) {
 			File exportDir = openDirDlg.getSelectedFile();
-			FileUtils.iterateChildren(gfxDirectory, (File currentFile) -> {
-				String fileName = currentFile.getName();
-				if (currentFile.isFile() && fileName.endsWith(".dat")) {
-					DatFileType type;
-					if (currentFile.getName().contains(DatFileType.RGB555.getFileSuffix())) {
-						type = DatFileType.RGB555;
-					} else { type = DatFileType.RGB565; }
-
-					AdvancedDatFileReader file = new AdvancedDatFileReader(new File(gfxDirectory, fileName), type, null);
-					exportFile(exportDir, file);
+			for(int i = 0; i < 100; i++) {
+				DatFileReader reader = ImageProvider.getInstance().getFileReader(i);
+				if(reader != ImageProvider.EMPTY_DAT_FILE) {
+					File fileDir = new File(exportDir, String.format(Locale.ENGLISH, "%02d", i));
+					fileDir.mkdirs();
+					exportFile(fileDir, reader);
 				}
-			});
+			}
 
 			JOptionPane.showMessageDialog(null, "Export completed!", "DatFileViewer - Export", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -303,29 +302,28 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 
 	// region Export
 
-	private void exportFile(File dir, AdvancedDatFileReader reader) {
+	private void exportFile(File dir, DatFileReader reader) {
 		exportSequences(new File(dir, "settlers"), reader.getSettlers());
 
 		Sequence<SingleImage> guis = reader.getGuis();
 		if (guis.length() > 0) {
-			exportSequence(new File(dir, "gui"), 0, guis);
+			exportSequence(new File(dir, "gui"), guis);
 		}
 
 		Sequence<SingleImage> landscapes = reader.getLandscapes();
 		if (landscapes.length() > 0) {
-			exportSequence(new File(dir, "landscape"), 1, landscapes);
+			exportSequence(new File(dir, "landscape"), landscapes);
 		}
 	}
 
 	private <T extends Image> void exportSequences(File dir, SequenceList<T> sequences) {
 		for (int index = 0; index < sequences.size(); index++) {
 			Sequence<T> seq = sequences.get(index);
-			exportSequence(dir, index, seq);
+			exportSequence(new File(dir, String.format(Locale.ENGLISH, "%03d", index)), seq);
 		}
 	}
 
-	private <T extends Image> void exportSequence(File dir, int index, Sequence<T> seq) {
-		File seqdir = new File(dir, index + "");
+	private <T extends Image> void exportSequence(File seqdir, Sequence<T> seq) {
 		if (!seqdir.exists()) {
 			if (!seqdir.mkdirs()) {
 				JOptionPane.showMessageDialog(null, "Can't create path: " + seqdir.toString(), "DatFileViewer - Export", JOptionPane.ERROR_MESSAGE);
@@ -335,8 +333,16 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 		for (int j = 0; j < seq.length(); j++) {
 			T image = seq.getImage(j, null);
 			exportSingleImage((SingleImage) image, new File(seqdir, j + ".png"));
-			if (image instanceof SettlerImage && ((SettlerImage) image).getTorso() != null) {
-				exportSingleImage((SingleImage) ((SettlerImage) image).getTorso(), new File(seqdir, j + "_torso.png"));
+
+			if(image instanceof SettlerImage) {
+				SettlerImage settlerImage = (SettlerImage) image;
+
+				if (settlerImage.getTorso() != null) {
+					exportSingleImage(settlerImage.getTorso(), new File(seqdir, j + "_torso.png"));
+				}
+				if (settlerImage.getShadow() != null) {
+					exportSingleImage(settlerImage.getShadow(), new File(seqdir, j + "_shadow.png"));
+				}
 			}
 		}
 	}

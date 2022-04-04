@@ -72,7 +72,7 @@ public abstract class SoldierMovable extends AttackableHumanMovable implements I
 						sequence(
 							selector(
 								condition(mov -> mov.building.getDoor().equals(mov.position)),
-								goToPos(mov -> mov.building.getDoor(), mov -> mov.building.getPlayer() == mov.player)
+								goToPos(mov -> mov.building.getDoor(), mov -> mov.building.getPlayer() == mov.player && !mov.building.isDestroyed())
 							),
 							hide(),
 							action(mov -> {
@@ -404,5 +404,9 @@ public abstract class SoldierMovable extends AttackableHumanMovable implements I
 		if(hasEffect(EEffectType.MOTIVATE_SWORDSMAN)) strengthMod *= EEffectType.MOTIVATE_SWORDSMAN_DAMAGE_FACTOR;
 
 		return player.getCombatStrengthInformation().getCombatStrength(isOnOwnGround()) * strengthMod;
+	}
+
+	public ShortPoint2D getCurrentTarget() {
+		return path != null ? path.getTargetPosition() : null;
 	}
 }

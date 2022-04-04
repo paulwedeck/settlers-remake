@@ -1,5 +1,7 @@
 package jsettlers.logic.movable.civilian;
 
+import jsettlers.algorithms.simplebehaviortree.IIntegerSupplier;
+import jsettlers.algorithms.simplebehaviortree.IShortSupplier;
 import jsettlers.algorithms.simplebehaviortree.Node;
 import jsettlers.algorithms.simplebehaviortree.Root;
 import jsettlers.common.action.EMoveToType;
@@ -72,20 +74,19 @@ public class BearerMovable extends CivilianMovable implements IBearerMovable, IM
 								sequence(
 									condition(mov -> mov.player.getCivilisation() != ECivilisation.AMAZON),
 									playAction(EMovableAction.HOMELESS1, (short) 1500),
-									ignoreFailure(repeat(mov -> true,
+									ignoreFailure(repeatLoop(randomIntFromRange(2, 6),
 										selector(
 											doRandomly(1/8f, setDirectionNode(mov -> EDirection.VALUES[MatchConstants.random().nextInt(0, EDirection.NUMBER_OF_DIRECTIONS-1)])),
-											doRandomly(1/4f, alwaysFail()),
-											doRandomly(7/8f, playAction(EMovableAction.HOMELESS_IDLE, mov -> (short) MatchConstants.random().nextInt(1000, 3000))),
-											doRandomly(1/2f, playAction(EMovableAction.HOMELESS2, (short) 1500)),
-											playAction(EMovableAction.HOMELESS3, (short) 1500)
+											doRandomly(7/8f, playAction(EMovableAction.HOMELESS_IDLE, randomShortFromRange(1000, 3000))),
+											doRandomly(1/2f, playAction(EMovableAction.HOMELESS2, randomShortFromRange(1300, 1700))),
+											playAction(EMovableAction.HOMELESS3, randomShortFromRange(1300, 1600))
 										)
 									)),
-									playAction(EMovableAction.HOMELESS4, (short) 1500)
+									playAction(EMovableAction.HOMELESS4, randomShortFromRange(1100, 1600))
 								),
 								sequence(
 									playAction(EMovableAction.HOMELESS1, (short) 2000),
-									playAction(EMovableAction.HOMELESS_IDLE, (short) MatchConstants.random().nextInt(1000, 3000)),
+									playAction(EMovableAction.HOMELESS_IDLE, randomShortFromRange(1000, 3000)),
 									playAction(EMovableAction.HOMELESS2, (short) 2000)
 								)
 							)
@@ -170,6 +171,13 @@ public class BearerMovable extends CivilianMovable implements IBearerMovable, IM
 				),
 				doingNothingGuard()
 		);
+	}
+
+	private static <T extends BearerMovable> IShortSupplier<T> randomShortFromRange(int min, int max) {
+		return (mov) -> (short)MatchConstants.random().nextInt(min, max);
+	}
+	private static <T extends BearerMovable> IIntegerSupplier<T> randomIntFromRange(int min, int max) {
+		return (mov) -> MatchConstants.random().nextInt(min, max);
 	}
 
 	private boolean isHomeless() {

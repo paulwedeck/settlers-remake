@@ -116,6 +116,8 @@ tasks.getByPath(":jsettlers.network:run").onlyIf { !gradle.taskGraph.hasTask(":r
 
 task runMapCreator(dependsOn: ':jsettlers.mapcreator:run') {}
 
+task runTools(dependsOn: ':jsettlers.tools:run') {}
+
 if (findProject(':jsettlers.main.android')) {
     // Android is present.
     task runAndroid(dependsOn: ':jsettlers.main.android:assembleDebug') {
@@ -153,6 +155,7 @@ task releaseJSettlers(type: Zip) {
         from { project.getRootProject().file('LICENSE.txt') }
         from tasks.getByPath(':jsettlers.main.swing:shadowJar')
         from tasks.getByPath(':jsettlers.mapcreator:jar')
+        from tasks.getByPath(':jsettlers.tools:jar')
 
         into('maps') {
             from project.getRootProject().file('maps/release')

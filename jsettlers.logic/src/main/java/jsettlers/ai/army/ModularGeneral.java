@@ -16,12 +16,16 @@ public class ModularGeneral extends ArmyFramework implements ArmyGeneral {
 
 	@Override
 	public void applyHeavyRules(Set<Integer> soldiersWithOrders) {
-		modules.forEach(mod -> mod.applyHeavyRules(soldiersWithOrders));
+		for (ArmyModule mod : modules) {
+			mod.applyHeavyRules(soldiersWithOrders);
+		}
 	}
 
 	@Override
 	public void applyLightRules(Set<Integer> soldiersWithOrders) {
-		modules.forEach(mod -> mod.applyLightRules(soldiersWithOrders));
+		for (ArmyModule mod : modules) {
+			mod.applyLightRules(soldiersWithOrders);
+		}
 	}
 
 	public static ArmyGeneral createDefaultGeneral(AiStatistics aiStatistics, Player player, MovableGrid movableGrid, ITaskScheduler taskScheduler) {
@@ -30,8 +34,9 @@ public class ModularGeneral extends ArmyFramework implements ArmyGeneral {
 			SoldierProductionModule::new,
 			UpgradeSoldiersModule::new,
 			HealSoldiersModule::new,
-			SimpleStrategyModule::new
-			);
+			SimpleDefenseStrategy::new,
+			SimpleAttackStrategy::new,
+			RegroupArmyModule::new);
 	}
 
 	@SafeVarargs

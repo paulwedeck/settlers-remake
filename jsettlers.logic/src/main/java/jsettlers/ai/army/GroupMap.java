@@ -1,11 +1,13 @@
 package jsettlers.ai.army;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class GroupMap<G, M> {
 	private final Map<G, Set<M>> groups = new HashMap<>();
@@ -52,5 +54,11 @@ public class GroupMap<G, M> {
 
 	private Set<M> getGroupMembers(G group) {
 		return groups.computeIfAbsent(group, g -> new HashSet<>());
+	}
+
+	public void removeMemberIf(Predicate<M> cond) {
+		List<M> remove = reverse.keySet().stream().filter(cond).collect(Collectors.toList());
+
+		remove.forEach(member -> setMember(member, null));
 	}
 }

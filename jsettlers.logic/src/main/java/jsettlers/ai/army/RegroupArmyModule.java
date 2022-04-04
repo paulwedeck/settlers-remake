@@ -5,9 +5,10 @@ import jsettlers.common.action.EMoveToType;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IPlayer;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.movable.MovableManager;
 import jsettlers.logic.movable.interfaces.ILogicMovable;
-import jsettlers.shared.ShortPoint2D;
+import jsettlers.logic.movable.military.SoldierMovable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,23 +18,24 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DefenseStrategyModule extends ArmyModule {
+public class RegroupArmyModule extends ArmyModule {
 
 	private static final float SOLDIER_THREAT_DISTANCE = CommonConstants.TOWER_RADIUS * 4;
-	private static final float SOLDIER_OWN_GROUND_THREAT_MOD = 3;
 	private static final float MAX_THREAT_OVER_COMMIT_FACTOR = 3;
-	private static final float SOLDIER_FORCE_MOVE_DISTANCE = CommonConstants.TOWER_RADIUS * 0.5f;
-	private static final float SOLDIER_MIN_MOVE_DISTANCE = 10;
+	private static final float SOLDIER_FORCE_MOVE_DISTANCE = CommonConstants.TOWER_RADIUS;
+	private static final float SOLDIER_MIN_MOVE_DISTANCE = CommonConstants.TOWER_RADIUS* 0.5F;
 	private static final float MIN_THREAT_LEVEL = 1f;
 
 	private final GroupMap<ShortPoint2D, Integer> groups = new GroupMap<>();
 	private final Comparator<Map.Entry<ShortPoint2D, Float>> POI_COMPARATOR;
 
-	public DefenseStrategyModule(ArmyFramework parent) {
+	public RegroupArmyModule(ArmyFramework parent) {
 		super(parent);
 
 		POI_COMPARATOR = Map.Entry.<ShortPoint2D, Float>comparingByValue().reversed();
@@ -47,32 +49,28 @@ public class DefenseStrategyModule extends ArmyModule {
 		sendSoldiers(soldiersWithOrders);
 	}
 
-	private int i = 0;
-
 	@Override
 	public void applyLightRules(Set<Integer> soldiersWithOrders) {
-		if (i < 3) {
-			i++;
-			return;
-		}
-		sendSoldiers(soldiersWithOrders);
-		i = 0;
 	}
 
 	private void updateGroups(Set<Integer> soldiersWithOrders) {
 		Map<ShortPoint2D, Float> pois = calculateThreatLevels(calculatePointsOfInterest());
 
 		removeUnnecessaryGroups(pois.keySet());
+		removeDeadSoldiers();
 
 		// ignore otherwise assigned soldiers
 		soldiersWithOrders.forEach(s -> groups.setMember(s, null));
 
 		List<ShortPoint2D> unassignedSoldiers = getAvailableSoldiers(soldiersWithOrders);
-		updateDefenseGroups(pois, unassignedSoldiers);
-
+		updateIdleGroups(pois, unassignedSoldiers);
 	}
 
-	private void updateDefenseGroups(Map<ShortPoint2D, Float> pois, List<ShortPoint2D> unassignedSoldiers) {
+	private void removeDeadSoldiers() {
+		groups.removeMemberIf(id -> MovableManager.getMovableByID(id) == null);
+	}
+
+	private void updateIdleGroups(Map<ShortPoint2D, Float> pois, List<ShortPoint2D> unassignedSoldiers) {
 		List<Map.Entry<ShortPoint2D, Float>> sortedPOIs = pois.entrySet().stream().sorted(POI_COMPARATOR).collect(Collectors.toList());
 
 		for (Map.Entry<ShortPoint2D, Float> poiData : sortedPOIs) {
@@ -108,7 +106,12 @@ public class DefenseStrategyModule extends ArmyModule {
 		for(int i = 0; i < limit && groupMembers.hasNext(); i++) {
 			int soldier = groupMembers.next();
 			groups.setMember(soldier, null);
-			unassignedSoldiers.add(MovableManager.getMovableByID(soldier).getPosition());
+			assert MovableManager.getMovableByID(soldier).isAlive();
+			ShortPoint2D pos = MovableManager.getMovableByID(soldier).getPosition();
+			// the movable might not actually be at its position for different reasons
+			if(parent.movableGrid.getMovableAt(pos.x, pos.y) != null) {
+				unassignedSoldiers.add(pos);
+			}
 		}
 	}
 
@@ -166,6 +169,19 @@ public class DefenseStrategyModule extends ArmyModule {
 				pois.add(building);
 			}
 		}
+
+		for(IPlayer enemy : parent.aiStatistics.getAliveEnemiesOf(parent.getPlayer())) {
+			Iterator<ShortPoint2D> poi = pois.iterator();
+			while(poi.hasNext()) {
+				ShortPoint2D next = poi.next();
+				for(ShortPoint2D enemyBuilding : parent.aiStatistics.getBuildingPositionsOfTypesForPlayer(EBuildingType.MILITARY_BUILDINGS, enemy.getPlayerId())) {
+					if(next.getOnGridDistTo(enemyBuilding) <= CommonConstants.TOWER_RADIUS*2) {
+						poi.remove();
+						break;
+					}
+				}
+			}
+		}
 		return pois;
 	}
 
@@ -181,11 +197,7 @@ public class DefenseStrategyModule extends ArmyModule {
 						float dst = poi.getOnGridDistTo(soldier)/ SOLDIER_THREAT_DISTANCE;
 						if(dst < 1) {
 							float threat = 1 - dst;
-							if(parent.getEnemiesInTown().contains(soldier))  {
-								threat *= SOLDIER_OWN_GROUND_THREAT_MOD;
-							}
-							float threatConst = threat;
-							poiThreatLevels.compute(poi, (key, val) -> val + threatConst);
+							poiThreatLevels.compute(poi, (key, val) -> val + threat);
 						}
 					}
 				}

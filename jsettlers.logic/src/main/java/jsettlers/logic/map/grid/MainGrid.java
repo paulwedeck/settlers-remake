@@ -1639,8 +1639,11 @@ public final class MainGrid implements Serializable {
 
 		@Override
 		public boolean isValidNextPathPosition(IPathCalculatable pathCalculatable, ShortPoint2D nextPos, ShortPoint2D targetPos) {
-			return isValidPosition(pathCalculatable, nextPos.x, nextPos.y) && (!pathCalculatable.needsPlayersGround()
-				|| partitionsGrid.getPartitionAt(pathCalculatable) == partitionsGrid.getPartitionAt(targetPos.x, targetPos.y));
+			return isValidPosition(pathCalculatable, nextPos.x, nextPos.y)  &&
+					isValidPosition(pathCalculatable, targetPos.x, targetPos.y) &&
+					(!pathCalculatable.needsPlayersGround() ||
+							partitionsGrid.getPartitionAt(pathCalculatable) ==
+							partitionsGrid.getPartitionAt(targetPos.x, targetPos.y));
 		}
 
 		@Override

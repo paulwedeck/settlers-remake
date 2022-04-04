@@ -88,8 +88,12 @@ public class SettlerImage extends SingleImage {
 	 * 
 	 * @return The torso.
 	 */
-	public Image getTorso() {
+	public SingleImage getTorso() {
 		return this.torso;
+	}
+
+	public SingleImage getShadow() {
+		return shadow;
 	}
 
 	protected ShortBuffer generateTextureData() {

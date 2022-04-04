@@ -76,7 +76,7 @@ public final class ImageProvider {
 	 */
 	private static File lookupPath;
 
-	private static final DatFileReader EMPTY_DAT_FILE = new EmptyDatFile();
+	public static final DatFileReader EMPTY_DAT_FILE = new EmptyDatFile();
 
 	private static ImageProvider instance;
 
