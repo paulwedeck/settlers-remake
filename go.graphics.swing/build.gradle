@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'eclipse'
 
 import jsettlers.shaders.compile.ShaderCompilationTask
@@ -23,7 +23,7 @@ String[] modules = new String[] {
 }
 
 dependencies {
-	implementation project(':go.graphics')
+	api project(':go.graphics')
 
 	def lwjglVersion = rootProject.ext.lwjglVersion
 

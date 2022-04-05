@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'eclipse'
 
 task aiDifficultiesIT(type: Test, dependsOn: testClasses) {
@@ -21,8 +21,8 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'junit:junit:4.12'
     
-	implementation project(':jsettlers.common')
-	implementation project(':jsettlers.network')
+	api project(':jsettlers.common')
+	api project(':jsettlers.network')
 }
 
 compileJava {
