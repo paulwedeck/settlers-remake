@@ -232,4 +232,23 @@
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>30</y>
+      <w>350</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>/Info/
+
+Shows the hierarchy of the modules of the
+project, not considering the android packages yet.
+
+All dependencies are transitive.
+For example Common is dependend on go.graphics.
+And because Logic is dependend on Common it
+is also dependend on go.graphics.</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>
