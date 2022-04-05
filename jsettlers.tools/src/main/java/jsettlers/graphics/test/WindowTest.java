@@ -19,8 +19,8 @@ import java.io.IOException;
 import jsettlers.TestToolUtils;
 import jsettlers.common.menu.IMapInterfaceConnector;
 import jsettlers.input.SelectionSet;
+import jsettlers.main.swing.SwingResourceLoader;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
-import jsettlers.main.swing.resources.SwingResourceLoader;
 
 public class WindowTest {
 

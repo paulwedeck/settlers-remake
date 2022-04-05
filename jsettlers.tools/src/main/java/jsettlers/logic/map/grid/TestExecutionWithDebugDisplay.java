@@ -25,8 +25,8 @@ import jsettlers.logic.map.grid.partition.PartitionsGrid;
 import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.list.MapList;
 import jsettlers.main.swing.SwingManagedJSettlers;
+import jsettlers.main.swing.SwingResourceLoader;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
-import jsettlers.main.swing.resources.SwingResourceLoader;
 import jsettlers.network.synchronic.timer.NetworkTimer;
 
 public class TestExecutionWithDebugDisplay {

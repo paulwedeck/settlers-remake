@@ -42,6 +42,7 @@ public class DistanceCalculationAlgorithmTest {
 	public static void setupTest() {
 		// DebugImagesHelper.DEBUG_IMAGES_ENABLED = true;
 
+		SwingResourceLoader.setupMapListFactory("../maps", null);
 		DebugImagesHelper.setupDebugging();
 	}
 

@@ -12,7 +12,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package jsettlers.main.swing.resources;
+package jsettlers.main.swing;
+
+import java.io.File;
 
 import jsettlers.common.resources.SettlersFolderChecker;
 import jsettlers.common.resources.SettlersFolderChecker.SettlersFolderInfo;
@@ -22,10 +24,9 @@ import jsettlers.graphics.sound.MusicManager;
 import jsettlers.graphics.sound.SoundManager;
 import jsettlers.logic.map.loading.list.MapList;
 import jsettlers.logic.map.loading.list.MapList.DefaultMapListFactory;
+import jsettlers.main.swing.resources.ResourceMapLister;
 import jsettlers.main.swing.settings.ServerManager;
 import jsettlers.main.swing.settings.SettingsManager;
-
-import java.io.File;
 
 /**
  * This class just loads the resources and sets up paths needed for jsettlers when used with a swing UI.

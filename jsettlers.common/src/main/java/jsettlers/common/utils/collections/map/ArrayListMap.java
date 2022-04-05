@@ -14,12 +14,12 @@
  *******************************************************************************/
 package jsettlers.common.utils.collections.map;
 
+import jsettlers.common.utils.collections.set.ArrayListSet;
+
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Set;
-
-import jsettlers.common.utils.collections.set.ArrayListSet;
 
 /**
  * Created by Andreas Eberle on 06.05.2016.

@@ -25,7 +25,6 @@ import jsettlers.logic.map.grid.partition.manager.PartitionManager;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.MaterialOffer;
 import jsettlers.logic.player.PlayerSetting;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

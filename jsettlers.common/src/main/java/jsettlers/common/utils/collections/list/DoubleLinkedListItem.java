@@ -28,10 +28,4 @@ public class DoubleLinkedListItem<T extends DoubleLinkedListItem<T>> implements 
 	transient T prev;
 	transient T next;
 	
-	public T getPrev() {
-		return prev;
-	}
-	public T getNext() {
-		return next;
-	}
 }

@@ -24,9 +24,6 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-import jsettlers.common.utils.collections.list.DoubleLinkedIntListItem;
-import jsettlers.common.utils.collections.list.DoubleLinkedList;
-import jsettlers.common.utils.collections.list.DoubleLinkedListItem;
 import jsettlers.logic.utils.TestUtils;
 
 /**
@@ -127,10 +124,10 @@ public class DoubleLinkedListTest {
 		list.remove(handles[7]);
 		assertEquals("incorrect size after removing 2 values", TEST_NUMBERS - 2, list.size());
 
-		assertNull("the removed item should not hold a 'next' reference", handles[4].getNext());
-		assertNull("the removed item should not hold a 'prev' reference", handles[4].getPrev());
-		assertNull("the removed item should not hold a 'next' reference", handles[7].getNext());
-		assertNull("the removed item should not hold a 'prev' reference", handles[7].getPrev());
+		assertNull("the removed item should not hold a 'next' reference", handles[4]);
+		assertNull("the removed item should not hold a 'prev' reference", handles[4]);
+		assertNull("the removed item should not hold a 'next' reference", handles[7]);
+		assertNull("the removed item should not hold a 'prev' reference", handles[7]);
 
 		for (int i = TEST_NUMBERS - 1; i >= 0; i--) {
 			if (i == 4 || i == 7) { // skip the removed values
@@ -224,8 +221,8 @@ public class DoubleLinkedListTest {
 		list2.mergeInto(list);
 		assertEquals(0, list2.size());
 		assertEquals(TEST_NUMBERS * 2, list.size());
-		assertEquals(list2.getHead(), ((DoubleLinkedListItem<DoubleLinkedIntListItem>) list2.getHead()).getNext());
-		assertEquals(list2.getHead(), ((DoubleLinkedListItem<DoubleLinkedIntListItem>) list2.getHead()).getPrev());
+		assertEquals(list2.head, ((DoubleLinkedListItem<DoubleLinkedIntListItem>) list2.head).next);
+		assertEquals(list2.head, ((DoubleLinkedListItem<DoubleLinkedIntListItem>) list2.head).prev);
 
 		int i = 0;
 		for (DoubleLinkedIntListItem curr : list) {

@@ -228,8 +228,5 @@ public final class DoubleLinkedList<T extends DoubleLinkedListItem<T>> implement
 		builder.append("]");
 		return builder.toString();
 	}
-
-	public T getHead() {
-		return head;
-	}
+	
 }

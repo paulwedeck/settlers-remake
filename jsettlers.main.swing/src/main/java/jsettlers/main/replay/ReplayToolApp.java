@@ -22,7 +22,7 @@ import jsettlers.common.CommonConstants;
 import jsettlers.common.resources.ResourceManager;
 import jsettlers.common.resources.SwingResourceProvider;
 import jsettlers.logic.map.loading.MapLoadException;
-import jsettlers.main.swing.resources.SwingResourceLoader;
+import jsettlers.main.swing.SwingResourceLoader;
 import jsettlers.main.swing.settings.SettingsManager;
 
 /**

@@ -14,9 +14,9 @@
  *******************************************************************************/
 package jsettlers.common.map.shapes;
 
-import java.util.Iterator;
-
 import jsettlers.common.position.ShortPoint2D;
+
+import java.util.Iterator;
 
 public class MapCircleIterator implements Iterator<ShortPoint2D> {
 

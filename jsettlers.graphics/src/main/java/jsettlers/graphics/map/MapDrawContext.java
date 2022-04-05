@@ -17,6 +17,7 @@ package jsettlers.graphics.map;
 import java.util.Iterator;
 
 import go.graphics.GLDrawContext;
+
 import jsettlers.common.Color;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.IDirectGridProvider;

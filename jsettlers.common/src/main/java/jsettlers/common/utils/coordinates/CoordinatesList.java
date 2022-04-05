@@ -14,9 +14,9 @@
  *******************************************************************************/
 package jsettlers.common.utils.coordinates;
 
-import java.util.Arrays;
-
 import jsettlers.common.position.ShortPoint2D;
+
+import java.util.Arrays;
 
 /**
  * 

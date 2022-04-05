@@ -14,10 +14,10 @@ import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.logic.player.InitialGameState;
 import jsettlers.logic.player.PlayerSetting;
-import jsettlers.logic.utils.MapUtils;
 import jsettlers.main.JSettlersGame;
 import jsettlers.main.replay.ReplayUtils;
 import jsettlers.network.client.OfflineNetworkConnector;
+import jsettlers.logic.utils.MapUtils;
 
 import org.junit.Assert;
 
