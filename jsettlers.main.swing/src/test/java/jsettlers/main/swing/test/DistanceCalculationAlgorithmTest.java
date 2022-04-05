@@ -12,7 +12,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package jsettlers.algorithms.distances;
+package jsettlers.main.swing.test;
 
 import static jsettlers.common.buildings.EBuildingType.FISHER;
 import static org.junit.Assert.assertTrue;
@@ -22,6 +22,7 @@ import java.util.BitSet;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import jsettlers.algorithms.distances.DistancesCalculationAlgorithm;
 import jsettlers.common.logging.MilliStopWatch;
 import jsettlers.common.map.shapes.HexGridArea;
 import jsettlers.common.player.ECivilisation;
@@ -30,7 +31,8 @@ import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.logic.map.loading.data.IMapData;
 import jsettlers.logic.map.loading.list.MapList;
-import jsettlers.testutils.DebugImagesHelper;
+import jsettlers.logic.utils.DebugImagesHelper;
+import jsettlers.main.swing.SwingResourceLoader;
 
 /**
  * Created by Andreas Eberle on 06.01.2017.

@@ -29,7 +29,7 @@ import org.junit.Test;
 import jsettlers.common.map.shapes.HexGridArea.HexGridAreaIterator;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.utils.mutables.MutableInt;
-import jsettlers.testutils.DebugImagesHelper;
+import jsettlers.logic.utils.DebugImagesHelper;
 
 public class HexGridAreaTest {
 
