@@ -14,11 +14,11 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator.tasks.error;
 
-import jsettlers.logic.map.loading.data.objects.MapDataObject;
-import jsettlers.logic.map.loading.data.objects.MovableObject;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.localization.Labels;
+import jsettlers.logic.map.loading.data.objects.MapDataObject;
+import jsettlers.logic.map.loading.data.objects.MovableObject;
 import jsettlers.mapcreator.mapvalidator.result.fix.DeleteObjectFix;
 import jsettlers.mapcreator.mapvalidator.tasks.AbstractValidationTask;
 

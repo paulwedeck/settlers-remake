@@ -16,19 +16,19 @@ package jsettlers.graphics.map.controls.original.panel.content.buildings;
 
 import java.util.ArrayList;
 
+import jsettlers.common.action.BuildAction;
+import jsettlers.common.action.EActionType;
+import jsettlers.common.action.IAction;
+import jsettlers.common.action.PointAction;
+import jsettlers.common.action.ShowConstructionMarksAction;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.partition.IBuildingCounts;
-import jsettlers.common.action.EActionType;
-import jsettlers.common.action.IAction;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
-import jsettlers.common.action.BuildAction;
-import jsettlers.common.action.PointAction;
-import jsettlers.common.action.ShowConstructionMarksAction;
 import jsettlers.graphics.map.controls.original.panel.content.AbstractContentProvider;
 import jsettlers.graphics.map.controls.original.panel.content.ESecondaryTabType;
 import jsettlers.graphics.map.controls.original.panel.content.updaters.UiLocationDependingContentUpdater;

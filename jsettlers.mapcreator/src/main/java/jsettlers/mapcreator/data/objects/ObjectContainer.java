@@ -14,8 +14,8 @@
  *******************************************************************************/
 package jsettlers.mapcreator.data.objects;
 
-import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.common.position.RelativePoint;
+import jsettlers.logic.map.loading.data.objects.MapDataObject;
 
 public interface ObjectContainer {
 	MapDataObject getMapObject();

@@ -23,10 +23,10 @@ import java.util.BitSet;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import jsettlers.common.Color;
-import java.util.Optional;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.ECivilisation;

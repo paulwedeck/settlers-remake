@@ -14,15 +14,15 @@
  *******************************************************************************/
 package jsettlers.graphics.ui;
 
-import go.graphics.GLDrawContext;
-import go.graphics.text.EFontSize;
-import go.graphics.text.TextDrawer;
-import jsettlers.common.Color;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import go.graphics.GLDrawContext;
+import go.graphics.text.EFontSize;
+import go.graphics.text.TextDrawer;
+import jsettlers.common.Color;
 
 /**
  * Displays a text on the GUI.

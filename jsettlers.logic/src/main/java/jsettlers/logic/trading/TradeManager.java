@@ -1,12 +1,12 @@
 package jsettlers.logic.trading;
 
+import java.util.Set;
+
 import jsettlers.common.utils.collections.set.ArrayListSet;
 import jsettlers.logic.buildings.ITradeBuilding;
 import jsettlers.logic.map.grid.partition.manager.datastructures.PredicatedPositionableList;
 import jsettlers.logic.timer.IScheduledTimerable;
 import jsettlers.logic.timer.RescheduleTimer;
-
-import java.util.Set;
 
 public class TradeManager implements IScheduledTimerable {
 

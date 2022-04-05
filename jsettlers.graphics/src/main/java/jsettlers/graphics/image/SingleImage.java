@@ -14,6 +14,7 @@
  *******************************************************************************/
 package jsettlers.graphics.image;
 
+import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
@@ -21,9 +22,6 @@ import java.nio.ShortBuffer;
 import go.graphics.EPrimitiveType;
 import go.graphics.GLDrawContext;
 import go.graphics.ManagedUnifiedDrawHandle;
-
-import java.awt.image.BufferedImage;
-
 import go.graphics.UnifiedDrawHandle;
 import jsettlers.common.Color;
 import jsettlers.graphics.image.reader.ImageMetadata;

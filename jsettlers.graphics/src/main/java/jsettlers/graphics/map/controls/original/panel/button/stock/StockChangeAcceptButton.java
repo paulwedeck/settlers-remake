@@ -15,6 +15,7 @@
 package jsettlers.graphics.map.controls.original.panel.button.stock;
 
 import java.util.function.Supplier;
+
 import jsettlers.common.images.ImageLink;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.position.ShortPoint2D;

@@ -50,7 +50,6 @@ import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.movable.IGraphicsThief;
 import jsettlers.common.movable.IShipInConstruction;
-import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.player.IPlayerable;

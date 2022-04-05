@@ -15,11 +15,11 @@
 package jsettlers.mapcreator.tools.objects;
 
 import jsettlers.common.buildings.EBuildingType;
+import jsettlers.common.movable.EMovableType;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.objects.BuildingMapDataObject;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.logic.map.loading.data.objects.MovableObject;
-import jsettlers.common.movable.EMovableType;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.control.IPlayerSetter;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.tools.AbstractTool;

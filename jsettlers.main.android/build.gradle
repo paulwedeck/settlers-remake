@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'eclipse'
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -57,7 +58,6 @@ dependencies {
     implementation project(':jsettlers.graphics')
     implementation project(':jsettlers.logic')
     implementation project(':jsettlers.common')
-    implementation project(':jsettlers.network')
 
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation 'com.android.support:appcompat-v7:' + rootProject.ext.androidSupportLibraryVersion
@@ -76,7 +76,6 @@ dependencies {
     annotationProcessor 'org.androidannotations:androidannotations:' + rootProject.ext.androidAnnotationsVersion
 
     // test dependencies
-    androidTestImplementation project(':jsettlers.testutils')
     androidTestImplementation 'com.android.support:support-annotations:' + rootProject.ext.androidSupportLibraryVersion
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'

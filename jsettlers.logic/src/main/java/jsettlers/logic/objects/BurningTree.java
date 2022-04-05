@@ -1,6 +1,7 @@
 package jsettlers.logic.objects;
 
 import java.util.function.Consumer;
+
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.shapes.MapCircle;
 import jsettlers.common.mapobject.EMapObjectType;

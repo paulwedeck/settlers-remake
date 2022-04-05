@@ -18,7 +18,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -40,7 +39,7 @@ import jsettlers.network.client.task.packets.TaskPacket;
  */
 public final class NetworkTimer extends TimerTask implements INetworkClientClock {
 	public static final short TIME_SLICE = 50;
-	private static final Comparator<SyncTasksPacket> tasksByTimeComparator = Comparator.comparingInt(SyncTasksPacket::getLockstepNumber);
+	private static final Comparator<SyncTasksPacket> TASKS_BY_TIME_COMPARATOR = Comparator.comparingInt(SyncTasksPacket::getLockstepNumber);
 
 	private final Timer timer;
 	private final Object lockstepLock = new Object();
@@ -54,7 +53,7 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 	private int time = 0;
 	private int maxAllowedLockstep = -1;
 
-	private boolean isPausing;
+	private boolean pauseActive;
 	private int pauseTime;
 	private float speedFactor = 1.0f;
 	private float progress = 0.0f;
@@ -64,6 +63,10 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 	private ITaskExecutor taskExecutor;
 	private DataOutputStream replayLogStream;
 
+	// ////////////////////////////////////////////////////////////////////////
+	// Init
+	// ////////////////////////////////////////////////////////////////////////
+	
 	public NetworkTimer() {
 		this.timer = new Timer("NetworkTimer");
 	}
@@ -76,6 +79,10 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 		}
 	}
 
+	// ////////////////////////////////////////////////////////////////////////
+	// Inherited Methods
+	// ////////////////////////////////////////////////////////////////////////
+	
 	@Override
 	public synchronized void startExecution() {
 		if (!scheduled) {
@@ -94,65 +101,80 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 
 	@Override
 	public void run() {
-		if (!isPausing) {
-			if (pauseTime <= 0) { // this is used for synchronizing the network clients
-				progress += speedFactor;
+		if (pauseActive) {
+			return;
+		}
 
-				while (progress >= 1) {
-					executeRun();
-					progress--;
-				}
-			} else {
-				pauseTime -= TIME_SLICE;
-			}
+		// this is used for synchronizing the network clients
+		if (pauseTime > 0) {
+			pauseTime -= TIME_SLICE;
+			return;
+		}
+
+		progress += speedFactor;
+		while (progress >= 1) {
+			tryExecuteRun();
+			progress--;
 		}
 	}
 
-	private synchronized void executeRun() {
-		try {
-			time += TIME_SLICE;
-			final int lockstep = time / NetworkConstants.Client.LOCKSTEP_PERIOD;
+	// ////////////////////////////////////////////////////////////////////////
+	// Methods
+	// ////////////////////////////////////////////////////////////////////////
 
-			// check if the lockstep is allowed
-			synchronized (lockstepLock) {
-				while (lockstep > maxAllowedLockstep) {
-					System.out.println("WAITING for lockstep!");
-					lockstepLock.wait();
-				}
+	private synchronized void tryExecuteRun() {
+		try {
+			executeRun();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void executeRun() throws InterruptedException {
+		time += TIME_SLICE;
+		final int lockstep = time / NetworkConstants.Client.LOCKSTEP_PERIOD;
+		
+		waitForResources(lockstep);
+		
+		SyncTasksPacket tasksPacket;
+		synchronized (tasks) {
+			tasksPacket = tasks.peekFirst();
+		}
+
+		while (tasksPacket != null && tasksPacket.getLockstepNumber() <= lockstep) {
+			assert tasksPacket.getLockstepNumber() == lockstep : "FOUND TasksPacket FOR older lockstep!";
+
+			System.out.println("Executing SyncTaskPacket(" + tasksPacket + ") in " + getLockstepText(lockstep));
+
+			try {
+				executeTasksPacket(tasksPacket);
+			} catch (Throwable t) {
+				System.err.println("Error during execution of scheduled task:");
+				t.printStackTrace();
 			}
 
-			SyncTasksPacket tasksPacket;
-			synchronized (tasks) {
+			synchronized (tasks) {// remove the executed tasksPacket and retrieve the next one to check it.
+				tasks.pollFirst();
 				tasksPacket = tasks.peekFirst();
 			}
+		}
 
-			while (tasksPacket != null && tasksPacket.getLockstepNumber() <= lockstep) {
-				assert tasksPacket.getLockstepNumber() == lockstep : "FOUND TasksPacket FOR older lockstep!";
+		addNewTimerables();
+		handleRemovedTimerables();
 
-				System.out.println("Executing SyncTaskPacket(" + tasksPacket + ") in " + getLockstepText(lockstep));
+		for (ScheduledTimerable curr : timerables) {
+			curr.checkExecution(TIME_SLICE);
+		}
+	}
+	
+	// check if the lockstep is allowed
+	private void waitForResources(int lockstep) throws InterruptedException {
 
-				try {
-					executeTasksPacket(tasksPacket);
-				} catch (Throwable t) {
-					System.err.println("Error during execution of scheduled task:");
-					t.printStackTrace();
-				}
-
-				synchronized (tasks) {// remove the executed tasksPacket and retrieve the next one to check it.
-					tasks.pollFirst();
-					tasksPacket = tasks.peekFirst();
-				}
+		synchronized (lockstepLock) {
+			while (lockstep > maxAllowedLockstep) {
+				System.out.println("WAITING for lockstep!");
+				lockstepLock.wait();
 			}
-
-			addNewTimerables();
-			handleRemovedTimerables();
-
-			for (ScheduledTimerable curr : timerables) {
-				curr.checkExecution(TIME_SLICE);
-			}
-		} catch (Throwable t) {
-			System.err.println("WARNING: Networking Timer catched Throwable!!!");
-			t.printStackTrace();
 		}
 	}
 
@@ -225,7 +247,7 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 
 		final int runs = 60 * 1000 / TIME_SLICE;
 		for (int i = 0; i < runs; i++) {
-			executeRun();
+			tryExecuteRun();
 		}
 
 		this.setPausing(false);
@@ -238,7 +260,7 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 		System.out.println("Playing game forward to game time: " + targetGameTime);
 
 		while (time < targetGameTime) {
-			executeRun();
+			tryExecuteRun();
 		}
 	}
 
@@ -246,17 +268,17 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 
 	@Override
 	public void setPausing(boolean pausing) {
-		this.isPausing = pausing;
+		this.pauseActive = pausing;
 	}
 
 	@Override
 	public void invertPausing() {
-		this.isPausing = !this.isPausing;
+		this.pauseActive = !this.pauseActive;
 	}
 
 	@Override
 	public boolean isPausing() {
-		return isPausing;
+		return pauseActive;
 	}
 
 	@Override
@@ -295,7 +317,7 @@ public final class NetworkTimer extends TimerTask implements INetworkClientClock
 			synchronized (tasks) {
 				System.out.println("Scheduled SyncTasksPacket(" + tasksPacket + " for " + getLockstepText(tasksPacket.getLockstepNumber()));
 				tasks.addLast(tasksPacket);
-				tasks.sort(tasksByTimeComparator);
+				tasks.sort(TASKS_BY_TIME_COMPARATOR);
 				saveReplayIfNeeded(tasksPacket);
 			}
 		}

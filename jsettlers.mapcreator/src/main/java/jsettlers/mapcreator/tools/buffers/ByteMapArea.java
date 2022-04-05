@@ -14,12 +14,12 @@
  *******************************************************************************/
 package jsettlers.mapcreator.tools.buffers;
 
+import java.util.Iterator;
+
 import jsettlers.common.map.shapes.IMapArea;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.common.utils.coordinates.IBooleanCoordinateFunction;
-
-import java.util.Iterator;
 
 /**
  * This class represents a two dimensional array, used as helper class for editing tools

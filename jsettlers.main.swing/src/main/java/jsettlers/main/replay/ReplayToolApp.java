@@ -14,16 +14,16 @@
  *******************************************************************************/
 package jsettlers.main.replay;
 
-import jsettlers.common.CommonConstants;
-import jsettlers.common.resources.ResourceManager;
-import jsettlers.logic.map.loading.MapLoadException;
-import jsettlers.main.swing.resources.SwingResourceLoader;
-import jsettlers.main.swing.resources.SwingResourceProvider;
-import jsettlers.main.swing.settings.SettingsManager;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import jsettlers.common.CommonConstants;
+import jsettlers.common.resources.ResourceManager;
+import jsettlers.common.resources.SwingResourceProvider;
+import jsettlers.logic.map.loading.MapLoadException;
+import jsettlers.main.swing.SwingResourceLoader;
+import jsettlers.main.swing.settings.SettingsManager;
 
 /**
  * @author Andreas Eberle

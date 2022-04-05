@@ -1,6 +1,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'application'
+    id 'eclipse'
 }
 mainClassName = 'jsettlers.network.server.DedicatedServerApp'
 
@@ -17,8 +18,4 @@ jar {
 shadowJar {
     archiveBaseName = 'DedicatedJSettlersServer'
     classifier = ''
-}
-
-dependencies {
-    implementation 'com.google.code.gson:gson:2.8.9'
 }

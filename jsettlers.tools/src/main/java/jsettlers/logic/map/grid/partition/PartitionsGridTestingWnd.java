@@ -16,11 +16,13 @@ package jsettlers.logic.map.grid.partition;
 
 import java.io.IOException;
 import java.util.BitSet;
-
 import java.util.Objects;
+
 import jsettlers.TestToolUtils;
 import jsettlers.common.Color;
 import jsettlers.common.CommonConstants;
+import jsettlers.common.action.Action;
+import jsettlers.common.action.EActionType;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.landscape.ELandscapeType;
@@ -34,16 +36,14 @@ import jsettlers.common.map.shapes.IMapArea;
 import jsettlers.common.map.shapes.MapCircle;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.menu.IMapInterfaceConnector;
-import jsettlers.common.action.EActionType;
 import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ShortPoint2D;
-import jsettlers.common.action.Action;
 import jsettlers.logic.player.PlayerSetting;
+import jsettlers.main.swing.SwingResourceLoader;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
-import jsettlers.main.swing.resources.SwingResourceLoader;
 
 public class PartitionsGridTestingWnd {
 

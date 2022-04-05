@@ -17,8 +17,8 @@ package jsettlers.logic.map.loading.data;
 
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.landscape.EResourceType;
-import jsettlers.logic.map.loading.data.objects.MapDataObject;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.logic.map.loading.data.objects.MapDataObject;
 
 public interface IMapData {
 

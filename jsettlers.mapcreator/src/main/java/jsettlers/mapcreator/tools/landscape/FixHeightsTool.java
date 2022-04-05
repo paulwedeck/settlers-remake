@@ -20,7 +20,6 @@ import jsettlers.mapcreator.data.LandscapeConstraint;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.data.objects.ObjectContainer;
 import jsettlers.mapcreator.mapvalidator.tasks.error.ValidateLandscape;
-import jsettlers.mapcreator.mapvalidator.tasks.error.ValidateResources;
 import jsettlers.mapcreator.tools.AbstractTool;
 import jsettlers.mapcreator.tools.shapes.ShapeType;
 
