@@ -20,7 +20,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
@@ -57,6 +59,7 @@ import go.graphics.swing.contextcreator.ContextException;
 import go.graphics.text.EFontSize;
 import go.graphics.text.TextDrawer;
 import jsettlers.common.Color;
+import jsettlers.common.CommonConstants;
 import jsettlers.common.resources.SettlersFolderChecker;
 import jsettlers.common.utils.FileUtils;
 import jsettlers.graphics.image.SingleImage;
@@ -94,6 +97,7 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 		try {
 			SwingManagedJSettlers.setupResources(false, args);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			CommonConstants.READ_DAT_FILES_FROM_CWD = false;
 			new DatFileViewer();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -332,16 +336,17 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 
 		for (int j = 0; j < seq.length(); j++) {
 			T image = seq.getImage(j, null);
-			exportSingleImage((SingleImage) image, new File(seqdir, j + ".png"));
+			String prefix = String.format(Locale.ENGLISH, "%03d", j);
+			exportSingleImage((SingleImage) image, new File(seqdir, prefix));
 
 			if(image instanceof SettlerImage) {
 				SettlerImage settlerImage = (SettlerImage) image;
 
 				if (settlerImage.getTorso() != null) {
-					exportSingleImage(settlerImage.getTorso(), new File(seqdir, j + "_torso.png"));
+					exportSingleImage(settlerImage.getTorso(), new File(seqdir, prefix + "_torso"));
 				}
 				if (settlerImage.getShadow() != null) {
-					exportSingleImage(settlerImage.getShadow(), new File(seqdir, j + "_shadow.png"));
+					exportSingleImage(settlerImage.getShadow(), new File(seqdir, prefix + "_shadow"));
 				}
 			}
 		}
@@ -351,11 +356,17 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 		// does not work if gpu does not support non-power-of-two
 		BufferedImage rendered = image.convertToBufferedImage();
 		if (rendered == null) {
-			return;
+			rendered = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
 		}
 
 		try {
-			ImageIO.write(rendered, "png", file);
+			ImageIO.write(rendered, "png", new File(file.getParent(), file.getName() + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try(Writer writer = new FileWriter(new File(file.getParent(), file.getName() + ".offset"))) {
+			writer.write(image.getOffsetX() + " " + image.getOffsetY());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

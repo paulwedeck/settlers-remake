@@ -64,6 +64,8 @@ public abstract class CommonConstants {
 	 */
 	public static boolean MUTABLE_MOVABLES_TXT = false;
 
+	public static boolean READ_DAT_FILES_FROM_CWD = true;
+
 	/**
 	 * If true, all players of a map will always be positioned on startup.
 	 */

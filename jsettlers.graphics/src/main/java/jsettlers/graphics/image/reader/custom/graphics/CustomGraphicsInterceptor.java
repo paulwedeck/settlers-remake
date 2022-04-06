@@ -15,6 +15,7 @@
 
 package jsettlers.graphics.image.reader.custom.graphics;
 
+import jsettlers.common.CommonConstants;
 import jsettlers.graphics.map.draw.ImageProvider;
 import jsettlers.graphics.image.reader.DatFileReader;
 
@@ -45,6 +46,10 @@ public class CustomGraphicsInterceptor {
 		if (fileIndex == 36) { // use our own ships
 			return new CustomShipsDatFile(reader, imageProvider);
 		}
+		if(CommonConstants.READ_DAT_FILES_FROM_CWD && DirectoryDatFile.getDirectory(fileIndex).exists()) {
+			return new DirectoryDatFile(reader, fileIndex);
+		}
+
 		return reader;
 	}
 

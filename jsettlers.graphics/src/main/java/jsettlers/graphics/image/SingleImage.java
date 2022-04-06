@@ -62,7 +62,7 @@ public class SingleImage extends Image implements ImageDataPrivider {
 	 * @param offsetY
 	 * 		The y offset of the image.
 	 */
-	protected SingleImage(ImageDataProducer data, int width, int height, int offsetX,
+	public SingleImage(ImageDataProducer data, int width, int height, int offsetX,
 			int offsetY, String name) {
 		this.data = data;
 		this.width = twidth = width;
@@ -72,7 +72,7 @@ public class SingleImage extends Image implements ImageDataPrivider {
 		this.name = name;
 	}
 
-	protected SingleImage(ShortBuffer data, int width, int height, int offsetX,
+	public SingleImage(ShortBuffer data, int width, int height, int offsetX,
 						  int offsetY, String name) {
 		this(() -> data, width, height, offsetX, offsetY, name);
 	}
