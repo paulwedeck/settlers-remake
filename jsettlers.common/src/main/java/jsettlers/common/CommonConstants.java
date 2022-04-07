@@ -62,7 +62,7 @@ public abstract class CommonConstants {
 	/**
 	 * Only enable this to allow reloading the movables.txt files.
 	 */
-	public static boolean MUTABLE_MOVABLES_TXT = false;
+	public static boolean MUTABLE_MOVABLES_TXT = true;
 
 	public static boolean READ_FILES_FROM_CWD = true;
 

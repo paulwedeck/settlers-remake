@@ -17,6 +17,7 @@ package jsettlers.graphics.map.draw.settlerimages;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -396,6 +397,25 @@ public final class SettlerImageMap {
 			throw new IllegalAccessError("reloading movables.txt is not supported!");
 		}
 
-		instance = new SettlerImageMap(new File("jsettlers.graphics/src/main/resources/jsettlers/graphics/map/draw/settlerimages"));
+		File path = new File("jsettlers.graphics/src/main/resources/jsettlers/graphics/map/draw/settlerimages");
+		if(CommonConstants.READ_FILES_FROM_CWD) {
+			path = new File("settlerimages");
+			if(!path.exists()) {
+				path.mkdirs();
+				copy("movables.txt", path);
+				for(ECivilisation civ : ECivilisation.VALUES) {
+					copy("movables-" + civ + ".txt", path);
+				}
+			}
+		}
+		instance = new SettlerImageMap(path);
+	}
+
+	private static void copy(String name, File directory) {
+		try {
+			Files.copy(SettlerImageMap.class.getResourceAsStream(name), new File(directory, name).toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

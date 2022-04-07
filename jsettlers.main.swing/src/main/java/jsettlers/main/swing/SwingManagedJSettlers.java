@@ -27,6 +27,7 @@ import jsettlers.common.menu.IStartingGame;
 import jsettlers.common.resources.ResourceManager;
 import jsettlers.graphics.localization.AbstractLabels;
 import jsettlers.graphics.localization.Labels;
+import jsettlers.graphics.map.draw.settlerimages.SettlerImageMap;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.MapLoader;
@@ -65,6 +66,10 @@ public class SwingManagedJSettlers {
 
 		JSettlersFrame settlersFrame = createJSettlersFrame();
 		handleStartOptions(settlersFrame);
+
+		if(CommonConstants.READ_FILES_FROM_CWD) {
+			SettlerImageMap.reloadFromDirectory();
+		}
 	}
 
 	public static void setupResources(boolean interactive, String... args) throws IOException {
