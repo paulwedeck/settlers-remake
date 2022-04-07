@@ -46,7 +46,7 @@ public class CustomGraphicsInterceptor {
 		if (fileIndex == 36) { // use our own ships
 			return new CustomShipsDatFile(reader, imageProvider);
 		}
-		if(CommonConstants.READ_DAT_FILES_FROM_CWD && DirectoryDatFile.getDirectory(fileIndex).exists()) {
+		if(CommonConstants.READ_FILES_FROM_CWD && DirectoryDatFile.getDirectory(fileIndex).exists()) {
 			return new DirectoryDatFile(reader, fileIndex);
 		}
 

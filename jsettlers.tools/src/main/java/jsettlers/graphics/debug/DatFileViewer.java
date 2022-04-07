@@ -97,7 +97,7 @@ public class DatFileViewer extends JFrame implements ListSelectionListener {
 		try {
 			SwingManagedJSettlers.setupResources(false, args);
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			CommonConstants.READ_DAT_FILES_FROM_CWD = false;
+			CommonConstants.READ_FILES_FROM_CWD = false;
 			new DatFileViewer();
 		} catch (Exception ex) {
 			ex.printStackTrace();

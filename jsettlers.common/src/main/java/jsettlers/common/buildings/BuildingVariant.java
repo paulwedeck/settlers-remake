@@ -1,7 +1,11 @@
 package jsettlers.common.buildings;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -9,6 +13,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
+import jsettlers.common.CommonConstants;
 import jsettlers.common.buildings.loader.BuildingFile;
 import jsettlers.common.buildings.loader.MineElementWrapper;
 import jsettlers.common.buildings.stacks.ConstructionStack;
@@ -193,7 +198,32 @@ public class BuildingVariant {
 	public static InputStream openBuildingFile(ECivilisation civilisation, EBuildingType type) {
 		String suffix = civilisation + "/" + type + ".xml";
 		suffix = suffix.toLowerCase(Locale.ENGLISH);
-		return EBuildingType.class.getResourceAsStream("/jsettlers/common/buildings/" + suffix);
+		if(CommonConstants.READ_FILES_FROM_CWD) {
+			new File("buildings/" + civilisation.toString().toLowerCase(Locale.ENGLISH)).mkdirs();
+			File file = new File("buildings/" + suffix);
+			if(!file.exists()) {
+				try(InputStream in = getInputStreamFromJar(suffix)) {
+					if(in != null) {
+						Files.copy(in, file.toPath());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if(file.exists()) {
+				try {
+					return new FileInputStream(file);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return getInputStreamFromJar(suffix);
+	}
+
+	private static InputStream getInputStreamFromJar(String name) {
+		return EBuildingType.class.getResourceAsStream("/jsettlers/common/buildings/" + name);
 	}
 
 	public static BuildingVariant create(EBuildingType type, ECivilisation civilisation) {
