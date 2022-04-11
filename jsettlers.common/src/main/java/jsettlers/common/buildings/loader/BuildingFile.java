@@ -14,19 +14,6 @@
  *******************************************************************************/
 package jsettlers.common.buildings.loader;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
-
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.buildings.RelativeDirectionPoint;
@@ -41,6 +28,17 @@ import jsettlers.common.movable.EDirection;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.ESoldierClass;
 import jsettlers.common.position.RelativePoint;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a building's xml file.
@@ -58,7 +56,6 @@ public class BuildingFile {
 	private static final String TAG_REQUEST_STACK = "requestStack";
 	private static final String TAG_OFFER_STACK = "offerStack";
 	private static final String TAG_OCCUPYER = "occupyer";
-	private static final String ATTR_JOBNAME = "name";
 	private static final String ATTR_DX = "dx";
 	private static final String ATTR_DY = "dy";
 	private static final String ATTR_MATERIAl = "material";
@@ -133,12 +130,8 @@ public class BuildingFile {
 	private short viewdistance = 0;
 	private final String buildingName;
 
-	public BuildingFile(String buildingName) throws FileNotFoundException {
-		this.buildingName = buildingName;
-
-		String buildingFileName = buildingName.toLowerCase(Locale.ENGLISH) + ".xml";
-		InputStream stream = EBuildingType.class.getResourceAsStream("/jsettlers/common/buildings/" + buildingFileName);
-		if(stream == null) throw new FileNotFoundException(buildingFileName);
+	public BuildingFile(String name, InputStream stream) {
+		this.buildingName = name;
 
 		try {
 			XMLReader xr = XMLReaderFactory.createXMLReader();
@@ -153,7 +146,7 @@ public class BuildingFile {
 
 			xr.parse(new InputSource(stream));
 		} catch (Exception e) {
-			System.err.println("Error loading building file for " + buildingName + ":" + e.getMessage());
+			System.err.println("Error loading building file " + buildingName + ":" + e.getMessage());
 			loadDefault();
 		}
 	}

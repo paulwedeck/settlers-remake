@@ -115,8 +115,10 @@ public enum EBuildingType {
 
 		for(ECivilisation civilisation : ECivilisation.VALUES) {
 			try {
-				buildingVariants.put(civilisation, new BuildingVariant(this, civilisation));
-			} catch (FileNotFoundException ex) {
+				BuildingVariant variant = BuildingVariant.create(this, civilisation);
+				if(variant != null) {
+					buildingVariants.put(civilisation, variant);
+				}
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}

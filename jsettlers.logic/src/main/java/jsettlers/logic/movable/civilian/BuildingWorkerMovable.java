@@ -28,6 +28,7 @@ import jsettlers.logic.player.Player;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.function.Supplier;
 
 import static jsettlers.algorithms.simplebehaviortree.BehaviorTreeHelper.*;
 
@@ -185,6 +186,27 @@ public class BuildingWorkerMovable extends CivilianMovable implements IBuildingW
 					repeat(mov -> true, doWork)
 				)
 			)
+		);
+	}
+
+	/**
+	 * Use this work cycle to make the movable automatically enter its home when the preconditions are no longer met.
+	 */
+	protected static <T extends BuildingWorkerMovable> Node<T> busyWorkCycle(Supplier<Node<T>> preconditions, Node<T> doWork) {
+		return defaultWorkCycle(
+				sequence(
+					waitFor(preconditions.get()),
+					show(),
+					ignoreFailure(
+						repeat(mov -> true,
+							sequence(
+								preconditions.get(),
+								doWork
+							)
+						)
+					),
+					enterHome()
+				)
 		);
 	}
 

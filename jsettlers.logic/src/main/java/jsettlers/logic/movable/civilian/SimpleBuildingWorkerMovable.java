@@ -410,17 +410,8 @@ public class SimpleBuildingWorkerMovable extends BuildingWorkerMovable {
 	}
 
 	private static Node<SimpleBuildingWorkerMovable> createMillerBehaviour() {
-		return defaultWorkCycle(
+		return busyWorkCycle(SimpleBuildingWorkerMovable::millerPreconditions,
 				sequence(
-					sleep(3000),
-					waitFor(
-						sequence(
-							isAllowedToWork(),
-							inputStackNotEmpty(EMaterialType.CROP),
-							outputStackNotFull(EMaterialType.FLOUR)
-						)
-					),
-					show(),
 					goToInputStack(EMaterialType.CROP),
 					selector(
 						sequence(
@@ -448,9 +439,16 @@ public class SimpleBuildingWorkerMovable extends BuildingWorkerMovable {
 						),
 						setDirectionNode(EDirection.NORTH_EAST)
 					),
-					dropProduced(mov -> EMaterialType.FLOUR),
-					enterHome()
+					dropProduced(mov -> EMaterialType.FLOUR)
 				)
+		);
+	}
+
+	private static Node<SimpleBuildingWorkerMovable> millerPreconditions() {
+		return sequence(
+				isAllowedToWork(),
+				inputStackNotEmpty(EMaterialType.CROP),
+				outputStackNotFull(EMaterialType.FLOUR)
 		);
 	}
 

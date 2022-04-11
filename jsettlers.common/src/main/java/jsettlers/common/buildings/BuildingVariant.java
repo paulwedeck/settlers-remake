@@ -1,9 +1,11 @@
 package jsettlers.common.buildings;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -99,12 +101,12 @@ public class BuildingVariant {
 	/**
 	 * Constructs an enum object.
 	 */
-	BuildingVariant(EBuildingType type, ECivilisation civilisation) throws FileNotFoundException {
+	BuildingVariant(EBuildingType type, ECivilisation civilisation, InputStream stream) {
 		this.civilisation = civilisation;
 		this.ordinal = type.ordinal;
 		this.type = type;
 
-		BuildingFile file = new BuildingFile(civilisation.toString() + "/" + type.toString());
+		BuildingFile file = new BuildingFile(civilisation + "/" + type, stream);
 		workerType = file.getWorkerType();
 		doorTile = file.getDoor();
 		blockedTiles = file.getBlockedTiles();
@@ -186,6 +188,21 @@ public class BuildingVariant {
 		}
 
 		this.buildingAreaBorder = buildingAreaBorder.toArray(new RelativePoint[0]);
+	}
+
+	public static InputStream openBuildingFile(ECivilisation civilisation, EBuildingType type) {
+		String suffix = civilisation + "/" + type + ".xml";
+		suffix = suffix.toLowerCase(Locale.ENGLISH);
+		return EBuildingType.class.getResourceAsStream("/jsettlers/common/buildings/" + suffix);
+	}
+
+	public static BuildingVariant create(EBuildingType type, ECivilisation civilisation) {
+		InputStream stream = openBuildingFile(civilisation, type);
+		if(stream == null) {
+			return null;
+		}
+
+		return new BuildingVariant(type, civilisation, stream);
 	}
 
 	private byte calculateNumberOfConstructionMaterials() {
