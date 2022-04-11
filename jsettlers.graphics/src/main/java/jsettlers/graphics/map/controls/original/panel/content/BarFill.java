@@ -16,7 +16,6 @@ package jsettlers.graphics.map.controls.original.panel.content;
 
 import go.graphics.EPrimitiveType;
 import java.util.Optional;
-
 import go.graphics.GLDrawContext;
 import go.graphics.UnifiedDrawHandle;
 import jsettlers.common.Color;

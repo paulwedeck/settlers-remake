@@ -21,10 +21,10 @@ import java.nio.ShortBuffer;
 import go.graphics.EPrimitiveType;
 import go.graphics.GLDrawContext;
 import go.graphics.ManagedUnifiedDrawHandle;
-import go.graphics.UnifiedDrawHandle;
 
 import java.awt.image.BufferedImage;
 
+import go.graphics.UnifiedDrawHandle;
 import jsettlers.common.Color;
 import jsettlers.graphics.image.reader.ImageMetadata;
 import jsettlers.graphics.image.reader.translator.ImageDataProducer;
