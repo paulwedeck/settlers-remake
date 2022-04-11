@@ -21,7 +21,6 @@ import jsettlers.algorithms.partitions.PartitionCalculatorAlgorithm;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.landscape.EResourceType;
 import jsettlers.common.logging.MilliStopWatch;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.IMapData;
 import jsettlers.logic.map.loading.data.objects.BuildingMapDataObject;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
@@ -34,6 +33,7 @@ import jsettlers.logic.map.loading.original.data.EOriginalMapSettlersType;
 import jsettlers.logic.map.loading.original.data.EOriginalMapStackType;
 import jsettlers.logic.map.loading.original.data.EOriginalMapObjectType;
 import jsettlers.logic.map.loading.original.data.OriginalLandscape;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * @author Thomas Zeugner

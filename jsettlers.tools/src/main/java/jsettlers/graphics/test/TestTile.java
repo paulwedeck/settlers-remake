@@ -14,13 +14,13 @@
  *******************************************************************************/
 package jsettlers.graphics.test;
 
-import java.awt.Color;
-
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.position.ShortPoint2D;
+
+import java.awt.Color;
 
 public class TestTile {
 	private final short y;

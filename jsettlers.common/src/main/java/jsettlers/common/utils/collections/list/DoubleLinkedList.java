@@ -228,5 +228,5 @@ public final class DoubleLinkedList<T extends DoubleLinkedListItem<T>> implement
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }

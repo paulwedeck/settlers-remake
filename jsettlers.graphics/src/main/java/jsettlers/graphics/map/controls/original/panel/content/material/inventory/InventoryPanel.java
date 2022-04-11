@@ -15,6 +15,7 @@
 package jsettlers.graphics.map.controls.original.panel.content.material.inventory;
 
 import go.graphics.text.EFontSize;
+
 import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.partition.IPartitionData;
 import jsettlers.common.material.EMaterialType;

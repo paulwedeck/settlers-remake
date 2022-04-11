@@ -16,10 +16,9 @@ package jsettlers.common.movable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import jsettlers.common.position.ShortPoint2D;
 
 import org.junit.Test;
-
-import jsettlers.common.position.ShortPoint2D;
 
 /**
  * Unit Tests for {@link EDirection}

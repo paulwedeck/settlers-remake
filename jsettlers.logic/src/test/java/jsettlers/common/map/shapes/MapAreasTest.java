@@ -17,9 +17,8 @@
  */
 package jsettlers.common.map.shapes;
 
-import org.junit.Test;
-
 import jsettlers.common.position.ShortPoint2D;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 

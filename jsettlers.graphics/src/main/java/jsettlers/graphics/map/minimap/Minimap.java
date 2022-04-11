@@ -14,6 +14,10 @@
  *******************************************************************************/
 package jsettlers.graphics.map.minimap;
 
+import go.graphics.EPrimitiveType;
+import go.graphics.GLDrawContext;
+import go.graphics.IllegalBufferException;
+import go.graphics.TextureHandle;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
@@ -21,10 +25,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import go.graphics.EPrimitiveType;
-import go.graphics.GLDrawContext;
-import go.graphics.IllegalBufferException;
-import go.graphics.TextureHandle;
 import go.graphics.UnifiedDrawHandle;
 import go.graphics.VkDrawContext;
 import jsettlers.common.map.IGraphicsGrid;

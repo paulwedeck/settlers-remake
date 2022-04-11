@@ -16,11 +16,11 @@ package jsettlers.mapcreator.tools.objects;
 
 import java.util.Locale;
 
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.objects.DecorationMapDataObject;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
-import jsettlers.logic.map.loading.data.objects.MapTreeObject;
 import jsettlers.logic.map.loading.data.objects.StoneMapDataObject;
+import jsettlers.logic.map.loading.data.objects.MapTreeObject;
+import jsettlers.common.position.ShortPoint2D;
 import jsettlers.mapcreator.data.MapData;
 import jsettlers.mapcreator.localization.EditorLabels;
 import jsettlers.mapcreator.tools.AbstractTool;

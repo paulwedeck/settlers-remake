@@ -19,13 +19,13 @@ import java.util.Optional;
 import go.graphics.GLDrawContext;
 import go.graphics.UIPoint;
 import go.graphics.event.mouse.GODrawEvent;
-import jsettlers.common.action.Action;
-import jsettlers.common.action.EMoveToType;
-import jsettlers.common.action.IAction;
 import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.menu.IMapInterfaceListener;
+import jsettlers.common.action.IAction;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
+import jsettlers.common.action.Action;
+import jsettlers.common.action.EMoveToType;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.map.MapDrawContext;
 

@@ -15,7 +15,6 @@
 package jsettlers.common.position;
 
 import jsettlers.common.map.shapes.HexGridArea;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

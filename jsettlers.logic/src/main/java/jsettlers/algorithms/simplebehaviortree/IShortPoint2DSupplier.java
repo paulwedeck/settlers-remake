@@ -4,7 +4,6 @@ package jsettlers.algorithms.simplebehaviortree;
 import java.io.Serializable;
 
 import java.util.function.Function;
-
 import jsettlers.common.position.ShortPoint2D;
 
 @FunctionalInterface

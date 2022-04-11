@@ -14,22 +14,17 @@
  *******************************************************************************/
 package jsettlers.common.map.shapes;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.BitSet;
 import java.util.Optional;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import jsettlers.common.map.shapes.HexGridArea.HexGridAreaIterator;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.logic.utils.DebugImagesHelper;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.util.BitSet;
+
+import static org.junit.Assert.*;
 
 public class HexGridAreaTest {
 

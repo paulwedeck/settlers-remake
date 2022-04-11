@@ -15,8 +15,8 @@
 package jsettlers.logic.movable.testmap;
 
 import java.util.LinkedList;
-import java.util.Objects;
 
+import java.util.Objects;
 import jsettlers.algorithms.path.IPathCalculatable;
 import jsettlers.algorithms.path.Path;
 import jsettlers.algorithms.path.astar.BucketQueueAStar;

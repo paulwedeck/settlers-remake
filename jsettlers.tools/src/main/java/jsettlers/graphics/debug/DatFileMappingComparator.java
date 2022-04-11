@@ -1,9 +1,5 @@
 package jsettlers.graphics.debug;
 
-import static jsettlers.graphics.image.reader.DatFileUtils.distinctFileNames;
-import static jsettlers.graphics.image.reader.DatFileUtils.getDatFileIndex;
-import static jsettlers.graphics.image.reader.DatFileUtils.getDatFileName;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,6 +14,10 @@ import jsettlers.graphics.image.reader.DatFileUtils;
 import jsettlers.graphics.image.reader.versions.IndexingDatFileMapping;
 import jsettlers.graphics.image.reader.versions.IndexingGfxFolderMapping;
 import jsettlers.graphics.image.reader.versions.SettlersVersionMapping;
+
+import static jsettlers.graphics.image.reader.DatFileUtils.distinctFileNames;
+import static jsettlers.graphics.image.reader.DatFileUtils.getDatFileIndex;
+import static jsettlers.graphics.image.reader.DatFileUtils.getDatFileName;
 
 /**
  * Small application that finds the mapping differences between dat files.

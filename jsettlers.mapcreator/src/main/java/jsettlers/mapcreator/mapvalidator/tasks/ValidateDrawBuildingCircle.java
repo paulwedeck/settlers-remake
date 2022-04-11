@@ -16,10 +16,10 @@ package jsettlers.mapcreator.mapvalidator.tasks;
 
 import jsettlers.common.CommonConstants;
 import jsettlers.common.buildings.EBuildingType;
-import jsettlers.common.map.shapes.MapCircle;
-import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.loading.data.objects.BuildingMapDataObject;
 import jsettlers.logic.map.loading.data.objects.MapDataObject;
+import jsettlers.common.map.shapes.MapCircle;
+import jsettlers.common.position.ShortPoint2D;
 
 /**
  * Draw the building circle to the players array, does not produce any error message

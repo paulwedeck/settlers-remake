@@ -14,17 +14,17 @@
  *******************************************************************************/
 package jsettlers.graphics.map.controls.original.panel.content;
 
+import go.graphics.EPrimitiveType;
 import java.util.Optional;
 
-import go.graphics.EPrimitiveType;
 import go.graphics.GLDrawContext;
 import go.graphics.UnifiedDrawHandle;
 import jsettlers.common.Color;
-import jsettlers.common.action.Action;
 import jsettlers.common.images.EImageLinkType;
 import jsettlers.common.images.ImageLink;
 import jsettlers.common.images.OriginalImageLink;
 import jsettlers.common.position.FloatRectangle;
+import jsettlers.common.action.Action;
 import jsettlers.graphics.action.ExecutableAction;
 import jsettlers.graphics.ui.UIPanel;
 

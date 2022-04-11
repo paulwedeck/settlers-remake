@@ -16,8 +16,6 @@ package jsettlers.common.utils.coordinates;
 
 import org.junit.Test;
 
-import jsettlers.common.utils.coordinates.CoordinateStream;
-import jsettlers.common.utils.coordinates.IBooleanCoordinateFunction;
 import jsettlers.common.utils.mutables.MutableInt;
 
 import static org.junit.Assert.assertEquals;

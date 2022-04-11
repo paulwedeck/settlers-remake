@@ -15,7 +15,6 @@
 package jsettlers.integration.ai;
 
 import jsettlers.logic.constants.Constants;
-import jsettlers.logic.map.loading.MapLoader;
 import jsettlers.logic.utils.MapUtils;
 
 import org.junit.Test;

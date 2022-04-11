@@ -14,18 +14,17 @@
  *******************************************************************************/
 package jsettlers.mapcreator.mapvalidator.result.fix;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.shapes.IMapArea;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.mapcreator.localization.EditorLabels;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Delete invalid resources

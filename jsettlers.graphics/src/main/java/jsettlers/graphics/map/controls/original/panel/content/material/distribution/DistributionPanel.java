@@ -16,11 +16,9 @@ package jsettlers.graphics.map.controls.original.panel.content.material.distribu
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import go.graphics.text.EFontSize;
-import jsettlers.common.action.SetMaterialDistributionSettingsAction;
+
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.MaterialsOfBuildings;
 import jsettlers.common.map.IGraphicsGrid;
@@ -32,6 +30,7 @@ import jsettlers.common.position.IPositionSupplier;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.action.ExecutableAction;
+import jsettlers.common.action.SetMaterialDistributionSettingsAction;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.map.controls.original.panel.button.MaterialButton;
 import jsettlers.graphics.map.controls.original.panel.content.AbstractContentProvider;
@@ -43,6 +42,9 @@ import jsettlers.graphics.map.controls.original.panel.content.updaters.UiLocatio
 import jsettlers.graphics.ui.Label;
 import jsettlers.graphics.ui.Label.EHorizontalAlignment;
 import jsettlers.graphics.ui.UIPanel;
+
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DistributionPanel extends AbstractContentProvider implements IUiContentReceiver<IMaterialDistributionSettings> {
 	private static final float contentHeight_px = 216;
