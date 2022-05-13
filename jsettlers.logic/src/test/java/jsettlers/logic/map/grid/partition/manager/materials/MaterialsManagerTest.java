@@ -21,7 +21,8 @@ import jsettlers.common.position.ShortPoint2D;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.EOfferPriority;
 import jsettlers.logic.map.grid.partition.manager.materials.offers.OffersList;
 import jsettlers.logic.map.grid.partition.manager.settings.PartitionManagerSettings;
-import jsettlers.testutils.TestUtils;
+import jsettlers.logic.utils.TestUtils;
+
 import org.junit.Test;
 
 import java.io.IOException;

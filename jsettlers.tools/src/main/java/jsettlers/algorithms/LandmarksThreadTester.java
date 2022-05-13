@@ -34,7 +34,7 @@ import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.action.PointAction;
 import jsettlers.common.player.IPlayer;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
-import jsettlers.main.swing.resources.SwingResourceLoader;
+import jsettlers.main.swing.SwingResourceLoader;
 
 public class LandmarksThreadTester {
 	private static final int WIDTH = 20;

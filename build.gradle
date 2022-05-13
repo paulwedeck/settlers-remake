@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply plugin: 'java'
+apply plugin: "eclipse"
 
 ext {
 
@@ -39,7 +40,6 @@ allprojects {
 
 
 subprojects {
-
     plugins.withType(JavaPlugin).whenPluginAdded {
         compileJava {
             sourceCompatibility = JavaVersion.VERSION_11
@@ -88,6 +88,7 @@ subprojects {
 
     def addGlobalDependencies = {
         dependencies {
+            implementation 'com.google.code.gson:gson:2.9.0'
             testImplementation 'junit:junit:4.12'
         }
     }

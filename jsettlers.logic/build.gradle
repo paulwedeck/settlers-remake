@@ -1,5 +1,5 @@
-apply plugin: 'java'
-
+apply plugin: 'java-library'
+apply plugin: 'eclipse'
 
 task aiDifficultiesIT(type: Test, dependsOn: testClasses) {
 	include '**/AiDifficultiesIT*'
@@ -17,16 +17,12 @@ task unitTest(type: Test) {
 	exclude 'jsettlers/integration/**'
 }
 
-
 dependencies {
-	implementation project(':go.graphics')
-	implementation project(':jsettlers.common')
-	implementation project(':jsettlers.network')
-
-	testImplementation project(':jsettlers.testutils')
-	testImplementation project(':jsettlers.main.swing')
-
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'junit:junit:4.12'
+    
+	api project(':jsettlers.common')
+	api project(':jsettlers.network')
 }
 
 compileJava {

@@ -14,6 +14,8 @@
  */
 package jsettlers;
 
+import java.io.IOException;
+
 import jsettlers.common.action.EActionType;
 import jsettlers.common.action.PointAction;
 import jsettlers.common.ai.EPlayerType;
@@ -25,11 +27,9 @@ import jsettlers.common.player.ECivilisation;
 import jsettlers.graphics.map.draw.ImageProvider;
 import jsettlers.logic.player.Player;
 import jsettlers.logic.player.Team;
+import jsettlers.logic.utils.TestUtils;
 import jsettlers.main.swing.SwingManagedJSettlers;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
-import jsettlers.testutils.TestUtils;
-
-import java.io.IOException;
 
 public class TestToolUtils extends TestUtils {
 	public static IMapInterfaceConnector openTestWindow(final IGraphicsGrid map) throws JSettlersLookAndFeelExecption, IOException {

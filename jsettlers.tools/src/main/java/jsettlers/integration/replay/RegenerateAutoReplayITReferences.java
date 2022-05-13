@@ -20,13 +20,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import jsettlers.common.CommonConstants;
-import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.constants.Constants;
+import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.map.loading.MapLoader;
+import jsettlers.logic.replay.AutoReplaySetting;
+import jsettlers.logic.utils.MapUtils;
+import jsettlers.logic.utils.TestUtils;
 import jsettlers.main.replay.ReplayUtils;
-import jsettlers.main.swing.resources.SwingResourceLoader;
-import jsettlers.testutils.TestUtils;
-import jsettlers.testutils.map.MapUtils;
 
 /**
  * Created by Andreas Eberle on 23.04.2016.

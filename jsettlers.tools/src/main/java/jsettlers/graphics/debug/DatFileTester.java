@@ -14,9 +14,21 @@
  *******************************************************************************/
 package jsettlers.graphics.debug;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Locale;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import go.graphics.EPrimitiveType;
 import go.graphics.GLDrawContext;
-import go.graphics.IllegalBufferException;
 import go.graphics.UnifiedDrawHandle;
 import go.graphics.area.Area;
 import go.graphics.event.GOEvent;
@@ -29,30 +41,18 @@ import go.graphics.text.TextDrawer;
 import jsettlers.common.Color;
 import jsettlers.common.resources.ResourceManager;
 import jsettlers.common.resources.SettlersFolderChecker;
+import jsettlers.common.resources.SwingResourceProvider;
 import jsettlers.common.utils.FileUtils;
 import jsettlers.common.utils.mutables.Mutable;
-import jsettlers.graphics.image.SingleImage;
 import jsettlers.graphics.image.Image;
 import jsettlers.graphics.image.SettlerImage;
+import jsettlers.graphics.image.SingleImage;
 import jsettlers.graphics.image.reader.AdvancedDatFileReader;
 import jsettlers.graphics.image.reader.DatFileReader;
 import jsettlers.graphics.image.reader.DatFileType;
-import jsettlers.graphics.image.sequence.SequenceList;
 import jsettlers.graphics.image.sequence.Sequence;
-import jsettlers.main.swing.resources.SwingResourceProvider;
+import jsettlers.graphics.image.sequence.SequenceList;
 import jsettlers.main.swing.settings.SettingsManager;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Locale;
 
 public class DatFileTester {
 	private static final int DAT_FILE_INDEX = 13;

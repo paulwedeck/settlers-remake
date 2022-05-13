@@ -1,18 +1,12 @@
+apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'eclipse'
 
 mainClassName = 'jsettlers.ToolsMain'
 
 dependencies {
     implementation 'junit:junit:4.12'
-    implementation project(':go.graphics')
-    implementation project(':go.graphics.swing')
-    implementation project(':jsettlers.common')
-    implementation project(':jsettlers.graphics')
-    implementation project(':jsettlers.logic')
     implementation project(':jsettlers.main.swing')
-    implementation project(':jsettlers.network')
-    implementation project(':jsettlers.testutils')
-    implementation project(':jsettlers.tests')
 }
 
 jar {

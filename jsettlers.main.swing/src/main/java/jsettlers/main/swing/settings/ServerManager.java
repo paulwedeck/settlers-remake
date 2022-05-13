@@ -28,10 +28,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
 import java.util.function.Consumer;
 
-import javax.swing.AbstractListModel;
 import javax.swing.ListModel;
 
 import jsettlers.common.resources.ResourceManager;

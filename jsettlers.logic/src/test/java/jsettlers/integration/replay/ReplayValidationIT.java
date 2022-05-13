@@ -35,8 +35,8 @@ import jsettlers.logic.player.PlayerSetting;
 import jsettlers.main.JSettlersGame;
 import jsettlers.main.replay.ReplayUtils;
 import jsettlers.network.synchronic.timer.NetworkTimer;
-import jsettlers.testutils.TestUtils;
-import jsettlers.testutils.map.MapUtils;
+import jsettlers.logic.utils.MapUtils;
+import jsettlers.logic.utils.TestUtils;
 
 /**
  * 

@@ -14,7 +14,23 @@
  *******************************************************************************/
 package jsettlers.buildingcreator.editor;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import jsettlers.buildingcreator.editor.map.BuildingtestMap;
 import jsettlers.buildingcreator.editor.map.PseudoTile;
@@ -37,24 +53,6 @@ import jsettlers.common.player.ECivilisation;
 import jsettlers.common.position.RelativePoint;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.main.swing.SwingManagedJSettlers;
-import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * This is the main building creator class.
@@ -71,33 +69,29 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 	@Override
 	public void run() {
-		try {
-			EBuildingType type = askType();
-			BuildingVariant variant = askVariant(type);
+		EBuildingType type = askType();
+		BuildingVariant variant = askVariant(type);
 
-			definition = new BuildingDefinition(variant);
-			map = new BuildingtestMap(definition);
-			for (int x = 0; x < map.getWidth(); x++) {
-				for (int y = 0; y < map.getHeight(); y++) {
-					reloadColor(new ShortPoint2D(x, y));
-				}
+		definition = new BuildingDefinition(variant);
+		map = new BuildingtestMap(definition);
+		for (int x = 0; x < map.getWidth(); x++) {
+			for (int y = 0; y < map.getHeight(); y++) {
+				reloadColor(new ShortPoint2D(x, y));
 			}
-
-			IMapInterfaceConnector connector = startMapWindow();
-			connector.addListener(this);
-
-			JPanel menu = generateMenu();
-
-			window = new JFrame("Edit " + variant.toString());
-			window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			window.add(menu);
-			window.pack();
-			window.setVisible(true);
-
-			connector.fireAction(new Action(EActionType.TOGGLE_DEBUG));
-		} catch (JSettlersLookAndFeelExecption e) {
-			throw new RuntimeException(e);
 		}
+
+		IMapInterfaceConnector connector = startMapWindow();
+		connector.addListener(this);
+
+		JPanel menu = generateMenu();
+
+		window = new JFrame("Edit " + variant.toString());
+		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		window.add(menu);
+		window.pack();
+		window.setVisible(true);
+
+		connector.fireAction(new Action(EActionType.TOGGLE_DEBUG));
 	}
 
 	private JPanel generateMenu() {
@@ -113,7 +107,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		return menu;
 	}
 
-	private IMapInterfaceConnector startMapWindow() throws JSettlersLookAndFeelExecption {
+	private IMapInterfaceConnector startMapWindow() {
 		return SwingManagedJSettlers.showJSettlers(new FakeMapGame(map));
 	}
 

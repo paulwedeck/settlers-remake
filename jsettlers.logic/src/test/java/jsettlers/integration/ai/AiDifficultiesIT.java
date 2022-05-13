@@ -15,8 +15,8 @@
 package jsettlers.integration.ai;
 
 import jsettlers.logic.constants.Constants;
-import jsettlers.logic.map.loading.MapLoader;
-import jsettlers.testutils.map.MapUtils;
+import jsettlers.logic.utils.MapUtils;
+
 import org.junit.Test;
 
 import jsettlers.common.CommonConstants;
@@ -28,7 +28,8 @@ import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.player.PlayerSetting;
 import jsettlers.main.JSettlersGame;
 import jsettlers.main.replay.ReplayUtils;
-import jsettlers.testutils.TestUtils;
+import jsettlers.logic.utils.TestUtils;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 

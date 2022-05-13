@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 
 import jsettlers.common.buildings.BuildingVariant;
-import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.IBuildingMaterial;
 import jsettlers.common.mapobject.EMapObjectType;

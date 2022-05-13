@@ -22,8 +22,9 @@ import jsettlers.common.CommonConstants;
 import jsettlers.logic.map.loading.MapLoadException;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.map.loading.MapLoader;
+import jsettlers.logic.replay.AutoReplaySetting;
+import jsettlers.logic.utils.TestUtils;
 import jsettlers.main.replay.ReplayUtils;
-import jsettlers.testutils.TestUtils;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

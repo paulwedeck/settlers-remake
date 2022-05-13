@@ -15,8 +15,6 @@
 package jsettlers.common.action;
 
 import jsettlers.common.map.shapes.MapRectangle;
-import jsettlers.common.action.Action;
-import jsettlers.common.action.EActionType;
 import jsettlers.common.position.ShortPoint2D;
 
 /**

@@ -11,8 +11,6 @@ include ':jsettlers.logic'
 include ':jsettlers.main.swing'
 include ':jsettlers.mapcreator'
 include ':jsettlers.network'
-include ':jsettlers.tests'
-include ':jsettlers.testutils'
 include ':jsettlers.tools'
 
 // Android projects

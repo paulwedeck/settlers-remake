@@ -1,6 +1,5 @@
 package jsettlers.graphics.map.controls.original.panel.content.settlers.profession;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import go.graphics.text.EFontSize;

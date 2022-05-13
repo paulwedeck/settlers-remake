@@ -18,14 +18,14 @@ import org.junit.Test;
 
 import java.util.BitSet;
 
-import jsettlers.logic.map.grid.MainGridDataAccessor;
 import jsettlers.common.logging.MilliStopWatch;
 import jsettlers.logic.map.loading.MapLoadException;
+import jsettlers.logic.utils.MapUtils;
 import jsettlers.logic.constants.MatchConstants;
 import jsettlers.logic.map.grid.MainGrid;
+import jsettlers.logic.map.grid.MainGridDataAccessor;
 import jsettlers.logic.map.grid.landscape.LandscapeGrid;
 import jsettlers.network.synchronic.timer.NetworkTimer;
-import jsettlers.testutils.map.MapUtils;
 
 /**
  * 

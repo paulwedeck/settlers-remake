@@ -19,7 +19,7 @@ package jsettlers.main.swing.lookandfeel;
  * @author Andreas Eberle
  *
  */
-public class JSettlersLookAndFeelExecption extends Exception {
+public class JSettlersLookAndFeelExecption extends RuntimeException {
 	private static final long serialVersionUID = 4998706762006095932L;
 
 	public JSettlersLookAndFeelExecption(Throwable cause) {
