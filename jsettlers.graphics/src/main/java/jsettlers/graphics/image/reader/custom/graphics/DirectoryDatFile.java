@@ -76,7 +76,7 @@ public class DirectoryDatFile implements DatFileReader {
 				String offsetLine = reader.readLine();
 				String[] parts = offsetLine.split(" ");
 				offsetX = Integer.parseInt(parts[0]);
-				offsetY = Integer.parseInt(parts[0]);
+				offsetY = Integer.parseInt(parts[1]);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
