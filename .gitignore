@@ -35,3 +35,8 @@ out/
 
 productionStats/*.png
 productionStats/*.log
+
+# these files get easily created when running the tools from the IDE
+/jsettlers.tools/maps/
+/jsettlers.tools/images/
+/jsettlers.tools/save/
