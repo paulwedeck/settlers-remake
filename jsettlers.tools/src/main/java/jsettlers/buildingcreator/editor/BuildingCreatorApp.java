@@ -14,6 +14,11 @@
  *******************************************************************************/
 package jsettlers.buildingcreator.editor;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Arrays;
 
 import jsettlers.buildingcreator.editor.map.BuildingtestMap;
@@ -55,6 +60,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jdesktop.swingx.JXCollapsiblePane;
+import org.jdesktop.swingx.JXTaskPane;
 
 /**
  * This is the main building creator class.
@@ -62,6 +71,8 @@ import java.util.List;
  * @author michael
  */
 public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
+    private static final Logger log = LogManager.getLogger(BuildingCreatorApp.class);
+    
 	private BuildingDefinition definition;
 	private BuildingtestMap map;
 
@@ -71,6 +82,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 	@Override
 	public void run() {
+            log.debug("run()");
+            
 		try {
 			EBuildingType type = askType();
 			BuildingVariant variant = askVariant(type);
@@ -90,6 +103,14 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 			window = new JFrame("Edit " + variant.toString());
 			window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                        window.addWindowStateListener(new WindowAdapter() {
+                            @Override
+                            public void windowClosing(WindowEvent e) {
+                                log.debug("windowClosing({})", e);
+                                connector.shutdown();
+                            }
+                        });
+                        
 			window.add(menu);
 			window.pack();
 			window.setVisible(true);
@@ -98,6 +119,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		} catch (JSettlersLookAndFeelExecption e) {
 			throw new RuntimeException(e);
 		}
+            log.debug("run finished");
 	}
 
 	private JPanel generateMenu() {
@@ -116,24 +138,34 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	private IMapInterfaceConnector startMapWindow() throws JSettlersLookAndFeelExecption {
 		return SwingManagedJSettlers.showJSettlers(new FakeMapGame(map));
 	}
+        
+        private void activateToolType(ToolType tt) {
+            log.debug("activateToolType({})", tt);
+            
+            tool = tt;
 
-	private JButton createToolChangeBar() {
-		JButton button = new JButton("Select tool...");
-		button.addActionListener(e -> {
-			ToolType newTool = (ToolType) JOptionPane.showInputDialog(null, "Select building type", "Building Type",
-					JOptionPane.QUESTION_MESSAGE, null, ToolType.values(), tool);
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getWidth(); y++) {
+                    reloadColor(new ShortPoint2D(x, y));
+                }
+            }
+        }
 
-			if (newTool != null) {
-				tool = newTool;
-			}
-
-			for (int x = 0; x < map.getWidth(); x++) {
-				for (int y = 0; y < map.getWidth(); y++) {
-					reloadColor(new ShortPoint2D(x, y));
-				}
-			}
-		});
-		return button;
+	private Component createToolChangeBar() {
+            JPanel result = new JXTaskPane("Select tool...");
+            
+            for(ToolType tt: ToolType.values()) {
+                JButton b = new JButton(tt.toString());
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        activateToolType(tt);
+                    }
+                });
+                result.add(b);
+            }
+            
+            return result;
 	}
 
 	private EBuildingType askType() {
