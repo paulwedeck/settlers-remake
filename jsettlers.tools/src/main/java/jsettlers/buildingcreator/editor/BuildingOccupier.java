@@ -29,5 +29,14 @@ public class BuildingOccupier implements IBuildingOccupier{
     public OccupierPlace getPlace() {
         return occupierPlace;
     }
-    
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(getClass().getName()).append("(");
+        sb.append("movable=").append(movable);
+        sb.append(", occupierPlace=").append(occupierPlace);
+        sb.append(")");
+        return sb.toString();
+    }
+   
 }

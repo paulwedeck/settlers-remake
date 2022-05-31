@@ -60,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.event.ChangeEvent;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.IBuildingOccupier;
 import jsettlers.common.buildings.OccupierPlace;
@@ -96,21 +98,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 			definition = new BuildingDefinition(variant);
 			map = new BuildingtestMap(definition);
-                        
-                        List<IBuildingOccupier> occupiers = null;
-                        IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
-                        occupiers = (List<IBuildingOccupier>)building.getOccupiers();
-                        log.debug("variant {}", variant);
-                        log.debug("OccupierPlaces:");
-                        for (OccupierPlace op: variant.getOccupierPlaces()) {
-                            log.debug("  place {}", op.getSoldierClass(), op.getPosition());
-                            if (op != null) {
-                                occupiers.add( new BuildingOccupier(op, new GraphicsMovable(IPlayer.DummyPlayer.getCached((byte)0))) );
-                            }
-                        }
-                        log.debug("building {}", map.getBuilding());
-                        log.debug("occupiers {}", occupiers);
-            
                         
 			for (int x = 0; x < map.getWidth(); x++) {
 				for (int y = 0; y < map.getHeight(); y++) {
@@ -150,6 +137,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		JPanel menu = new JPanel();
 		menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
 		menu.add(createToolChangeBar());
+                
+                menu.add(createBuildingStatus());
 
 		JButton xmlButton = new JButton("show xml data");
 		xmlButton.addActionListener(e -> showXML());
@@ -162,6 +151,44 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	private IMapInterfaceConnector startMapWindow() throws JSettlersLookAndFeelExecption {
 		return SwingManagedJSettlers.showJSettlers(new FakeMapGame(map));
 	}
+
+        private void occupyBulding() {
+            log.debug("occupyBuilding");
+            
+            BuildingVariant variant = definition.getBuilding();
+            List<IBuildingOccupier> occupiers = null;
+            IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
+            occupiers = (List<IBuildingOccupier>)building.getOccupiers();
+            log.debug("OccupierPlaces:");
+            for (OccupierPlace op: variant.getOccupierPlaces()) {
+                log.debug("  place {}", op.getSoldierClass(), op.getPosition());
+                if (op != null) {
+                    switch (op.getSoldierClass()) {
+                        case BOWMAN:
+                            occupiers.add( new BuildingOccupier(op, new GraphicsMovable(EMovableType.BOWMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                            break;
+                        case INFANTRY:
+                            occupiers.add( new BuildingOccupier(op, new GraphicsMovable(EMovableType.SWORDSMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            log.debug("building {}", map.getBuilding());
+            log.debug("occupiers {}", occupiers);
+        }
+
+        private void evacuateBulding() {
+            log.debug("evacuateBuilding");
+            
+            List<IBuildingOccupier> occupiers = null;
+            IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
+            occupiers = (List<IBuildingOccupier>)building.getOccupiers();
+            occupiers.clear();
+            log.debug("building {}", map.getBuilding());
+            log.debug("occupiers {}", occupiers);
+        }
         
         private void activateToolType(ToolType tt) {
             log.debug("activateToolType({})", tt);
@@ -191,6 +218,25 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
             return result;
 	}
+        
+        public Component createBuildingStatus() {
+            JPanel result = new JXTaskPane("Building Status...");
+            JCheckBox cb = new JCheckBox("Occupied");
+            cb.addChangeListener(e -> {
+                log.debug("value: {}", e);
+                if (e.getSource() instanceof JCheckBox) {
+                    JCheckBox cb2 = (JCheckBox)e.getSource();
+                    log.debug("value {}", cb2.isSelected());
+                    if (cb2.isSelected()) {
+                        occupyBulding();
+                    } else {
+                        evacuateBulding();
+                    }
+                }
+            });
+            result.add(cb);
+            return result;
+        }
 
 	private EBuildingType askType() {
 		EBuildingType[] buildingTypes = EBuildingType.values();

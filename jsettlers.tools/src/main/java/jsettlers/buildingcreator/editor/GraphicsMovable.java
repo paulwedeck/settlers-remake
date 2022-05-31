@@ -19,9 +19,11 @@ import jsettlers.common.selectable.ESelectionType;
 public class GraphicsMovable implements IGraphicsMovable {
     
     private IPlayer player;
+    private EMovableType movableType;
     
-    public GraphicsMovable(IPlayer player) {
+    public GraphicsMovable(EMovableType movableType, IPlayer player) {
         this.player = player;
+        this.movableType = movableType;
     }
 
     @Override
@@ -113,5 +115,13 @@ public class GraphicsMovable implements IGraphicsMovable {
     public int getID() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(getClass().getName()).append("(");
+        sb.append("movableType=").append(movableType);
+        sb.append(", player=").append(player);
+        sb.append(")");
+        return sb.toString();
+    }
 }
