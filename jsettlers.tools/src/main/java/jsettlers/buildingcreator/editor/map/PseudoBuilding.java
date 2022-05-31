@@ -14,6 +14,7 @@
  *******************************************************************************/
 package jsettlers.buildingcreator.editor.map;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,16 +22,20 @@ import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.IBuildingMaterial;
+import jsettlers.common.buildings.IBuildingOccupier;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.material.EPriority;
+import jsettlers.common.movable.ESoldierClass;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 
-public class PseudoBuilding implements IBuilding, IBuilding.IMill {
+public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOccupied {
 	private final BuildingVariant building;
 	private final ShortPoint2D pos;
+        
+        private final List<? extends IBuildingOccupier> occupiers = new ArrayList<>();
 
 	PseudoBuilding(BuildingVariant building, ShortPoint2D pos) {
 		this.building = building;
@@ -129,4 +134,19 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill {
 	public boolean cannotWork() {
 		return false;
 	}
+
+    @Override
+    public List<? extends IBuildingOccupier> getOccupiers() {
+        return occupiers;
+    }
+
+    @Override
+    public int getSearchedSoldiers(ESoldierClass esc) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int getComingSoldiers(ESoldierClass esc) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

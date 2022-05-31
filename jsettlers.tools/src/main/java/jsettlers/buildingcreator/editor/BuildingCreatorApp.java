@@ -60,6 +60,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import jsettlers.common.buildings.IBuilding;
+import jsettlers.common.buildings.IBuildingOccupier;
+import jsettlers.common.buildings.OccupierPlace;
+import jsettlers.common.movable.EMovableType;
+import jsettlers.common.player.IPlayer;
+import jsettlers.logic.movable.Movable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXCollapsiblePane;
@@ -90,6 +96,22 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 			definition = new BuildingDefinition(variant);
 			map = new BuildingtestMap(definition);
+                        
+                        List<IBuildingOccupier> occupiers = null;
+                        IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
+                        occupiers = (List<IBuildingOccupier>)building.getOccupiers();
+                        log.debug("variant {}", variant);
+                        log.debug("OccupierPlaces:");
+                        for (OccupierPlace op: variant.getOccupierPlaces()) {
+                            log.debug("  place {}", op.getSoldierClass(), op.getPosition());
+                            if (op != null) {
+                                occupiers.add( new BuildingOccupier(op, new GraphicsMovable(IPlayer.DummyPlayer.getCached((byte)0))) );
+                            }
+                        }
+                        log.debug("building {}", map.getBuilding());
+                        log.debug("occupiers {}", occupiers);
+            
+                        
 			for (int x = 0; x < map.getWidth(); x++) {
 				for (int y = 0; y < map.getHeight(); y++) {
 					reloadColor(new ShortPoint2D(x, y));
@@ -119,6 +141,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		} catch (JSettlersLookAndFeelExecption e) {
 			throw new RuntimeException(e);
 		}
+                
+                
             log.debug("run finished");
 	}
 
@@ -164,7 +188,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 });
                 result.add(b);
             }
-            
+
             return result;
 	}
 

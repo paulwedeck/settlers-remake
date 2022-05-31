@@ -1,0 +1,145 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<!DOCTYPE building SYSTEM "../building.dtd">
+<building worker="MELTER" workradius="0">
+	<ground groundtype="GRASS" />
+	<ground groundtype="EARTH" />
+	<ground groundtype="DESERT" />
+	<ground groundtype="DESERTBORDER"/>
+	<ground groundtype="DESERTBORDEROUTER"/>
+	<ground groundtype="DRY_GRASS"/>
+	<ground groundtype="FLATTENED_DESERT"/>
+	<ground groundtype="SHARP_FLATTENED_DESERT"/>
+	<ground groundtype="FLATTENED" />
+
+	<blocked dx="-3" dy="1" />
+	<blocked dx="-1" dy="3" />
+	<blocked dx="0" dy="4" />
+	<blocked dx="1" dy="4" />
+	<blocked dx="2" dy="2" />
+	<blocked dx="2" dy="1" />
+	<blocked dx="2" dy="-1" />
+	<blocked dx="2" dy="-2" />
+	<blocked dx="3" dy="-1" />
+	<blocked dx="-2" dy="1" />
+	<blocked dx="-1" dy="2" />
+	<blocked dx="0" dy="3" />
+	<blocked dx="-2" dy="0" />
+	<blocked dx="-3" dy="0" />
+	<blocked dx="-3" dy="-1" />
+	<blocked dx="-1" dy="1" />
+	<blocked dx="0" dy="2" />
+	<blocked dx="1" dy="3" />
+	<blocked dx="1" dy="2" />
+	<blocked dx="1" dy="1" />
+	<blocked dx="1" dy="0" />
+	<blocked dx="1" dy="-1" />
+	<blocked dx="1" dy="-2" />
+	<blocked dx="1" dy="-3" />
+	<blocked dx="0" dy="1" />
+	<blocked dx="0" dy="0" />
+	<blocked dx="0" dy="-1" />
+	<blocked dx="0" dy="-2" />
+	<blocked dx="0" dy="-3" />
+	<blocked dx="0" dy="-4" />
+	<blocked dx="-1" dy="0" />
+	<blocked dx="-1" dy="-1" />
+	<blocked dx="-1" dy="-2" />
+	<blocked dx="-1" dy="-3" />
+	<blocked dx="-1" dy="-4" />
+	<blocked dx="-2" dy="-1" />
+	<blocked dx="-2" dy="-2" />
+	<blocked dx="-2" dy="-3" />
+	<blocked dx="-2" dy="-4" />
+	<blocked dx="-2" dy="-5" />
+	<blocked dx="-3" dy="-2" />
+	<blocked dx="-3" dy="-3" />
+	<blocked dx="-1" dy="-5" />
+	<blocked dx="-2" dy="2" />
+	<blocked dx="1" dy="5" />
+	<blocked dx="3" dy="0" />
+	<blocked dx="3" dy="2" />
+	<blocked dx="3" dy="3" />
+	<blocked dx="2" dy="3" />
+	<blocked dx="2" dy="0" />
+	<blocked dx="4" dy="1" />
+	<blocked dx="4" dy="0" />
+
+	<blocked dx="-3" dy="-4" block="false" />
+	<blocked dx="-3" dy="-5" block="false" />
+	<blocked dx="-3" dy="-6" block="false" />
+	<blocked dx="0" dy="-5" block="false" />
+	<blocked dx="-1" dy="-6" block="false" />
+	<blocked dx="2" dy="-3" block="false" />
+	<blocked dx="1" dy="-4" block="false" />
+	<blocked dx="3" dy="-2" block="false" />
+	<blocked dx="4" dy="-1" block="false" />
+	<blocked dx="3" dy="1" block="false" />
+	<blocked dx="4" dy="2" block="false" />
+	<blocked dx="4" dy="3" block="false" />
+	<blocked dx="0" dy="5" block="false" />
+	<blocked dx="3" dy="5" block="false" />
+	<blocked dx="4" dy="5" block="false" />
+	<blocked dx="-1" dy="4" block="false" />
+	<blocked dx="-2" dy="3" block="false" />
+	<blocked dx="-3" dy="2" block="false" />
+	<blocked dx="-4" dy="1" block="false" />
+	<blocked dx="-4" dy="0" block="false" />
+	<blocked dx="-4" dy="-1" block="false" />
+	<blocked dx="-4" dy="-2" block="false" />
+	<blocked dx="-4" dy="-3" block="false" />
+	<blocked dx="-4" dy="-4" block="false" />
+	<blocked dx="-4" dy="-5" block="false" />
+	<blocked dx="1" dy="6" block="false" />
+	<blocked dx="3" dy="6" block="false" />
+	<blocked dx="4" dy="6" block="false" />
+	<blocked dx="2" dy="4" block="false" />
+	<blocked dx="5" dy="3" block="false" />
+	<blocked dx="4" dy="4" block="false" />
+	<blocked dx="5" dy="5" block="false" />
+	<blocked dx="-2" dy="-6" block="false" />
+	<blocked dx="2" dy="6" block="false" />
+	<blocked dx="2" dy="5" block="false" />
+	<blocked dx="3" dy="4" block="false" />
+	<blocked dx="5" dy="2" block="false" />
+	<blocked dx="5" dy="1" block="false" />
+	<blocked dx="5" dy="4" block="false" />
+	<blocked dx="5" dy="0" block="false" />
+
+	<door dx="3" dy="1" />
+
+	<constructionStack dx="5" dy="5" material="PLANK" buildrequired="3" />
+	<constructionStack dx="5" dy="3" material="STONE" buildrequired="7" />
+
+	<requestStack dx="-3" dy="2" material="COAL" />
+	<requestStack dx="4" dy="4" material="IRONORE" />
+
+	<offerStack dx="5" dy="2" material="IRON" />
+
+	<bricklayer dx="-1" dy="4" direction="NORTH_EAST" />
+	<bricklayer dx="-2" dy="3" direction="NORTH_EAST" />
+	<bricklayer dx="2" dy="4" direction="NORTH_WEST" />
+	<bricklayer dx="4" dy="4" direction="NORTH_WEST" />
+	<bricklayer dx="4" dy="3" direction="NORTH_WEST" />
+	<bricklayer dx="4" dy="2" direction="NORTH_WEST" />
+
+	<flag dx="0" dy="-3" />
+
+	<buildmark dx="-3" dy="1" />
+	<buildmark dx="2" dy="6" />
+	<buildmark dx="3" dy="4" />
+	<buildmark dx="4" dy="1" />
+	<buildmark dx="-2" dy="-4" />
+	<buildmark dx="-1" dy="-5" />
+
+	<smokePosition dx="-1" dy="1"/>
+
+	<moltenMetal dx="0" dy="0"/>
+
+	<meltInput dx="-2" dy="3" direction="NORTH_EAST" material="IRONORE"/>
+	<meltOutput dx="3" dy="6" direction="NORTH_WEST" material="IRON"/>
+
+	<image file="24" for="GUI" type="GUI" sequence="24" image="0" />
+	<image file="23" type="SETTLER" for="FINAL" image="0" sequence="9" />
+	<image file="23" type="SETTLER" for="BUILD" image="1" sequence="9" />
+
+</building>

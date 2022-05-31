@@ -1,0 +1,106 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<!DOCTYPE building SYSTEM "../building.dtd">
+<building worker="LUMBERJACK" workradius="30">
+	<ground groundtype="GRASS"/>
+	<ground groundtype="EARTH"/>
+	<ground groundtype="FLATTENED"/>
+
+	<blocked dx="-3" dy="-1" />
+	<blocked dx="-3" dy="-2" />
+	<blocked dx="-3" dy="-3" />
+	<blocked dx="-2" dy="-3" />
+	<blocked dx="-1" dy="-2" />
+	<blocked dx="0" dy="-1" />
+	<blocked dx="1" dy="0" />
+	<blocked dx="-1" dy="-3" />
+	<blocked dx="0" dy="-2" />
+	<blocked dx="1" dy="-1" />
+	<blocked dx="3" dy="1" />
+	<blocked dx="3" dy="2" />
+	<blocked dx="2" dy="1" />
+	<blocked dx="-2" dy="-2" />
+	<blocked dx="-1" dy="-1" />
+	<blocked dx="0" dy="0" />
+	<blocked dx="1" dy="1" />
+	<blocked dx="2" dy="2" />
+	<blocked dx="3" dy="3" />
+	<blocked dx="2" dy="3" />
+	<blocked dx="0" dy="1" />
+	<blocked dx="1" dy="3" />
+	<blocked dx="2" dy="0" />
+	<blocked dx="1" dy="2" />
+	<blocked dx="-2" dy="-4" />
+	<blocked dx="-3" dy="-4" />
+	<blocked dx="-2" dy="-1" />
+	<blocked dx="-2" dy="0" />
+	<blocked dx="3" dy="4" />
+	<blocked dx="4" dy="4" />
+	<blocked dx="2" dy="4" />
+	<blocked dx="-1" dy="0" />
+	<blocked dx="-1" dy="1" />
+	<blocked dx="3" dy="0" />
+	<blocked dx="2" dy="-1" />
+	<blocked dx="1" dy="-2" />
+	<blocked dx="0" dy="-3" />
+	<blocked dx="-1" dy="-4" />
+
+	<blocked dx="-1" dy="3" block="false" />
+	<blocked dx="-1" dy="2" block="false" />
+	<blocked dx="0" dy="3" block="false" />
+	<blocked dx="1" dy="5" block="false" />
+	<blocked dx="1" dy="4" block="false" />
+	<blocked dx="2" dy="5" block="false" />
+	<blocked dx="3" dy="5" block="false" />
+	<blocked dx="4" dy="3" block="false" />
+	<blocked dx="4" dy="2" block="false" />
+	<blocked dx="4" dy="1" block="false" />
+	<blocked dx="-4" dy="-4" block="false" />
+	<blocked dx="-4" dy="-3" block="false" />
+	<blocked dx="-4" dy="-2" block="false" />
+	<blocked dx="0" dy="4" block="false" />
+	<blocked dx="-4" dy="-1" block="false" />
+	<blocked dx="-3" dy="0" block="false" />
+	<blocked dx="-4" dy="0" block="false" />
+	<blocked dx="-3" dy="1" block="false" />
+	<blocked dx="-2" dy="2" block="false" />
+	<blocked dx="-2" dy="1" block="false" />
+	<blocked dx="0" dy="2" block="false" />
+	<blocked dx="-4" dy="-5" block="false" />
+	<blocked dx="-2" dy="-5" block="false" />
+	<blocked dx="5" dy="4" block="false" />
+	<blocked dx="5" dy="5" block="false" />
+	<blocked dx="4" dy="5" block="false" />
+	<blocked dx="-3" dy="-5" block="false" />
+	<blocked dx="-1" dy="-5" block="false" />
+	<blocked dx="0" dy="-4" block="false" />
+	<blocked dx="1" dy="-3" block="false" />
+	<blocked dx="2" dy="-2" block="false" />
+	<blocked dx="3" dy="-1" block="false" />
+	<blocked dx="4" dy="0" block="false" />
+	<blocked dx="-3" dy="2" block="false" />
+
+	<door dx="0" dy="2" />
+
+	<constructionStack dx="2" dy="5" material="PLANK" buildrequired="3" />
+	<offerStack dx="-3" dy="1" material="TRUNK" />
+
+	<bricklayer dx="-2" dy="1" direction="NORTH_EAST" />
+	<bricklayer dx="-1" dy="2" direction="NORTH_EAST" />
+	<bricklayer dx="4" dy="2" direction="NORTH_WEST" />
+	<bricklayer dx="4" dy="3" direction="NORTH_WEST" />
+
+	<flag dx="-2" dy="-2" />
+
+	<buildmark dx="-3" dy="-1" />
+	<buildmark dx="3" dy="1" />
+	<buildmark dx="-3" dy="-5" />
+	<buildmark dx="2" dy="3" />
+	<buildmark dx="1" dy="3" />
+	<buildmark dx="-1" dy="-4" />
+
+
+
+	<image file="34" for="GUI" image="0" sequence="0" type="GUI"/>
+	<image file="33" for="FINAL" image="0" sequence="37" type="SETTLER"/>
+	<image file="33" for="BUILD" image="1" sequence="37" type="SETTLER"/>
+</building>

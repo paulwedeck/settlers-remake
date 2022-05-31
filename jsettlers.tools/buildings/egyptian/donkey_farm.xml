@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE building SYSTEM "../building.dtd" >
+<building worker="DONKEY_FARMER">
+
+	<ground groundtype="GRASS" />
+	<ground groundtype="EARTH" />
+	<ground groundtype="DESERT" />
+	<ground groundtype="DESERTBORDER"/>
+	<ground groundtype="DESERTBORDEROUTER"/>
+	<ground groundtype="DRY_GRASS"/>
+	<ground groundtype="FLATTENED_DESERT"/>
+	<ground groundtype="SHARP_FLATTENED_DESERT"/>
+	<ground groundtype="FLATTENED" />
+
+	<blocked dx="-2" dy="-3" />
+	<blocked dx="-2" dy="-2" />
+	<blocked dx="-2" dy="-1" />
+	<blocked dx="-2" dy="0" />
+	<blocked dx="-1" dy="1" />
+	<blocked dx="-1" dy="0" />
+	<blocked dx="-1" dy="-1" />
+	<blocked dx="-1" dy="-2" />
+	<blocked dx="-1" dy="-3" />
+	<blocked dx="0" dy="-2" />
+	<blocked dx="0" dy="-1" />
+	<blocked dx="0" dy="0" />
+	<blocked dx="0" dy="1" />
+	<blocked dx="0" dy="2" />
+	<blocked dx="1" dy="3" />
+	<blocked dx="1" dy="2" />
+	<blocked dx="1" dy="1" />
+	<blocked dx="1" dy="0" />
+	<blocked dx="1" dy="-1" />
+	<blocked dx="2" dy="0" />
+	<blocked dx="2" dy="1" />
+	<blocked dx="3" dy="1" />
+	<blocked dx="3" dy="2" />
+	<blocked dx="4" dy="3" />
+	<blocked dx="4" dy="2" />
+	<blocked dx="4" dy="1" />
+	<blocked dx="3" dy="0" />
+	<blocked dx="2" dy="-1" />
+	<blocked dx="1" dy="-2" />
+	<blocked dx="-3" dy="0" />
+	<blocked dx="-3" dy="-1" />
+	<blocked dx="-3" dy="-2" />
+	<blocked dx="-3" dy="-3" />
+	<blocked dx="-3" dy="-4" />
+	<blocked dx="-2" dy="-4" />
+	<blocked dx="-4" dy="-1" />
+	<blocked dx="-4" dy="-2" />
+	<blocked dx="-3" dy="1" />
+	<blocked dx="-4" dy="0" />
+	<blocked dx="-2" dy="1" />
+	<blocked dx="-1" dy="2" />
+	<blocked dx="5" dy="2" />
+	<blocked dx="5" dy="3" />
+	<blocked dx="6" dy="4" />
+	<blocked dx="5" dy="4" />
+	<blocked dx="6" dy="5" />
+	<blocked dx="7" dy="6" />
+	<blocked dx="7" dy="5" />
+	<blocked dx="6" dy="3" />
+	<blocked dx="5" dy="1" />
+	<blocked dx="7" dy="7" />
+	<blocked dx="6" dy="7" />
+	<blocked dx="5" dy="7" />
+	<blocked dx="4" dy="6" />
+	<blocked dx="3" dy="6" />
+	<blocked dx="-2" dy="2" />
+	<blocked dx="0" dy="4" />
+	<blocked dx="0" dy="3" />
+	<blocked dx="1" dy="4" />
+	<blocked dx="5" dy="8" />
+	<blocked dx="0" dy="-3" />
+	<blocked dx="6" dy="6" />
+	<blocked dx="0" dy="-4" />
+	<blocked dx="1" dy="-3" />
+	<blocked dx="2" dy="-2" />
+	<blocked dx="3" dy="-1" />
+	<blocked dx="-4" dy="-6" />
+	<blocked dx="-4" dy="-4" />
+	<blocked dx="-4" dy="-5" />
+	<blocked dx="-4" dy="-3" />
+	<blocked dx="-3" dy="-5" />
+	<blocked dx="2" dy="2" />
+	<blocked dx="2" dy="3" />
+	<blocked dx="2" dy="4" />
+	<blocked dx="3" dy="3" />
+	<blocked dx="4" dy="7" />
+
+	<blocked dx="4" dy="4" block="false" />
+	<blocked dx="3" dy="4" block="false" />
+	<blocked dx="3" dy="5" block="false" />
+	<blocked dx="4" dy="5" block="false" />
+	<blocked dx="-1" dy="-4" block="false" />
+	<blocked dx="-2" dy="-5" block="false" />
+	<blocked dx="-3" dy="-6" block="false" />
+	<blocked dx="-5" dy="-4" block="false" />
+	<blocked dx="-5" dy="-2" block="false" />
+	<blocked dx="-5" dy="-1" block="false" />
+	<blocked dx="-4" dy="1" block="false" />
+	<blocked dx="-3" dy="2" block="false" />
+	<blocked dx="4" dy="0" block="false" />
+	<blocked dx="4" dy="-1" block="false" />
+	<blocked dx="5" dy="0" block="false" />
+	<blocked dx="6" dy="1" block="false" />
+	<blocked dx="7" dy="3" block="false" />
+	<blocked dx="7" dy="4" block="false" />
+	<blocked dx="8" dy="6" block="false" />
+	<blocked dx="8" dy="7" block="false" />
+	<blocked dx="8" dy="8" block="false" />
+	<blocked dx="5" dy="5" block="false" />
+	<blocked dx="5" dy="6" block="false" />
+	<blocked dx="2" dy="6" block="false" />
+	<blocked dx="3" dy="7" block="false" />
+	<blocked dx="4" dy="8" block="false" />
+	<blocked dx="-1" dy="4" block="false" />
+	<blocked dx="0" dy="5" block="false" />
+	<blocked dx="1" dy="6" block="false" />
+	<blocked dx="-2" dy="3" block="false" />
+	<blocked dx="-5" dy="-3" block="false" />
+	<blocked dx="-5" dy="0" block="false" />
+	<blocked dx="6" dy="2" block="false" />
+	<blocked dx="8" dy="5" block="false" />
+	<blocked dx="6" dy="9" block="false" />
+	<blocked dx="6" dy="8" block="false" />
+	<blocked dx="7" dy="8" block="false" />
+	<blocked dx="7" dy="9" block="false" />
+	<blocked dx="5" dy="9" block="false" />
+	<blocked dx="6" dy="10" block="false" />
+	<blocked dx="0" dy="-5" block="false" />
+	<blocked dx="1" dy="-4" block="false" />
+	<blocked dx="2" dy="-3" block="false" />
+	<blocked dx="3" dy="-2" block="false" />
+	<blocked dx="-1" dy="-5" block="false" />
+	<blocked dx="-1" dy="-6" block="false" />
+	<blocked dx="-5" dy="-5" block="false" />
+	<blocked dx="-5" dy="-6" block="false" />
+	<blocked dx="-5" dy="-7" block="false" />
+	<blocked dx="-4" dy="-7" block="false" />
+	<blocked dx="-5" dy="-8" block="false" />
+	<blocked dx="2" dy="5" block="false" />
+	<blocked dx="1" dy="5" block="false" />
+	<blocked dx="-1" dy="3" block="false" />
+
+	<door dx="-1" dy="3" />
+
+	<constructionStack dx="1" dy="5" material="PLANK" buildrequired="3" />
+	<constructionStack dx="-2" dy="3" material="STONE" buildrequired="8" />
+	<constructionStack dx="-1" dy="4" material="STONE" buildrequired="1" />
+	<requestStack dx="6" dy="10" material="CROP" />
+	<requestStack dx="8" dy="8" material="WATER" />
+
+	<bricklayer dx="-4" dy="1" direction="NORTH_EAST" />
+	<bricklayer dx="-3" dy="2" direction="NORTH_EAST" />
+	<bricklayer dx="-2" dy="3" direction="NORTH_EAST" />
+	<bricklayer dx="8" dy="8" direction="NORTH_WEST" />
+	<bricklayer dx="8" dy="7" direction="NORTH_WEST" />
+	<bricklayer dx="8" dy="6" direction="NORTH_WEST" />
+	<bricklayer dx="6" dy="8" direction="NORTH_WEST" />
+
+	<flag dx="-3" dy="-3" />
+
+	<buildmark dx="1" dy="3" />
+	<buildmark dx="-4" dy="0" />
+	<buildmark dx="-1" dy="2" />
+	<buildmark dx="1" dy="0" />
+	<buildmark dx="6" dy="4" />
+	<buildmark dx="6" dy="2" />
+	<buildmark dx="-2" dy="-4" />
+	<buildmark dx="0" dy="4" />
+	<buildmark dx="-4" dy="-4" />
+	<buildmark dx="-1" dy="-3" />
+	<buildmark dx="2" dy="-2" />
+	<buildmark dx="4" dy="3" />
+
+	<donkeyFeedPosition dx="5" dy="6" direction="NORTH_EAST"/>
+	<donkeyFeedPosition dx="4" dy="5" direction="NORTH_EAST"/>
+
+	<animalPosition dx="5" dy="5"/>
+	<animalPosition dx="4" dy="4"/>
+
+	<image file="24" for="GUI" type="GUI" sequence="81" image="0"/>
+	<image file="23" for="FINAL" type="SETTLER" sequence="35" image="0"/>
+	<image file="23" for="BUILD" type="SETTLER" sequence="35" image="1"/>
+	
+</building>

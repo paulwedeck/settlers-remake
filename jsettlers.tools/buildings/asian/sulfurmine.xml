@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE building SYSTEM "../building.dtd" >
+<building worker="MINER" mine="true">
+	<ground groundtype="MOUNTAIN" />
+	<ground groundtype="MOUNTAINBORDER" />
+	<ground groundtype="MOUNTAINBORDEROUTER" />
+	<ground groundtype="GRASS"/>
+	<ground groundtype="EARTH"/>
+	<ground groundtype="FLATTENED"/>
+
+	<blocked dx="2" dy="2" />
+	<blocked dx="2" dy="0" />
+	<blocked dx="1" dy="-1" />
+	<blocked dx="1" dy="0" />
+	<blocked dx="2" dy="1" />
+	<blocked dx="1" dy="1" />
+	<blocked dx="1" dy="2" />
+	<blocked dx="0" dy="1" />
+	<blocked dx="0" dy="0" />
+	<blocked dx="0" dy="-1" />
+	<blocked dx="0" dy="-2" />
+	<blocked dx="-1" dy="-3" />
+	<blocked dx="-2" dy="-2" />
+	<blocked dx="-2" dy="-4" />
+	<blocked dx="-2" dy="-3" />
+	<blocked dx="-1" dy="-2" />
+	<blocked dx="-1" dy="-1" />
+	<blocked dx="-2" dy="-1" />
+
+	<blocked dx="3" dy="2" block="false" />
+	<blocked dx="-1" dy="1" block="false" />
+	<blocked dx="-1" dy="0" block="false" />
+	<blocked dx="1" dy="3" block="false" />
+	<blocked dx="2" dy="3" block="false" />
+	<blocked dx="2" dy="-1" block="false" />
+	<blocked dx="0" dy="-3" block="false" />
+	<blocked dx="1" dy="-2" block="false" />
+	<blocked dx="-1" dy="-4" block="false" />
+	<blocked dx="-3" dy="-1" block="false" />
+	<blocked dx="-3" dy="-2" block="false" />
+	<blocked dx="-3" dy="-3" block="false" />
+	<blocked dx="-3" dy="-4" block="false" />
+	<blocked dx="-3" dy="-5" block="false" />
+	<blocked dx="3" dy="3" block="false" />
+	<blocked dx="3" dy="4" block="false" />
+	<blocked dx="2" dy="4" block="false" />
+	<blocked dx="-2" dy="0" block="false" />
+	<blocked dx="0" dy="2" block="false" />
+	<blocked dx="-3" dy="0" block="false" />
+	<blocked dx="-2" dy="-5" block="false" />
+	<blocked dx="3" dy="0" block="false" />
+	<blocked dx="3" dy="1" block="false" />
+	<blocked dx="-2" dy="1" block="false" />
+	<blocked dx="-1" dy="2" block="false" />
+	<blocked dx="0" dy="3" block="false" />
+
+	<door dx="-1" dy="1" />
+
+	<constructionStack dx="-3" dy="0" material="PLANK" buildrequired="5" />
+	<constructionStack dx="-2" dy="1" material="STONE" buildrequired="1" />
+
+	<requestStack dx="0" dy="3" material="RICE" />
+	<requestStack dx="1" dy="3" material="BREAD" />
+
+	<offerStack dx="-1" dy="2" material="SULFUR" />
+
+	<bricklayer dx="-2" dy="0" direction="NORTH_EAST" />
+	<bricklayer dx="0" dy="2" direction="NORTH_EAST" />
+	<bricklayer dx="3" dy="2" direction="NORTH_WEST" />
+	<bricklayer dx="2" dy="3" direction="NORTH_WEST" />
+	<bricklayer dx="-1" dy="1" direction="NORTH_EAST" />
+
+	<flag dx="-3" dy="-6" />
+
+	<buildmark dx="-3" dy="0" />
+	<buildmark dx="2" dy="4" />
+	<buildmark dx="3" dy="0" />
+	<buildmark dx="-2" dy="-5" />
+	<buildmark dx="-3" dy="-3" />
+	<buildmark dx="0" dy="-3" />
+	<buildmark dx="3" dy="2" />
+
+	<mine dropDirection="SOUTH_WEST" miningInterval="3" foodOrder="RICE,BREAD"/>
+
+	<image file="34" for="GUI" type="GUI" sequence="51" image="0" />
+	<image file="33" for="FINAL" type="SETTLER" sequence="23" image="0" />
+	<image file="33" for="BUILD" type="SETTLER" sequence="23" image="1" />
+
+</building>
