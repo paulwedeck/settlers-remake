@@ -13,15 +13,17 @@ import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 
 /**
+ * This is a simple implementation of the IGraphicsMovable, just good enough
+ * for the Building Creator to display occupiers.
  *
  * @author hiran
  */
-public class GraphicsMovable implements IGraphicsMovable {
+public class BuildingCreatorGraphicsMovable implements IGraphicsMovable {
     
     private IPlayer player;
     private EMovableType movableType;
     
-    public GraphicsMovable(EMovableType movableType, IPlayer player) {
+    public BuildingCreatorGraphicsMovable(EMovableType movableType, IPlayer player) {
         this.player = player;
         this.movableType = movableType;
     }

@@ -146,10 +146,10 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 if (op != null) {
                     switch (op.getSoldierClass()) {
                         case BOWMAN:
-                            occupiers.add( new BuildingOccupier(op, new GraphicsMovable(EMovableType.BOWMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                            occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.BOWMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
                             break;
                         case INFANTRY:
-                            occupiers.add( new BuildingOccupier(op, new GraphicsMovable(EMovableType.SWORDSMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                            occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.SWORDSMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
                             break;
                         default:
                             break;

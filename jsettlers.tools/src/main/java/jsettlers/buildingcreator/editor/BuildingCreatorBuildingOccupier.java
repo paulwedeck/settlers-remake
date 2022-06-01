@@ -7,15 +7,17 @@ import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.movable.IGraphicsMovable;
 
 /**
- *
+ * This is a simple implementation of the BuildingOccupier, just good enough
+ * for the Building Creator to display occupiers.
+ * 
  * @author hiran
  */
-public class BuildingOccupier implements IBuildingOccupier{
+public class BuildingCreatorBuildingOccupier implements IBuildingOccupier{
     
     private IGraphicsMovable movable;
     private OccupierPlace occupierPlace;
     
-    public BuildingOccupier(OccupierPlace occupierPlace, IGraphicsMovable movable) {
+    public BuildingCreatorBuildingOccupier(OccupierPlace occupierPlace, IGraphicsMovable movable) {
         this.movable = movable;
         this.occupierPlace = occupierPlace;
     }
