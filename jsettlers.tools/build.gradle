@@ -13,8 +13,6 @@ dependencies {
     implementation project(':jsettlers.network')
     implementation project(':jsettlers.testutils')
     implementation project(':jsettlers.tests')
-    // https://mvnrepository.com/artifact/org.swinglabs.swingx/swingx-all
-    implementation 'org.swinglabs.swingx:swingx-all:1.6.5-1'
 }
 
 jar {

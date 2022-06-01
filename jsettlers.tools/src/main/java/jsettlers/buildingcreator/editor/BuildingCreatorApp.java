@@ -16,6 +16,7 @@ package jsettlers.buildingcreator.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -66,6 +67,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import jsettlers.buildingcreator.editor.places.OccupierPlacesEditor;
 import jsettlers.common.buildings.IBuilding;
@@ -74,8 +76,6 @@ import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.logic.movable.Movable;
-import org.jdesktop.swingx.JXCollapsiblePane;
-import org.jdesktop.swingx.JXTaskPane;
 
 /**
  * This is the main building creator class.
@@ -110,7 +110,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			window = new JFrame("Edit " + variant.toString());
 			window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                         window.setLayout(new BorderLayout());
-			window.add(menu, BorderLayout.NORTH);
+			window.add(new JScrollPane(menu), BorderLayout.CENTER);
 			window.pack();
 			window.setVisible(true);
 
@@ -194,8 +194,13 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
         }
 
 	private Component createToolChangeBar() {
-            JPanel result = new JXTaskPane("Select tool...");
-            
+            //JPanel result = new JXTaskPane("Select tool...");
+            JPanel result = new JPanel();
+            result.setBorder(new TitledBorder("Tool"));
+            result.setLayout(new GridBagLayout());
+
+            GridBagConstraints gbc = null;
+            int y = 0;
             for(ToolType tt: ToolType.values()) {
                 JButton b = new JButton(tt.toString());
                 b.addActionListener(new ActionListener() {
@@ -204,14 +209,21 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                         activateToolType(tt);
                     }
                 });
-                result.add(b);
+                gbc = new GridBagConstraints(0, y++, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
+                result.add(b, gbc);
             }
 
             return result;
 	}
         
         public Component createMilitaryMenu() {
-            JPanel result = new JXTaskPane("Military");
+            //JPanel result = new JXTaskPane("Military");
+            JPanel result = new JPanel();
+            result.setBorder(new TitledBorder("Military"));
+            result.setLayout(new GridBagLayout());
+            
+            GridBagConstraints gbc = null;
+
             JCheckBox cb = new JCheckBox("populated");
             cb.addChangeListener(e -> {
                 if (e.getSource() instanceof JCheckBox) {
@@ -223,13 +235,15 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                     }
                 }
             });
-            result.add(cb);
+            gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
+            result.add(cb, gbc);
             
             JButton btEditPlaces = new JButton("Edit places...");
             btEditPlaces.addActionListener(e -> {
                 showPlacesEditor();
             });
-            result.add(btEditPlaces);
+            gbc = new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
+            result.add(btEditPlaces, gbc);
             
             return result;
         }
