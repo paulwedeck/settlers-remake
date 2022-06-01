@@ -14,7 +14,12 @@
  *******************************************************************************/
 package jsettlers.buildingcreator.editor;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -62,6 +67,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
+import jsettlers.buildingcreator.editor.places.OccupierPlacesEditor;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.IBuildingOccupier;
 import jsettlers.common.buildings.OccupierPlace;
@@ -94,11 +100,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			definition = new BuildingDefinition(variant);
 			map = new BuildingtestMap(definition);
                         
-			for (int x = 0; x < map.getWidth(); x++) {
-				for (int y = 0; y < map.getHeight(); y++) {
-					reloadColor(new ShortPoint2D(x, y));
-				}
-			}
+                        reloadMapColor();
 
 			IMapInterfaceConnector connector = startMapWindow();
 			connector.addListener(this);
@@ -107,7 +109,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 			window = new JFrame("Edit " + variant.toString());
 			window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			window.add(menu);
+                        window.setLayout(new BorderLayout());
+			window.add(menu, BorderLayout.NORTH);
 			window.pack();
 			window.setVisible(true);
 
@@ -120,14 +123,29 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 	private JPanel generateMenu() {
 		JPanel menu = new JPanel();
-		menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
-		menu.add(createToolChangeBar());
+		menu.setLayout(new GridBagLayout());
+                GridBagConstraints gbc = null;
                 
-                menu.add(createBuildingStatus());
+                gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
+		menu.add(createToolChangeBar(), gbc);
+
+                // do we have a military building?
+                switch (definition.getBuilding().getType()) {
+                    case BIG_TOWER:
+                    case CASTLE:
+                    case LOOKOUT_TOWER:
+                    case TOWER:
+                        gbc = new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
+                        menu.add(createMilitaryMenu(), gbc);
+                        break;
+                    default:
+                        break;
+                }
 
 		JButton xmlButton = new JButton("show xml data");
 		xmlButton.addActionListener(e -> showXML());
-		menu.add(xmlButton);
+                gbc = new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
+		menu.add(xmlButton, gbc);
 		positionDisplayer = new JLabel();
 		menu.add(positionDisplayer);
 		return menu;
@@ -165,15 +183,14 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             occupiers.clear();
         }
         
+        /**
+         * Activates the given tool and reloads the map colors.
+         * 
+         * @param tt the tool to activate
+         */
         private void activateToolType(ToolType tt) {
-            
             tool = tt;
-
-            for (int x = 0; x < map.getWidth(); x++) {
-                for (int y = 0; y < map.getWidth(); y++) {
-                    reloadColor(new ShortPoint2D(x, y));
-                }
-            }
+            reloadMapColor();
         }
 
 	private Component createToolChangeBar() {
@@ -193,9 +210,9 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             return result;
 	}
         
-        public Component createBuildingStatus() {
-            JPanel result = new JXTaskPane("Building Status...");
-            JCheckBox cb = new JCheckBox("Occupied");
+        public Component createMilitaryMenu() {
+            JPanel result = new JXTaskPane("Military");
+            JCheckBox cb = new JCheckBox("populated");
             cb.addChangeListener(e -> {
                 if (e.getSource() instanceof JCheckBox) {
                     JCheckBox cb2 = (JCheckBox)e.getSource();
@@ -207,6 +224,13 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 }
             });
             result.add(cb);
+            
+            JButton btEditPlaces = new JButton("Edit places...");
+            btEditPlaces.addActionListener(e -> {
+                showPlacesEditor();
+            });
+            result.add(btEditPlaces);
+            
             return result;
         }
 
@@ -345,6 +369,22 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		}
 	}
 
+        /**
+         * Reloads teh color for the whole map.
+         */
+        private void reloadMapColor() {
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getWidth(); y++) {
+                    reloadColor(new ShortPoint2D(x, y));
+                }
+            }
+        }
+
+        /**
+         * Reloads the color for one map tile.
+         * 
+         * @param pos the position to reload
+         */
 	private void reloadColor(ShortPoint2D pos) {
 		PseudoTile tile = map.getTile(pos);
 		ArrayList<Color> colors = new ArrayList<>();
@@ -444,16 +484,23 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		}
 	}
 
+        /**
+         * Adds all colors and returns the sum.
+         * The sum is built by averaging out all the red/green/blue channels.
+         * 
+         * @param colors the colors to mix
+         * @return the resulting color
+         */
 	private static int mixColors(ArrayList<Color> colors) {
-		float bluesum = 0;
-		float redsum = 0;
-		float greensum = 0;
-		for (Color color : colors) {
-			bluesum += color.getBlue();
-			redsum += color.getRed();
-			greensum += color.getGreen();
-		}
-		return Color.getARGB(redsum / colors.size(), greensum / colors.size(), bluesum / colors.size(), 1);
+            float bluesum = 0;
+            float redsum = 0;
+            float greensum = 0;
+            for (Color color : colors) {
+                bluesum += color.getBlue();
+                redsum += color.getRed();
+                greensum += color.getGreen();
+            }
+            return Color.getARGB(redsum / colors.size(), greensum / colors.size(), bluesum / colors.size(), 1);
 	}
 
 	private void showXML() {
@@ -549,4 +596,15 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	}
+        
+        private void showPlacesEditor() {
+            JDialog placesEditor = new JDialog(window, "Places Editor");
+
+            BuildingVariant variant = definition.getBuilding();
+            placesEditor.add(new OccupierPlacesEditor(variant));
+            
+            placesEditor.pack();
+            placesEditor.setLocationRelativeTo(window);
+            placesEditor.setVisible(true);
+        }
 }
