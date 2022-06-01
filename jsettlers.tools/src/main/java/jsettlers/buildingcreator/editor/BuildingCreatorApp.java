@@ -68,8 +68,6 @@ import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.logic.movable.Movable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.JXTaskPane;
 
@@ -79,7 +77,6 @@ import org.jdesktop.swingx.JXTaskPane;
  * @author michael
  */
 public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
-    private static final Logger log = LogManager.getLogger(BuildingCreatorApp.class);
     
 	private BuildingDefinition definition;
 	private BuildingtestMap map;
@@ -90,8 +87,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 	@Override
 	public void run() {
-            log.debug("run()");
-            
 		try {
 			EBuildingType type = askType();
 			BuildingVariant variant = askVariant(type);
@@ -112,14 +107,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 			window = new JFrame("Edit " + variant.toString());
 			window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                        window.addWindowStateListener(new WindowAdapter() {
-                            @Override
-                            public void windowClosing(WindowEvent e) {
-                                log.debug("windowClosing({})", e);
-                                connector.shutdown();
-                            }
-                        });
-                        
 			window.add(menu);
 			window.pack();
 			window.setVisible(true);
@@ -129,8 +116,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			throw new RuntimeException(e);
 		}
                 
-                
-            log.debug("run finished");
 	}
 
 	private JPanel generateMenu() {
@@ -153,15 +138,11 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	}
 
         private void occupyBulding() {
-            log.debug("occupyBuilding");
-            
             BuildingVariant variant = definition.getBuilding();
             List<IBuildingOccupier> occupiers = null;
             IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
             occupiers = (List<IBuildingOccupier>)building.getOccupiers();
-            log.debug("OccupierPlaces:");
             for (OccupierPlace op: variant.getOccupierPlaces()) {
-                log.debug("  place {}", op.getSoldierClass(), op.getPosition());
                 if (op != null) {
                     switch (op.getSoldierClass()) {
                         case BOWMAN:
@@ -175,23 +156,16 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                     }
                 }
             }
-            log.debug("building {}", map.getBuilding());
-            log.debug("occupiers {}", occupiers);
         }
 
         private void evacuateBulding() {
-            log.debug("evacuateBuilding");
-            
             List<IBuildingOccupier> occupiers = null;
             IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
             occupiers = (List<IBuildingOccupier>)building.getOccupiers();
             occupiers.clear();
-            log.debug("building {}", map.getBuilding());
-            log.debug("occupiers {}", occupiers);
         }
         
         private void activateToolType(ToolType tt) {
-            log.debug("activateToolType({})", tt);
             
             tool = tt;
 
@@ -223,10 +197,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             JPanel result = new JXTaskPane("Building Status...");
             JCheckBox cb = new JCheckBox("Occupied");
             cb.addChangeListener(e -> {
-                log.debug("value: {}", e);
                 if (e.getSource() instanceof JCheckBox) {
                     JCheckBox cb2 = (JCheckBox)e.getSource();
-                    log.debug("value {}", cb2.isSelected());
                     if (cb2.isSelected()) {
                         occupyBulding();
                     } else {
