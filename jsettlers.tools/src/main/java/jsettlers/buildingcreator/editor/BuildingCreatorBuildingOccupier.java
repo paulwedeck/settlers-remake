@@ -12,7 +12,7 @@ import jsettlers.common.movable.IGraphicsMovable;
  * 
  * @author hiran
  */
-public class BuildingCreatorBuildingOccupier implements IBuildingOccupier{
+public class BuildingCreatorBuildingOccupier implements IBuildingOccupier {
     
     private IGraphicsMovable movable;
     private OccupierPlace occupierPlace;

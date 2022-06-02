@@ -16,16 +16,11 @@ package jsettlers.buildingcreator.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Arrays;
 
 import jsettlers.buildingcreator.editor.map.BuildingtestMap;
 import jsettlers.buildingcreator.editor.map.PseudoTile;
@@ -50,7 +45,6 @@ import jsettlers.common.position.ShortPoint2D;
 import jsettlers.main.swing.SwingManagedJSettlers;
 import jsettlers.main.swing.lookandfeel.JSettlersLookAndFeelExecption;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -66,16 +60,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
 import javax.swing.JCheckBox;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
+import jsettlers.buildingcreator.editor.map.PseudoBuilding;
 import jsettlers.buildingcreator.editor.places.OccupierPlacesEditor;
-import jsettlers.common.buildings.IBuilding;
-import jsettlers.common.buildings.IBuildingOccupier;
-import jsettlers.common.buildings.OccupierPlace;
-import jsettlers.common.movable.EMovableType;
-import jsettlers.common.player.IPlayer;
-import jsettlers.logic.movable.Movable;
 
 /**
  * This is the main building creator class.
@@ -90,6 +79,9 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	private ToolType tool = ToolType.SET_BLOCKED;
 	private JLabel positionDisplayer;
 	private JFrame window;
+        private IMapInterfaceConnector mapInterfaceConnector;
+        
+        private Timer timer;
 
 	@Override
 	public void run() {
@@ -102,8 +94,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                         
                         reloadMapColor();
 
-			IMapInterfaceConnector connector = startMapWindow();
-			connector.addListener(this);
+			mapInterfaceConnector = startMapWindow();
+			mapInterfaceConnector.addListener(this);
 
 			JPanel menu = generateMenu();
 
@@ -114,7 +106,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			window.pack();
 			window.setVisible(true);
 
-			connector.fireAction(new Action(EActionType.TOGGLE_DEBUG));
+			mapInterfaceConnector.fireAction(new Action(EActionType.TOGGLE_DEBUG));
+                        
 		} catch (JSettlersLookAndFeelExecption e) {
 			throw new RuntimeException(e);
 		}
@@ -155,34 +148,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		return SwingManagedJSettlers.showJSettlers(new FakeMapGame(map));
 	}
 
-        private void occupyBulding() {
-            BuildingVariant variant = definition.getBuilding();
-            List<IBuildingOccupier> occupiers = null;
-            IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
-            occupiers = (List<IBuildingOccupier>)building.getOccupiers();
-            for (OccupierPlace op: variant.getOccupierPlaces()) {
-                if (op != null) {
-                    switch (op.getSoldierClass()) {
-                        case BOWMAN:
-                            occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.BOWMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
-                            break;
-                        case INFANTRY:
-                            occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.SWORDSMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
-
-        private void evacuateBulding() {
-            List<IBuildingOccupier> occupiers = null;
-            IBuilding.IOccupied building = (IBuilding.IOccupied)map.getBuilding();
-            occupiers = (List<IBuildingOccupier>)building.getOccupiers();
-            occupiers.clear();
-        }
-        
         /**
          * Activates the given tool and reloads the map colors.
          * 
@@ -228,10 +193,11 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             cb.addChangeListener(e -> {
                 if (e.getSource() instanceof JCheckBox) {
                     JCheckBox cb2 = (JCheckBox)e.getSource();
+                    PseudoBuilding building = (PseudoBuilding)map.getBuilding();
                     if (cb2.isSelected()) {
-                        occupyBulding();
+                        building.occupy();
                     } else {
-                        evacuateBulding();
+                        building.evacuate();
                     }
                 }
             });

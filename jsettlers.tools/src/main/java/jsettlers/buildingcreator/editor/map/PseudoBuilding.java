@@ -17,15 +17,19 @@ package jsettlers.buildingcreator.editor.map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import jsettlers.buildingcreator.editor.BuildingCreatorBuildingOccupier;
+import jsettlers.buildingcreator.editor.BuildingCreatorGraphicsMovable;
 
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.IBuildingMaterial;
 import jsettlers.common.buildings.IBuildingOccupier;
+import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.material.EPriority;
+import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.ESoldierClass;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ShortPoint2D;
@@ -148,5 +152,27 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOc
     @Override
     public int getComingSoldiers(ESoldierClass esc) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    public void occupy() {
+        List<IBuildingOccupier> occupiers2 = (List<IBuildingOccupier>)occupiers;
+        for (OccupierPlace op: building.getOccupierPlaces()) {
+            if (op != null) {
+                switch (op.getSoldierClass()) {
+                    case BOWMAN:
+                        occupiers2.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.BOWMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                        break;
+                    case INFANTRY:
+                        occupiers2.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.SWORDSMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    
+    public void evacuate() {
+        occupiers.clear();
     }
 }
