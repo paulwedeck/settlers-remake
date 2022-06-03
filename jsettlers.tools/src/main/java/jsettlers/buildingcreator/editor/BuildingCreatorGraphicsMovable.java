@@ -22,6 +22,7 @@ public class BuildingCreatorGraphicsMovable implements IGraphicsMovable {
     
     private IPlayer player;
     private EMovableType movableType;
+    private boolean selected;
     
     public BuildingCreatorGraphicsMovable(EMovableType movableType, IPlayer player) {
         this.player = player;
@@ -75,12 +76,12 @@ public class BuildingCreatorGraphicsMovable implements IGraphicsMovable {
 
     @Override
     public boolean isSelected() {
-        return true;
+        return selected;
     }
 
     @Override
-    public void setSelected(boolean bln) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @Override

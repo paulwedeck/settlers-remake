@@ -175,4 +175,18 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOc
     public void evacuate() {
         occupiers.clear();
     }
+
+    /**
+     * Unselects all places and ensures the given one is selected.
+     * 
+     * @param selected the place to be selected
+     */
+    public void selectOccupierPlace(OccupierPlace selected) {
+        for (IBuildingOccupier o: occupiers) {
+            System.out.println("o "+o);
+            BuildingCreatorBuildingOccupier occupier = (BuildingCreatorBuildingOccupier)o;
+            
+            occupier.getMovable().setSelected( occupier.getPlace() == selected );
+        }
+    }
 }

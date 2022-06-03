@@ -580,8 +580,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
         private void showPlacesEditor() {
             JDialog placesEditor = new JDialog(window, "Places Editor");
 
-            BuildingVariant variant = definition.getBuilding();
-            placesEditor.add(new OccupierPlacesEditor(variant));
+            PseudoBuilding building = (PseudoBuilding)map.getBuilding();
+            placesEditor.add(new OccupierPlacesEditor(building));
             
             placesEditor.pack();
             placesEditor.setLocationRelativeTo(window);
