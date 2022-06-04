@@ -213,12 +213,22 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             return result;
         }
 
+        /**
+         * Asks the user which building type to edit.
+         * 
+         * @return the building type, or null if the user cancelled
+         */
 	private EBuildingType askType() {
 		EBuildingType[] buildingTypes = EBuildingType.values();
 		Arrays.sort(buildingTypes, Comparator.comparing(EBuildingType::name));
 		return (EBuildingType) JOptionPane.showInputDialog(null, "Select building type", "Building Type", JOptionPane.QUESTION_MESSAGE, null, buildingTypes, null);
 	}
 
+        /**
+         * Asks the user which building type variant to edit.
+         * 
+         * @return the variant, or null if the user cancelled
+         */
 	private BuildingVariant askVariant(EBuildingType type) {
                 if (type == null) {
                     throw new IllegalArgumentException("type must not be null");
@@ -352,7 +362,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	}
 
         /**
-         * Reloads teh color for the whole map.
+         * Reloads the color for the whole map.
          */
         private void reloadMapColor() {
             for (int x = 0; x < map.getWidth(); x++) {
