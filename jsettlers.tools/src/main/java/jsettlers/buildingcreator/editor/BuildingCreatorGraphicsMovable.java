@@ -19,19 +19,16 @@ import jsettlers.common.selectable.ESelectionType;
  * @author hiran
  */
 public class BuildingCreatorGraphicsMovable implements IGraphicsMovable {
-    
-    private IPlayer player;
     private EMovableType movableType;
     private boolean selected;
     
-    public BuildingCreatorGraphicsMovable(EMovableType movableType, IPlayer player) {
-        this.player = player;
+    public BuildingCreatorGraphicsMovable(EMovableType movableType) {
         this.movableType = movableType;
     }
 
     @Override
     public EMovableType getMovableType() {
-        return EMovableType.BOWMAN_L1;
+        return movableType;
     }
 
     @Override
@@ -96,7 +93,7 @@ public class BuildingCreatorGraphicsMovable implements IGraphicsMovable {
 
     @Override
     public IPlayer getPlayer() {
-        return player;
+        return IPlayer.DEFAULT_DUMMY_PLAYER0;
     }
 
     @Override
@@ -123,7 +120,6 @@ public class BuildingCreatorGraphicsMovable implements IGraphicsMovable {
     public String toString() {
         StringBuilder sb = new StringBuilder(getClass().getName()).append("(");
         sb.append("movableType=").append(movableType);
-        sb.append(", player=").append(player);
         sb.append(")");
         return sb.toString();
     }

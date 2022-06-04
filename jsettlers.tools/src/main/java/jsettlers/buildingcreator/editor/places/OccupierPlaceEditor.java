@@ -19,12 +19,9 @@ import jsettlers.common.movable.ESoldierClass;
  * @author hiran
  */
 public class OccupierPlaceEditor extends JPanel {
-    
-    private OccupierPlace data;
-    
-    private JComboBox<ESoldierClass> cbSoldierClass;
-    private JSpinner spOffsetX;
-    private JSpinner spOffsetY;
+    private final JComboBox<ESoldierClass> cbSoldierClass;
+    private final JSpinner spOffsetX;
+    private final JSpinner spOffsetY;
     
     public OccupierPlaceEditor() {
         setLayout(new GridBagLayout());
@@ -41,8 +38,6 @@ public class OccupierPlaceEditor extends JPanel {
     }
     
     public void setData(OccupierPlace data) {
-        this.data = data;
-        
         cbSoldierClass.setSelectedItem(data.getSoldierClass());
         spOffsetX.setValue(data.getOffsetX());
         spOffsetY.setValue(data.getOffsetY());

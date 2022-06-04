@@ -1,10 +1,8 @@
 package jsettlers;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +10,6 @@ import jsettlers.buildingcreator.editor.BuildingCreatorApp;
 import jsettlers.graphics.debug.DatFileViewer;
 import jsettlers.logic.movable.MovableModelWindow;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 public class ToolsMain {
@@ -29,18 +26,16 @@ public class ToolsMain {
                     b.setHorizontalAlignment(SwingConstants.LEFT);
                     b.addActionListener(e -> {
                             f.setVisible(false);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        t.mainFunc.run(args);
-                                    } catch (Exception ex) {
-                                        System.err.println("ERROR: Could not invoke tool "+t);
-                                        ex.printStackTrace(System.err);
-                                        f.setVisible(true);
-                                    }
-                                }
-                            }).start();
+							f.dispose();
+                            new Thread(() -> {
+								try {
+									t.mainFunc.run(args);
+								} catch (Exception ex) {
+									System.err.println("ERROR: Could not invoke tool "+t);
+									ex.printStackTrace(System.err);
+									f.setVisible(true);
+								}
+							}).start();
                     });
                     f.add(b, new GridBagConstraints(0, y++, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
                 }

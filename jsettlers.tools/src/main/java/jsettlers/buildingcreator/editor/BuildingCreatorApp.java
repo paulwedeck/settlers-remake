@@ -19,8 +19,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import jsettlers.buildingcreator.editor.map.BuildingtestMap;
 import jsettlers.buildingcreator.editor.map.PseudoTile;
@@ -72,7 +70,6 @@ import jsettlers.buildingcreator.editor.places.OccupierPlacesEditor;
  * @author michael
  */
 public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
-    
 	private BuildingDefinition definition;
 	private BuildingtestMap map;
 
@@ -80,7 +77,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	private JLabel positionDisplayer;
 	private JFrame window;
         private IMapInterfaceConnector mapInterfaceConnector;
-        
+
         private Timer timer;
 
 	@Override
@@ -91,7 +88,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 			definition = new BuildingDefinition(variant);
 			map = new BuildingtestMap(definition);
-                        
+
                         reloadMapColor();
 
 			mapInterfaceConnector = startMapWindow();
@@ -99,7 +96,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 			JPanel menu = generateMenu();
 
-			window = new JFrame("Edit " + variant.toString());
+			window = new JFrame("Edit " + variant);
 			window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                         window.setLayout(new BorderLayout());
 			window.add(new JScrollPane(menu), BorderLayout.CENTER);
@@ -107,18 +104,18 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			window.setVisible(true);
 
 			mapInterfaceConnector.fireAction(new Action(EActionType.TOGGLE_DEBUG));
-                        
+
 		} catch (JSettlersLookAndFeelExecption e) {
 			throw new RuntimeException(e);
 		}
-                
+
 	}
 
 	private JPanel generateMenu() {
 		JPanel menu = new JPanel();
 		menu.setLayout(new GridBagLayout());
                 GridBagConstraints gbc = null;
-                
+
                 gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
 		menu.add(createToolChangeBar(), gbc);
 
@@ -150,7 +147,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
         /**
          * Activates the given tool and reloads the map colors.
-         * 
+         *
          * @param tt the tool to activate
          */
         private void activateToolType(ToolType tt) {
@@ -164,29 +161,23 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             result.setBorder(new TitledBorder("Tool"));
             result.setLayout(new GridBagLayout());
 
-            GridBagConstraints gbc = null;
+            GridBagConstraints gbc;
             int y = 0;
             for(ToolType tt: ToolType.values()) {
                 JButton b = new JButton(tt.toString());
-                b.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent ae) {
-                        activateToolType(tt);
-                    }
-                });
+                b.addActionListener(ae -> activateToolType(tt));
                 gbc = new GridBagConstraints(0, y++, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
                 result.add(b, gbc);
             }
 
             return result;
 	}
-        
+
         public Component createMilitaryMenu() {
-            //JPanel result = new JXTaskPane("Military");
             JPanel result = new JPanel();
             result.setBorder(new TitledBorder("Military"));
             result.setLayout(new GridBagLayout());
-            
+
             GridBagConstraints gbc = null;
 
             JCheckBox cb = new JCheckBox("populated");
@@ -203,14 +194,14 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             });
             gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
             result.add(cb, gbc);
-            
+
             JButton btEditPlaces = new JButton("Edit places...");
             btEditPlaces.addActionListener(e -> {
                 showPlacesEditor();
             });
             gbc = new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
             result.add(btEditPlaces, gbc);
-            
+
             return result;
         }
 
@@ -362,7 +353,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
         /**
          * Reloads the color for one map tile.
-         * 
+         *
          * @param pos the position to reload
          */
 	private void reloadColor(ShortPoint2D pos) {
@@ -467,7 +458,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
         /**
          * Adds all colors and returns the sum.
          * The sum is built by averaging out all the red/green/blue channels.
-         * 
+         *
          * @param colors the colors to mix
          * @return the resulting color
          */
@@ -576,13 +567,13 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 	}
-        
+
         private void showPlacesEditor() {
             JDialog placesEditor = new JDialog(window, "Places Editor");
 
             PseudoBuilding building = (PseudoBuilding)map.getBuilding();
             placesEditor.add(new OccupierPlacesEditor(building));
-            
+
             placesEditor.pack();
             placesEditor.setLocationRelativeTo(window);
             placesEditor.setVisible(true);

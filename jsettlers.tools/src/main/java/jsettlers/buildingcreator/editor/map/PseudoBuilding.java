@@ -39,7 +39,7 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOc
 	private final BuildingVariant building;
 	private final ShortPoint2D pos;
         
-        private final List<? extends IBuildingOccupier> occupiers = new ArrayList<>();
+    private final List<BuildingCreatorBuildingOccupier> occupiers = new ArrayList<>();
 
 	PseudoBuilding(BuildingVariant building, ShortPoint2D pos) {
 		this.building = building;
@@ -155,15 +155,14 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOc
     }
     
     public void occupy() {
-        List<IBuildingOccupier> occupiers2 = (List<IBuildingOccupier>)occupiers;
         for (OccupierPlace op: building.getOccupierPlaces()) {
             if (op != null) {
                 switch (op.getSoldierClass()) {
                     case BOWMAN:
-                        occupiers2.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.BOWMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                        occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.BOWMAN_L3)) );
                         break;
                     case INFANTRY:
-                        occupiers2.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.SWORDSMAN_L3, IPlayer.DummyPlayer.getCached((byte)0))) );
+                        occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.SWORDSMAN_L3)) );
                         break;
                     default:
                         break;
@@ -182,10 +181,7 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOc
      * @param selected the place to be selected
      */
     public void selectOccupierPlace(OccupierPlace selected) {
-        for (IBuildingOccupier o: occupiers) {
-            System.out.println("o "+o);
-            BuildingCreatorBuildingOccupier occupier = (BuildingCreatorBuildingOccupier)o;
-            
+        for (IBuildingOccupier occupier: occupiers) {
             occupier.getMovable().setSelected( occupier.getPlace() == selected );
         }
     }

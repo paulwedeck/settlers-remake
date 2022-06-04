@@ -8,20 +8,13 @@ import java.awt.FlowLayout;
 import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListModel;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicBorders;
 import jsettlers.buildingcreator.editor.map.PseudoBuilding;
-import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.OccupierPlace;
 
 /**
@@ -31,9 +24,9 @@ import jsettlers.common.buildings.OccupierPlace;
  */
 public class OccupierPlacesEditor extends JPanel {
     
-    private JList<OccupierPlace> list;
-    private DefaultListModel<OccupierPlace> listModel;
-    private PseudoBuilding building;
+    private final JList<OccupierPlace> list;
+    private final DefaultListModel<OccupierPlace> listModel;
+    private final PseudoBuilding building;
     
     public OccupierPlacesEditor(PseudoBuilding building) {
         setLayout(new BorderLayout());
@@ -83,20 +76,16 @@ public class OccupierPlacesEditor extends JPanel {
                 return renderer;
             }
         });
-        list.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent lse) {
-                if (!lse.getValueIsAdjusting()) {
-                    System.out.println("valuechanged "+lse);
-                    OccupierPlace selected = list.getSelectedValue();
-                    building.selectOccupierPlace(selected);
-                }
+        list.addListSelectionListener(lse -> {
+            if (!lse.getValueIsAdjusting()) {
+                OccupierPlace selected = list.getSelectedValue();
+                building.selectOccupierPlace(selected);
             }
         });
         add(new JScrollPane(list), BorderLayout.CENTER);
         
         this.building = building;
-        listModel = new DefaultListModel<OccupierPlace>();
+        listModel = new DefaultListModel<>();
         listModel.addAll(Arrays.asList(building.getBuildingVariant().getOccupierPlaces()));
         list.setModel(listModel);
     }
