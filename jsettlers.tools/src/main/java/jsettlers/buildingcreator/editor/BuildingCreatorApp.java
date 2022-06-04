@@ -84,7 +84,15 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	public void run() {
 		try {
 			EBuildingType type = askType();
+                        if (type == null) {
+                            // user pressed Cancel
+                            return;
+                        }
 			BuildingVariant variant = askVariant(type);
+                        if (variant == null) {
+                            // user pressed Cancel
+                            return;
+                        }
 
 			definition = new BuildingDefinition(variant);
 			map = new BuildingtestMap(definition);
@@ -104,13 +112,13 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			window.setVisible(true);
 
 			mapInterfaceConnector.fireAction(new Action(EActionType.TOGGLE_DEBUG));
-
+                        
 		} catch (JSettlersLookAndFeelExecption e) {
 			throw new RuntimeException(e);
 		}
 
 	}
-
+        
 	private JPanel generateMenu() {
 		JPanel menu = new JPanel();
 		menu.setLayout(new GridBagLayout());
@@ -212,6 +220,9 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	}
 
 	private BuildingVariant askVariant(EBuildingType type) {
+                if (type == null) {
+                    throw new IllegalArgumentException("type must not be null");
+                }
 		BuildingVariant[] variants = type.getVariants();
 		ECivilisation[] civs = Arrays.stream(variants).map(BuildingVariant::getCivilisation).toArray(ECivilisation[]::new);
 		return type.getVariant((ECivilisation)JOptionPane.showInputDialog(null, "Select building variant", "Building Variant", JOptionPane.QUESTION_MESSAGE, null, civs, null));
