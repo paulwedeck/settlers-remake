@@ -53,6 +53,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,8 +62,20 @@ import java.util.List;
 import java.util.Timer;
 import javax.swing.JCheckBox;
 import javax.swing.border.TitledBorder;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import jsettlers.buildingcreator.editor.map.PseudoBuilding;
 import jsettlers.buildingcreator.editor.places.OccupierPlacesEditor;
+import jsettlers.common.buildings.OccupierPlace;
+import jsettlers.common.movable.ESoldierClass;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * This is the main building creator class.
@@ -141,7 +154,14 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 }
 
 		JButton xmlButton = new JButton("show xml data");
-		xmlButton.addActionListener(e -> showXML());
+		xmlButton.addActionListener(event -> {
+                    try {
+                        showXML();
+                    } catch (Exception e) {
+                        e.printStackTrace(System.err);
+                        JOptionPane.showMessageDialog(null, "Could not generate XML");
+                    }
+                });
                 gbc = new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
 		menu.add(xmlButton, gbc);
 		positionDisplayer = new JLabel();
@@ -495,98 +515,134 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             return Color.getARGB(redsum / colors.size(), greensum / colors.size(), bluesum / colors.size(), 1);
 	}
 
-	private void showXML() {
-		StringBuilder builder = new StringBuilder("");
-		for (RelativePoint tile : definition.getBlocked()) {
-			builder.append("\t<blocked dx=\"");
-			builder.append(tile.getDx());
-			builder.append("\" dy=\"");
-			builder.append(tile.getDy());
-			builder.append("\" />\n");
-		}
-		builder.append("\n");
-		for (RelativePoint tile : definition.getJustProtected()) {
-			builder.append("\t<blocked dx=\"");
-			builder.append(tile.getDx());
-			builder.append("\" dy=\"");
-			builder.append(tile.getDy());
-			builder.append("\" block=\"false\" />\n");
-		}
-		builder.append("\n");
+        /**
+         * Constructs the DOM structure that gets serialized to a String. This
+         * String is then displayed in a window.
+         * 
+         * @throws ParserConfigurationException something went wrong
+         * @throws TransformerException something went wrong
+         */
+	private void showXML() throws ParserConfigurationException, TransformerException {
+            
+            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document doc = db.newDocument();
+            Element eBuilding = doc.createElement("building");
+            eBuilding.setAttribute("worker", "");
+            eBuilding.setAttribute("viewdistance", "40");
+            
+            // TODO: add gound types
+            
+            // add blocked tiles
+            for (RelativePoint tile : definition.getBlocked()) {
+                Element eBlocked = doc.createElement("blocked");
+                eBlocked.setAttribute("dx", String.valueOf(tile.getDx()));
+                eBlocked.setAttribute("dy", String.valueOf(tile.getDy()));
+                eBuilding.appendChild(eBlocked);
+            }
 
-		RelativePoint door = definition.getDoor();
-		builder.append("\t<door dx=\"");
-		builder.append(door.getDx());
-		builder.append("\" dy=\"");
-		builder.append(door.getDy());
-		builder.append("\" />\n");
-		builder.append("\n");
+            // add blocked tiles
+            for (RelativePoint tile : definition.getJustProtected()) {
+                Element eProtected = doc.createElement("blocked");
+                eProtected.setAttribute("dx", String.valueOf(tile.getDx()));
+                eProtected.setAttribute("dy", String.valueOf(tile.getDy()));
+                eProtected.setAttribute("block", "false");
+                eBuilding.appendChild(eProtected);
+            }
 
-		for (ConstructionStack stack : definition.getConstructionStacks()) {
-			builder.append("\t<constructionStack dx=\"");
-			builder.append(stack.getDx());
-			builder.append("\" dy=\"");
-			builder.append(stack.getDy());
-			builder.append("\" material=\"");
-			builder.append(stack.getMaterialType().name());
-			builder.append("\" buildrequired=\"");
-			builder.append(stack.requiredForBuild());
-			builder.append("\" />\n");
-		}
-		for (RelativeStack stack : definition.getRequestStacks()) {
-			builder.append("\t<requestStack dx=\"");
-			builder.append(stack.getDx());
-			builder.append("\" dy=\"");
-			builder.append(stack.getDy());
-			builder.append("\" material=\"");
-			builder.append(stack.getMaterialType().name());
-			builder.append("\" />\n");
-		}
-		for (RelativeStack stack : definition.getOfferStacks()) {
-			builder.append("\t<offerStack dx=\"");
-			builder.append(stack.getDx());
-			builder.append("\" dy=\"");
-			builder.append(stack.getDy());
-			builder.append("\" material=\"");
-			builder.append(stack.getMaterialType().name());
-			builder.append("\" />\n");
-		}
-		builder.append("\n");
+            // add door
+            {
+                RelativePoint door = definition.getDoor();
+                Element eDoor = doc.createElement("door");
+                eDoor.setAttribute("dx", String.valueOf(door.getDx()));
+                eDoor.setAttribute("dy", String.valueOf(door.getDy()));
+                eBuilding.appendChild(eDoor);
+            }
 
-		for (RelativeDirectionPoint bricklayer : definition.getBricklayers()) {
-			builder.append("\t<bricklayer dx=\"");
-			builder.append(bricklayer.getDx());
-			builder.append("\" dy=\"");
-			builder.append(bricklayer.getDy());
-			builder.append("\" direction=\"");
-			builder.append(bricklayer.getDirection());
-			builder.append("\" />\n");
-		}
-		builder.append("\n");
+            for (ConstructionStack stack : definition.getConstructionStacks()) {
+                Element eStack = doc.createElement("constructionStack");
+                eStack.setAttribute("dx", String.valueOf(stack.getDx()));
+                eStack.setAttribute("dy", String.valueOf(stack.getDy()));
+                eStack.setAttribute("material", stack.getMaterialType().name());
+                eStack.setAttribute("buildrequired", String.valueOf(stack.requiredForBuild()));
+                eBuilding.appendChild(eStack);
+            }
 
+            for (RelativeStack stack : definition.getRequestStacks()) {
+                Element eStack = doc.createElement("requestStack");
+                eStack.setAttribute("dx", String.valueOf(stack.getDx()));
+                eStack.setAttribute("dy", String.valueOf(stack.getDy()));
+                eStack.setAttribute("material", stack.getMaterialType().name());
+                eBuilding.appendChild(eStack);
+            }
+
+            for (RelativeStack stack : definition.getOfferStacks()) {
+                Element eStack = doc.createElement("offerStack");
+                eStack.setAttribute("dx", String.valueOf(stack.getDx()));
+                eStack.setAttribute("dy", String.valueOf(stack.getDy()));
+                eStack.setAttribute("material", stack.getMaterialType().name());
+                eBuilding.appendChild(eStack);
+            }
+
+            for (RelativeDirectionPoint bricklayer : definition.getBricklayers()) {
+                Element eBrickLayer = doc.createElement("bricklayer");
+                eBrickLayer.setAttribute("dx", String.valueOf(bricklayer.getDx()));
+                eBrickLayer.setAttribute("dy", String.valueOf(bricklayer.getDy()));
+                eBrickLayer.setAttribute("direction", String.valueOf(bricklayer.getDirection()));
+                eBuilding.appendChild(eBrickLayer);
+            }
+            
+            {
 		RelativePoint flag = definition.getFlag();
-		builder.append("\t<flag dx=\"");
-		builder.append(flag.getDx());
-		builder.append("\" dy=\"");
-		builder.append(flag.getDy());
-		builder.append("\" />\n");
-		builder.append("\n");
+                Element eFlag = doc.createElement("flag");
+                eFlag.setAttribute("dx", String.valueOf(flag.getDx()));
+                eFlag.setAttribute("dy", String.valueOf(flag.getDy()));
+                eBuilding.appendChild(eFlag);
+            }
 
-		for (RelativePoint mark : definition.getBuildmarks()) {
-			builder.append("\t<buildmark dx=\"");
-			builder.append(mark.getDx());
-			builder.append("\" dy=\"");
-			builder.append(mark.getDy());
-			builder.append("\" />\n");
-		}
-		builder.append("\n");
+            for (RelativePoint mark : definition.getBuildmarks()) {
+                Element eBuildMark = doc.createElement("buildmark");
+                eBuildMark.setAttribute("dx", String.valueOf(mark.getDx()));
+                eBuildMark.setAttribute("dy", String.valueOf(mark.getDy()));
+                eBuilding.appendChild(eBuildMark);
+            }
+            
+            // TODO: add smoke position
+            
+            // TODO: add oven position
+            
+            // TODO: add image data
+            
+            // TODO: add occupyer data
+            for (OccupierPlace op: definition.getBuilding().getOccupierPlaces()) {
+                Element eOccupierPlace = doc.createElement("occupyer");
+                eOccupierPlace.setAttribute("type", String.valueOf(op.getSoldierClass()));
+                eOccupierPlace.setAttribute("offsetX", String.valueOf(op.getOffsetX()));
+                eOccupierPlace.setAttribute("offsetY", String.valueOf(op.getOffsetY()));
+                eOccupierPlace.setAttribute("soldierX", String.valueOf(op.getPosition().getDx()));
+                eOccupierPlace.setAttribute("soldierY", String.valueOf(op.getPosition().getDy()));
+                if (ESoldierClass.INFANTRY == op.getSoldierClass()) {
+                    eOccupierPlace.setAttribute("looksRight", String.valueOf(op.looksRight()));
+                }
+                eBuilding.appendChild(eOccupierPlace);
+            }
+            
+            doc.appendChild(eBuilding);
 
-		JDialog dialog = new JDialog(window, "xml");
-		dialog.add(new JScrollPane(new JTextArea(builder.toString())));
-		dialog.pack();
-		dialog.setSize(700, 900);
-		dialog.setLocationRelativeTo(null);
-		dialog.setVisible(true);
+            // Transform the DOM to XML string
+            // TODO: Change transformation so it uses indentation
+            StringWriter sw = new StringWriter();
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            t.transform(new DOMSource(doc), new StreamResult(sw));
+
+            JDialog dialog = new JDialog(window, "xml");
+            JTextArea jta = new JTextArea(sw.toString());
+            jta.setWrapStyleWord(true);
+            jta.setLineWrap(true);
+            dialog.add(new JScrollPane(jta));
+            dialog.pack();
+            dialog.setSize(700, 900);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
 	}
 
         private void showPlacesEditor() {
