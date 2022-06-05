@@ -626,10 +626,22 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             }
             
             eBuilding.appendChild(doc.createComment("smoke position"));
-            // TODO: add smoke position
+            {
+                RelativePoint smoke = definition.getBuilding().getSmokePosition();
+                Element eSmoke = doc.createElement("smokePosition");
+                eSmoke.setAttribute("dx", String.valueOf(smoke.getDx()));
+                eSmoke.setAttribute("dy", String.valueOf(smoke.getDy()));
+                eBuilding.appendChild(eSmoke);
+            }
             
             eBuilding.appendChild(doc.createComment("oven position"));
-            // TODO: add oven position
+            {
+                RelativePoint oven = definition.getBuilding().getOvenPosition();
+                Element eOven = doc.createElement("ovenPosition");
+                eOven.setAttribute("dx", String.valueOf(oven.getDx()));
+                eOven.setAttribute("dy", String.valueOf(oven.getDy()));
+                eBuilding.appendChild(eOven);
+            }
             
             eBuilding.appendChild(doc.createComment("image data"));
             {
@@ -678,7 +690,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             doc.appendChild(eBuilding);
 
             // Transform the DOM to XML string
-            // TODO: Change transformation so it uses indentation
             StringWriter sw = new StringWriter();
             URL url = getClass().getResource("/building.xslt");
             Transformer t = TransformerFactory.newInstance().newTransformer(new StreamSource(url.openStream()));
