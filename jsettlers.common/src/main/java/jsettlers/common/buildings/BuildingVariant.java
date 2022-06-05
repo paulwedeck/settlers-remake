@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
@@ -71,7 +72,7 @@ public class BuildingVariant {
 
 	private final short viewDistance;
 
-	private final OccupierPlace[] occupierPlaces;
+	private OccupierPlace[] occupierPlaces;
 
 	private final BuildingAreaBitSet buildingAreaBitSet;
 
@@ -399,6 +400,28 @@ public class BuildingVariant {
 	public final OccupierPlace[] getOccupierPlaces() {
 		return occupierPlaces;
 	}
+        
+        /**
+         * Adds a new OccupierPlace to this building.
+         * 
+         * @param op the place to add
+         */
+        public void addOccupierPlace(OccupierPlace op) {
+            List<OccupierPlace> ops = new ArrayList<>(Arrays.asList(occupierPlaces));
+            ops.add(op);
+            occupierPlaces = ops.toArray(OccupierPlace[]::new);
+        }
+
+        /**
+         * Removes an OccupierPlace from this building.
+         * 
+         * @param op the place to remove
+         */
+        public void removeOccupierPlace(OccupierPlace op) {
+            List<OccupierPlace> ops = new ArrayList<>(Arrays.asList(occupierPlaces));
+            ops.remove(op);
+            occupierPlaces = ops.toArray(OccupierPlace[]::new);
+        }
 
 	/**
 	 * Gets the area for this building.

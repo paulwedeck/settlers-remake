@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
+import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -19,6 +20,8 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import jsettlers.buildingcreator.editor.map.PseudoBuilding;
 import jsettlers.common.buildings.OccupierPlace;
+import jsettlers.common.movable.ESoldierClass;
+import jsettlers.common.position.RelativePoint;
 
 /**
  * Allows editing a list of places with create/update/delete function.
@@ -28,19 +31,50 @@ import jsettlers.common.buildings.OccupierPlace;
 public class OccupierPlacesEditor extends JPanel {
     
     private final JList<OccupierPlace> list;
-    private final DefaultListModel<OccupierPlace> listModel;
+    private DefaultListModel<OccupierPlace> listModel;
     private final PseudoBuilding building;
     
     public OccupierPlacesEditor(PseudoBuilding building) {
         setLayout(new BorderLayout());
+
+        // need to initialize list early so we can address it in action listeners
+        list = new JList<>();
         
         // toolbar to add/remove places
         JPanel toolbar = new JPanel(new FlowLayout());
-        toolbar.add(new JButton("Add..."));
-        toolbar.add(new JButton("Remove"));
+        JButton btAdd = new JButton("Add...");
+        btAdd.addActionListener((ae) -> {
+            OccupierPlace op = new OccupierPlace(0, 0, ESoldierClass.INFANTRY, new RelativePoint(0, 0), true);
+            OccupierPlaceEditor ope = new OccupierPlaceEditor();
+            ope.setData(op);
+            if (JOptionPane.showOptionDialog(this, ope, "Add new position", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null) == JOptionPane.OK_OPTION) {
+                building.getBuildingVariant().addOccupierPlace(op);
+                updateModel();
+                
+                // ensure we have a soldier on the new position
+                building.evacuate();
+                building.occupy();
+            }
+        });
+        toolbar.add(btAdd);
+        JButton btRemove = new JButton("Remove");
+        btRemove.addActionListener((ae) -> {
+            OccupierPlace op = list.getSelectedValue();
+            if (op == null) {
+                JOptionPane.showMessageDialog(this, "Please select the position to delete first.");
+                return;
+            }
+            
+            building.getBuildingVariant().removeOccupierPlace(op);
+            updateModel();
+
+            // ensure we have a soldier on the new position
+            building.evacuate();
+            building.occupy();
+        });
+        toolbar.add(btRemove);
         add(toolbar, BorderLayout.NORTH);
         
-        list = new JList<>();
         list.setCellRenderer(new ListCellRenderer<OccupierPlace>() {
 
             private OccupierPlaceEditor renderer;
@@ -116,9 +150,12 @@ public class OccupierPlacesEditor extends JPanel {
         add(new JScrollPane(list), BorderLayout.CENTER);
         
         this.building = building;
+        updateModel();
+    }
+    
+    private void updateModel() {
         listModel = new DefaultListModel<>();
         listModel.addAll(Arrays.asList(building.getBuildingVariant().getOccupierPlaces()));
         list.setModel(listModel);
     }
-    
 }
