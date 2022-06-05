@@ -31,7 +31,6 @@ allprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter()
         // fallback for vbps
         //maven { url "https://raw.github.com/laenger/maven-releases/master/releases" }
         maven { url "https://maven.google.com" }
