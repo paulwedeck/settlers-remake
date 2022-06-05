@@ -55,6 +55,7 @@ import javax.swing.SwingUtilities;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -70,9 +71,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import jsettlers.buildingcreator.editor.map.PseudoBuilding;
 import jsettlers.buildingcreator.editor.places.OccupierPlacesEditor;
 import jsettlers.common.buildings.OccupierPlace;
+import jsettlers.common.images.ImageLink;
+import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.movable.ESoldierClass;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -522,17 +526,26 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
          * @throws ParserConfigurationException something went wrong
          * @throws TransformerException something went wrong
          */
-	private void showXML() throws ParserConfigurationException, TransformerException {
+	private void showXML() throws ParserConfigurationException, TransformerException, IOException {
             
             DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = db.newDocument();
             Element eBuilding = doc.createElement("building");
-            eBuilding.setAttribute("worker", "");
+            if (definition.getBuilding().getWorkerType() != null) {
+                eBuilding.setAttribute("worker", String.valueOf(definition.getBuilding().getWorkerType()));
+            } else {
+                eBuilding.setAttribute("worker", "");
+            }
             eBuilding.setAttribute("viewdistance", "40");
             
-            // TODO: add gound types
+            eBuilding.appendChild(doc.createComment("Ground Types"));
+            for (ELandscapeType ground :definition.getBuilding().getGroundTypes()) {
+                Element eGround = doc.createElement("ground");
+                eGround.setAttribute("groundtype", String.valueOf(ground));
+                eBuilding.appendChild(eGround);
+            }
             
-            // add blocked tiles
+            eBuilding.appendChild(doc.createComment("blocked tiles"));
             for (RelativePoint tile : definition.getBlocked()) {
                 Element eBlocked = doc.createElement("blocked");
                 eBlocked.setAttribute("dx", String.valueOf(tile.getDx()));
@@ -540,7 +553,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eBlocked);
             }
 
-            // add blocked tiles
+            eBuilding.appendChild(doc.createComment("protected tiles"));
             for (RelativePoint tile : definition.getJustProtected()) {
                 Element eProtected = doc.createElement("blocked");
                 eProtected.setAttribute("dx", String.valueOf(tile.getDx()));
@@ -549,7 +562,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eProtected);
             }
 
-            // add door
+            eBuilding.appendChild(doc.createComment("door"));
             {
                 RelativePoint door = definition.getDoor();
                 Element eDoor = doc.createElement("door");
@@ -558,6 +571,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eDoor);
             }
 
+            eBuilding.appendChild(doc.createComment("construction stacks"));
             for (ConstructionStack stack : definition.getConstructionStacks()) {
                 Element eStack = doc.createElement("constructionStack");
                 eStack.setAttribute("dx", String.valueOf(stack.getDx()));
@@ -567,6 +581,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eStack);
             }
 
+            eBuilding.appendChild(doc.createComment("request stacks"));
             for (RelativeStack stack : definition.getRequestStacks()) {
                 Element eStack = doc.createElement("requestStack");
                 eStack.setAttribute("dx", String.valueOf(stack.getDx()));
@@ -575,6 +590,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eStack);
             }
 
+            eBuilding.appendChild(doc.createComment("offer stack"));
             for (RelativeStack stack : definition.getOfferStacks()) {
                 Element eStack = doc.createElement("offerStack");
                 eStack.setAttribute("dx", String.valueOf(stack.getDx()));
@@ -583,6 +599,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eStack);
             }
 
+            eBuilding.appendChild(doc.createComment("brick layer"));
             for (RelativeDirectionPoint bricklayer : definition.getBricklayers()) {
                 Element eBrickLayer = doc.createElement("bricklayer");
                 eBrickLayer.setAttribute("dx", String.valueOf(bricklayer.getDx()));
@@ -591,6 +608,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eBrickLayer);
             }
             
+            eBuilding.appendChild(doc.createComment("flag"));
             {
 		RelativePoint flag = definition.getFlag();
                 Element eFlag = doc.createElement("flag");
@@ -599,6 +617,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eFlag);
             }
 
+            eBuilding.appendChild(doc.createComment("build marks"));
             for (RelativePoint mark : definition.getBuildmarks()) {
                 Element eBuildMark = doc.createElement("buildmark");
                 eBuildMark.setAttribute("dx", String.valueOf(mark.getDx()));
@@ -606,13 +625,43 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eBuildMark);
             }
             
+            eBuilding.appendChild(doc.createComment("smoke position"));
             // TODO: add smoke position
             
+            eBuilding.appendChild(doc.createComment("oven position"));
             // TODO: add oven position
             
-            // TODO: add image data
+            eBuilding.appendChild(doc.createComment("image data"));
+            {
+                ImageLink image = definition.getBuilding().getGuiImage();
+                Element eImage = doc.createElement("image");
+                eImage.setAttribute("file", String.valueOf(image.getFile()));
+                eImage.setAttribute("type", String.valueOf(image.getType()));
+                eImage.setAttribute("sequence", String.valueOf(image.getSequence()));
+                eImage.setAttribute("image", String.valueOf(image.getImageIndex()));
+                eImage.setAttribute("for", "GUI");
+                eBuilding.appendChild(eImage);
+            }
+            for (ImageLink image: definition.getBuilding().getImages()) {
+                Element eImage = doc.createElement("image");
+                eImage.setAttribute("file", String.valueOf(image.getFile()));
+                eImage.setAttribute("type", String.valueOf(image.getType()));
+                eImage.setAttribute("sequence", String.valueOf(image.getSequence()));
+                eImage.setAttribute("image", String.valueOf(image.getImageIndex()));
+                eImage.setAttribute("for", "FINAL");
+                eBuilding.appendChild(eImage);
+            }
+            for (ImageLink image: definition.getBuilding().getBuildImages()) {
+                Element eImage = doc.createElement("image");
+                eImage.setAttribute("file", String.valueOf(image.getFile()));
+                eImage.setAttribute("type", String.valueOf(image.getType()));
+                eImage.setAttribute("sequence", String.valueOf(image.getSequence()));
+                eImage.setAttribute("image", String.valueOf(image.getImageIndex()));
+                eImage.setAttribute("for", "BUILD");
+                eBuilding.appendChild(eImage);
+            }
             
-            // TODO: add occupyer data
+            eBuilding.appendChild(doc.createComment("occupier places"));
             for (OccupierPlace op: definition.getBuilding().getOccupierPlaces()) {
                 Element eOccupierPlace = doc.createElement("occupyer");
                 eOccupierPlace.setAttribute("type", String.valueOf(op.getSoldierClass()));
@@ -631,7 +680,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             // Transform the DOM to XML string
             // TODO: Change transformation so it uses indentation
             StringWriter sw = new StringWriter();
-            Transformer t = TransformerFactory.newInstance().newTransformer();
+            URL url = getClass().getResource("/building.xslt");
+            Transformer t = TransformerFactory.newInstance().newTransformer(new StreamSource(url.openStream()));
             t.transform(new DOMSource(doc), new StreamResult(sw));
 
             JDialog dialog = new JDialog(window, "xml");
