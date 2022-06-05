@@ -154,6 +154,9 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOc
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    /**
+     * Populates all OccupierPlaces with matching soldiers.
+     */
     public void occupy() {
         for (OccupierPlace op: building.getOccupierPlaces()) {
             if (op != null) {
@@ -171,6 +174,9 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOc
         }
     }
     
+    /**
+     * Frees up all OccupierPlaces by removing the soldiers.
+     */
     public void evacuate() {
         occupiers.clear();
     }
