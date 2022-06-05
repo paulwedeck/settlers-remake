@@ -61,8 +61,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
-import javax.swing.JCheckBox;
-import javax.swing.border.TitledBorder;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -94,7 +97,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	private JLabel positionDisplayer;
 	private JFrame window;
         private IMapInterfaceConnector mapInterfaceConnector;
-        private JCheckBox cbPopulated;
 
         private Timer timer;
 
@@ -120,7 +122,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			mapInterfaceConnector = startMapWindow();
 			mapInterfaceConnector.addListener(this);
 
-			JPanel menu = generateMenu();
+			JComponent menu = generateMenu();
 
 			window = new JFrame("Edit " + variant);
 			window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -137,41 +139,62 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
 	}
         
-	private JPanel generateMenu() {
-		JPanel menu = new JPanel();
-		menu.setLayout(new GridBagLayout());
-                GridBagConstraints gbc = null;
+	private JComponent generateMenu() {
+            JTabbedPane menu = new JTabbedPane();
+                
+            menu.add("Area", createToolChangeBar());
 
-                gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
-		menu.add(createToolChangeBar(), gbc);
-
-                // do we have a military building?
-                switch (definition.getBuilding().getType()) {
-                    case BIG_TOWER:
-                    case CASTLE:
-                    case LOOKOUT_TOWER:
-                    case TOWER:
-                        gbc = new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
-                        menu.add(createMilitaryMenu(), gbc);
-                        break;
-                    default:
-                        break;
+            // do we have a military building?
+            switch (definition.getBuilding().getType()) {
+                case BIG_TOWER:
+                case CASTLE:
+                case LOOKOUT_TOWER:
+                case TOWER:
+                    menu.add("Soldiers", createMilitaryMenu());
+                    break;
+                default:
+                    break;
+            }
+            
+            JButton xmlButton = new JButton("show xml data");
+            xmlButton.addActionListener(event -> {
+                try {
+                    showXML();
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                    JOptionPane.showMessageDialog(null, "Could not generate XML");
                 }
+            });
+            
+            JPanel b = new JPanel();
+            b.setLayout(new BoxLayout(b, BoxLayout.Y_AXIS));
+            JButton reload = new JButton("Reload Graphics");
+            reload.setEnabled(false);
+            b.add(reload);
+            b.add(xmlButton);
+            menu.add("Building", b);
 
-		JButton xmlButton = new JButton("show xml data");
-		xmlButton.addActionListener(event -> {
-                    try {
-                        showXML();
-                    } catch (Exception e) {
-                        e.printStackTrace(System.err);
-                        JOptionPane.showMessageDialog(null, "Could not generate XML");
+            menu.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent ce) {
+                    System.out.println("stateChanged "+ce);
+                    System.out.println(menu.getSelectedIndex());
+
+                    showSoldiers(false);
+                    hideMapColor();
+                    switch (menu.getSelectedIndex()) {
+                        case 0:
+                            reloadMapColor();
+                            break;
+                        case 1:
+                            showSoldiers(true);
+                            break;
+                        default:
+                            break;
                     }
-                });
-                gbc = new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
-		menu.add(xmlButton, gbc);
-		positionDisplayer = new JLabel();
-		menu.add(positionDisplayer);
-		return menu;
+                }
+            });
+            
+            return menu;
 	}
 
 	private IMapInterfaceConnector startMapWindow() throws JSettlersLookAndFeelExecption {
@@ -191,7 +214,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	private Component createToolChangeBar() {
             //JPanel result = new JXTaskPane("Select tool...");
             JPanel result = new JPanel();
-            result.setBorder(new TitledBorder("Tool"));
             result.setLayout(new GridBagLayout());
 
             GridBagConstraints gbc;
@@ -202,40 +224,20 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 gbc = new GridBagConstraints(0, y++, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
                 result.add(b, gbc);
             }
+            
+            gbc = new GridBagConstraints(0, y++, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+            result.add(new JLabel(), gbc); // ensure the other components are top-aligned
 
+            gbc = new GridBagConstraints(0, y++, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
+            positionDisplayer = new JLabel();
+            result.add(positionDisplayer, gbc);
+            
             return result;
 	}
 
         public Component createMilitaryMenu() {
-            JPanel result = new JPanel();
-            result.setBorder(new TitledBorder("Military"));
-            result.setLayout(new GridBagLayout());
-
-            GridBagConstraints gbc = null;
-
-            cbPopulated = new JCheckBox("populated");
-            cbPopulated.addChangeListener(e -> {
-                if (e.getSource() instanceof JCheckBox) {
-                    JCheckBox cb2 = (JCheckBox)e.getSource();
-                    PseudoBuilding building = (PseudoBuilding)map.getBuilding();
-                    if (cb2.isSelected()) {
-                        building.occupy();
-                    } else {
-                        building.evacuate();
-                    }
-                }
-            });
-            gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
-            result.add(cbPopulated, gbc);
-
-            JButton btEditPlaces = new JButton("Edit places...");
-            btEditPlaces.addActionListener(e -> {
-                showPlacesEditor();
-            });
-            gbc = new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
-            result.add(btEditPlaces, gbc);
-
-            return result;
+            PseudoBuilding building = (PseudoBuilding)map.getBuilding();
+            return new OccupierPlacesEditor(building);
         }
 
         /**
@@ -385,6 +387,19 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 			definition.setBlockedStatus(relative, true, false);
 		}
 	}
+
+        /**
+         * Hides the color for the whole map.
+         */
+        private void hideMapColor() {
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getWidth(); y++) {
+                    ShortPoint2D pos = new ShortPoint2D(x, y);
+                    PseudoTile tile = map.getTile(pos);
+                    tile.setDebugColor(0);
+                }
+            }
+        }
 
         /**
          * Reloads the color for the whole map.
@@ -665,6 +680,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 eBuilding.appendChild(eImage);
             }
             for (ImageLink image: definition.getBuilding().getBuildImages()) {
+                System.out.println("iamgelink "+image);
                 Element eImage = doc.createElement("image");
                 eImage.setAttribute("file", String.valueOf(image.getFile()));
                 eImage.setAttribute("type", String.valueOf(image.getType()));
@@ -708,10 +724,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	}
 
         private void showPlacesEditor() {
-            if (!cbPopulated.isSelected()) {
-                cbPopulated.setSelected(true);
-            }
-            
             JDialog placesEditor = new JDialog(window, "Places Editor");
 
             PseudoBuilding building = (PseudoBuilding)map.getBuilding();
@@ -720,5 +732,14 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             placesEditor.pack();
             placesEditor.setLocationRelativeTo(window);
             placesEditor.setVisible(true);
+        }
+        
+        private void showSoldiers(boolean show) {
+            PseudoBuilding building = (PseudoBuilding)map.getBuilding();
+            if (show) {
+                building.occupy();
+            } else {
+                building.evacuate();
+            }
         }
 }
