@@ -27,12 +27,12 @@ import jsettlers.common.position.RelativePoint;
 public class OccupierPlace implements Serializable {
 	private static final long serialVersionUID = 1355922428788608890L;
 
-	private final ESoldierClass soldierClass;
-	private final int offsetY;
-	private final int offsetX;
-	private final RelativePoint position;
+	private ESoldierClass soldierClass;
+	private int offsetY;
+	private int offsetX;
+	private RelativePoint position;
 
-	private final boolean looksRight;
+	private boolean looksRight;
 
 	public OccupierPlace(int offsetX, int offsetY, ESoldierClass soldierClass, RelativePoint position, boolean looksRight) {
 		if (position == null || soldierClass == null) {
@@ -55,12 +55,30 @@ public class OccupierPlace implements Serializable {
 	}
 
 	/**
+	 * sets the type of the occupyer.
+	 * 
+	 * @soldierClass {@link ESoldierClass#INFANTRY} if it is a person that is inside, {@link ESoldierClass#BOWMAN} if it is a bowman on the roof.
+	 */
+	public final void setSoldierClass(ESoldierClass soldierClass) {
+		this.soldierClass = soldierClass;
+	}
+
+	/**
 	 * Gets the x coordinate (in pixels) of the settler.
 	 * 
 	 * @return
 	 */
 	public final int getOffsetX() {
 		return offsetX;
+	}
+
+	/**
+	 * Sets the x coordinate (in pixels) of the settler.
+	 * 
+	 * @param offsetX
+	 */
+	public final void setOffsetX(int offsetX) {
+		this.offsetX = offsetX;
 	}
 
 	/**
@@ -73,12 +91,30 @@ public class OccupierPlace implements Serializable {
 	}
 
 	/**
-	 * Whether the solier should look to the right.
+	 * Sets the y coordinate (in pixels) of the settler.
+	 * 
+	 * @param offsetY
+	 */
+	public final void setOffsetY(int offsetY) {
+		this.offsetY = offsetY;
+	}
+
+	/**
+	 * Whether the soldier should look to the right.
 	 * 
 	 * @return A boolean value.
 	 */
 	public final boolean looksRight() {
 		return looksRight;
+	}
+
+	/**
+	 * Sets whether the soldier should look to the right.
+	 * 
+	 * @param looksRight A boolean value.
+	 */
+	public final void setLooksRight(boolean looksRight) {
+		this.looksRight = looksRight;
 	}
 
 	/**
@@ -88,5 +124,14 @@ public class OccupierPlace implements Serializable {
 	 */
 	public final RelativePoint getPosition() {
 		return position;
+	}
+
+	/**
+	 * Sets the point over which the soldier is standing.
+	 * 
+	 * @param position The position relative to the building.
+	 */
+	public final void setPosition(RelativePoint position) {
+		this.position = position;
 	}
 }

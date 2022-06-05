@@ -5,10 +5,13 @@ package jsettlers.buildingcreator.editor.places;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
@@ -80,6 +83,34 @@ public class OccupierPlacesEditor extends JPanel {
             if (!lse.getValueIsAdjusting()) {
                 OccupierPlace selected = list.getSelectedValue();
                 building.selectOccupierPlace(selected);
+            }
+        });
+        list.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    OccupierPlace op = list.getSelectedValue();
+                    OccupierPlaceEditor ope = new OccupierPlaceEditor();
+                    ope.setData(op);
+                    JOptionPane.showMessageDialog(OccupierPlacesEditor.this, ope);
+                    repaint();
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent me) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
             }
         });
         add(new JScrollPane(list), BorderLayout.CENTER);
