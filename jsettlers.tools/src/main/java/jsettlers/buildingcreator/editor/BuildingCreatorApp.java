@@ -94,6 +94,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	private JLabel positionDisplayer;
 	private JFrame window;
         private IMapInterfaceConnector mapInterfaceConnector;
+        private JCheckBox cbPopulated;
 
         private Timer timer;
 
@@ -212,8 +213,8 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
             GridBagConstraints gbc = null;
 
-            JCheckBox cb = new JCheckBox("populated");
-            cb.addChangeListener(e -> {
+            cbPopulated = new JCheckBox("populated");
+            cbPopulated.addChangeListener(e -> {
                 if (e.getSource() instanceof JCheckBox) {
                     JCheckBox cb2 = (JCheckBox)e.getSource();
                     PseudoBuilding building = (PseudoBuilding)map.getBuilding();
@@ -225,7 +226,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 }
             });
             gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
-            result.add(cb, gbc);
+            result.add(cbPopulated, gbc);
 
             JButton btEditPlaces = new JButton("Edit places...");
             btEditPlaces.addActionListener(e -> {
@@ -707,6 +708,10 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 	}
 
         private void showPlacesEditor() {
+            if (!cbPopulated.isSelected()) {
+                cbPopulated.setSelected(true);
+            }
+            
             JDialog placesEditor = new JDialog(window, "Places Editor");
 
             PseudoBuilding building = (PseudoBuilding)map.getBuilding();
