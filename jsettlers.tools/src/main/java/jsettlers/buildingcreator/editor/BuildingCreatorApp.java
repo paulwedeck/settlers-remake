@@ -32,6 +32,7 @@ import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.RelativeDirectionPoint;
 import jsettlers.common.buildings.stacks.ConstructionStack;
 import jsettlers.common.buildings.stacks.RelativeStack;
+import jsettlers.common.images.ImageLink;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.menu.FakeMapGame;
 import jsettlers.common.menu.IMapInterfaceConnector;
@@ -62,6 +63,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
 import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -168,6 +170,25 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             
             JPanel b = new JPanel();
             b.setLayout(new BoxLayout(b, BoxLayout.Y_AXIS));
+            JCheckBox cbShowFront = new JCheckBox("Show Front");
+            b.add(cbShowFront);
+            JCheckBox cbShowBack = new JCheckBox("Show Back");
+            b.add(cbShowBack);
+            menu.add("Layers", b);
+            JButton btReload = new JButton("Layers...");
+            btReload.addActionListener(e -> {
+                jsettlers.graphics.map.draw.ImageProvider.getInstance().invalidateAll();
+                
+                jsettlers.buildingcreator.editor.layers.LayerEditor le = new jsettlers.buildingcreator.editor.layers.LayerEditor();
+                le.setBuilding(definition.getBuilding());
+                System.out.println("editing...");
+                JOptionPane.showMessageDialog(window, le);
+                System.out.println("edited");
+            });
+            b.add(btReload);
+            
+            b = new JPanel();
+            b.setLayout(new BoxLayout(b, BoxLayout.Y_AXIS));
             JButton reload = new JButton("Reload Graphics");
             reload.setEnabled(false);
             b.add(reload);
@@ -176,9 +197,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
 
             menu.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent ce) {
-                    System.out.println("stateChanged "+ce);
-                    System.out.println(menu.getSelectedIndex());
-
                     showSoldiers(false);
                     hideMapColor();
                     switch (menu.getSelectedIndex()) {
@@ -723,17 +741,6 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             dialog.setVisible(true);
 	}
 
-        private void showPlacesEditor() {
-            JDialog placesEditor = new JDialog(window, "Places Editor");
-
-            PseudoBuilding building = (PseudoBuilding)map.getBuilding();
-            placesEditor.add(new OccupierPlacesEditor(building));
-
-            placesEditor.pack();
-            placesEditor.setLocationRelativeTo(window);
-            placesEditor.setVisible(true);
-        }
-        
         private void showSoldiers(boolean show) {
             PseudoBuilding building = (PseudoBuilding)map.getBuilding();
             if (show) {
