@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -18,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -35,45 +38,50 @@ import jsettlers.graphics.map.draw.ImageProvider;
  */
 public class LayerEditor extends JPanel {
     
-    private enum ERenderState {
-        HIDDEN,
-        //SEMITRANSPARENT,
-        SOLID
-    }
-    
-    private class RenderStatePanel extends JLabel implements TableCellRenderer {
-
-        public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
-            setText(String.valueOf(o));
-            
-            return this;
-        }
-    
-    }
-    
-    class RenderStateEditor extends AbstractCellEditor implements TableCellEditor {
-
-        JComboBox<ERenderState> cb = new JComboBox<ERenderState>(ERenderState.values());
-
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
-            int rowIndex, int vColIndex) {
-            
-          //((JTextField) component).setText((String) value);
-
-            return cb;
+    private class PointEditor extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
+        private JPanel panel;
+        private JSpinner spX;
+        private JSpinner spY;
+        
+        public PointEditor() {
+            panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            panel.add(new JLabel("X:"));
+            spX = new JSpinner(new SpinnerNumberModel());
+            panel.add(spX);
+            panel.add(new JLabel("Y:"));
+            spY = new JSpinner(new SpinnerNumberModel());
+            panel.add(spY);
         }
 
         public Object getCellEditorValue() {
-            return cb.getSelectedItem();
+            return new Point(Integer.parseInt(String.valueOf(spX.getValue())), Integer.parseInt(String.valueOf(spY.getValue())));
         }
-    }    
+
+        public Component getTableCellEditorComponent(JTable jtable, Object value, boolean isSelected, int rowIndex, int columnIndex) {
+            Point p = (Point)value;
+            spX.setValue(p.x);
+            spY.setValue(p.y);
+            
+            jtable.setRowHeight(rowIndex, Math.max(jtable.getRowHeight(rowIndex), panel.getPreferredSize().height));
+            return panel;
+        }
+
+        public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean isFocused, int rowIndex, int columnIndex) {
+            Point p = (Point)value;
+            spX.setValue(p.x);
+            spY.setValue(p.y);
+            jtable.setRowHeight(rowIndex, Math.max(jtable.getRowHeight(rowIndex), panel.getPreferredSize().height));
+            return panel;
+        }
+        
+    }
     
     /** Similar to an ImageLink, this class combines image and offset data. */
     private class ImageData {
-        ERenderState state;
+        boolean show;
         String imageName;
-        int offsetX;
-        int offsetY;
+        private Point offset;
         String purpose;
         ImageLink imageLink;
         
@@ -84,19 +92,35 @@ public class LayerEditor extends JPanel {
 
         
         public ImageData(ImageLink il) {
-            state = ERenderState.SOLID;
+            show = true;
             imageName = String.format("%s_%s_%s_%s", il.getFile(), il.getType(), il.getSequence(), il.getImageIndex());
-            offsetX = 0;
-            offsetY = 0;
             jsettlers.graphics.map.draw.ImageProvider.getInstance().getImage(il);
             this.imageLink = il;
+        }
+        
+        public void setOffset(Point offset) {
+            this.offset = offset;
+        }
+        
+        public Point getOffset() {
+            if (offset==null) {
+                jsettlers.graphics.image.Image image = ImageProvider.getInstance().getImage(imageLink);
+                if (image != null) {
+                    if (image instanceof jsettlers.graphics.image.SingleImage) {
+                        jsettlers.graphics.image.SingleImage si = (jsettlers.graphics.image.SingleImage)image;
+                        offset = new Point(si.getOffsetX(), si.getOffsetY());
+                    }
+                }
+            }
+            
+            return offset;
         }
     }
     
     private class ImageLinkTableModel extends AbstractTableModel {
         
-        private String[] columnNames = new String[]{"RenderState", "Name"};
-        private Class[] columnClasses = new Class[]{ERenderState.class, String.class};
+        private String[] columnNames = new String[]{"Show", "Name", "Offset"};
+        private Class[] columnClasses = new Class[]{Boolean.class, String.class, Point.class};
         
         List<ImageData> images;
         
@@ -135,9 +159,11 @@ public class LayerEditor extends JPanel {
             ImageData row = images.get(rowIndex);
             switch (columnIndex) {
                 case 0:
-                    return row.state;
+                    return row.show;
                 case 1:
                     return row.imageName;
+                case 2:
+                    return row.getOffset();
                 default:
                     return "n/a";
             }
@@ -145,19 +171,27 @@ public class LayerEditor extends JPanel {
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex == 0;
+            return columnIndex == 0 || columnIndex == 2;
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             System.out.println("setValueAt("+aValue+", ...)");
-            if (columnIndex!=0)
-                throw new UnsupportedOperationException("not yet implemented");
             
             ImageData row = images.get(rowIndex);
-            row.state = (ERenderState)aValue;
+            switch(columnIndex) {
+                case 0:
+                    row.show = (Boolean)aValue;
+                    fireTableCellUpdated(rowIndex, columnIndex);
+                    break;
+                case 2:
+                    row.offset = (Point)aValue;
+                    fireTableCellUpdated(rowIndex, columnIndex);
+                    break;
+                default:
+                    throw new UnsupportedOperationException("not yet implemented");
+            }
             
-            fireTableCellUpdated(rowIndex, columnIndex);
         }
         
         
@@ -191,25 +225,31 @@ public class LayerEditor extends JPanel {
             
             Point center = new Point(getWidth()/2, getHeight()/2);
             
-            for(int rowIndex = 0; rowIndex<model.getRowCount(); rowIndex++) {
-                ImageData row = model.getRow(rowIndex);
-                
-                if (row.state == ERenderState.HIDDEN) {
-                    System.out.println("skipped "+row.imageName);
-                    continue;
-                }
+            try {
+                for(int rowIndex = 0; rowIndex<model.getRowCount(); rowIndex++) {
+                    ImageData row = model.getRow(rowIndex);
 
-                jsettlers.graphics.image.Image image = ImageProvider.getInstance().getImage(row.imageLink);
-                if (image != null) {
-                    if (image instanceof jsettlers.graphics.image.SingleImage) {
-                        jsettlers.graphics.image.SingleImage si = (jsettlers.graphics.image.SingleImage)image;
-                        BufferedImage bi = si.convertToBufferedImage();
-                        System.out.println("drawing "+image.getClass().getName()+": "+row.imageName);
-                        g2d.drawImage(bi, center.x + si.getOffsetX(), center.y+si.getOffsetY(), null);
-                        System.out.println("painted "+row.imageName);
+                    if (!row.show) {
+                        continue;
                     }
-                }
 
+                    jsettlers.graphics.image.Image image = ImageProvider.getInstance().getImage(row.imageLink);
+                    if (image != null) {
+                        if (image instanceof jsettlers.graphics.image.SingleImage) {
+                            jsettlers.graphics.image.SingleImage si = (jsettlers.graphics.image.SingleImage)image;
+
+                            if (row.offset== null) {
+                                row.offset = new Point(si.getOffsetX(), si.getOffsetY());
+                            }
+
+                            BufferedImage bi = si.convertToBufferedImage();
+                            g2d.drawImage(bi, center.x + row.offset.x, center.y+ row.offset.y, null);
+                        }
+                    }
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
             }
             
             g2d.setColor(Color.white);
@@ -231,8 +271,8 @@ public class LayerEditor extends JPanel {
     public LayerEditor() {
         setLayout(new BorderLayout());
         table = new JTable();
-        table.setDefaultRenderer(ERenderState.class, new RenderStatePanel());
-        table.setDefaultEditor(ERenderState.class, new RenderStateEditor());
+        table.setDefaultRenderer(Point.class, new PointEditor());
+        table.setDefaultEditor(Point.class, new PointEditor());
         add(new JScrollPane(table), BorderLayout.WEST);
         imagePanel = new ImagePanel();
         add(imagePanel, BorderLayout.CENTER);
