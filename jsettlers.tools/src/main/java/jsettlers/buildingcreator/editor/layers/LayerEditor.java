@@ -12,7 +12,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JLabel;
@@ -20,15 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.images.ImageLink;
@@ -52,6 +48,8 @@ public class LayerEditor extends JPanel {
         public PointEditor() {
             panel = new JPanel();
             panel.setLayout(new FlowLayout());
+            panel.setOpaque(true);
+            
             panel.add(new JLabel("X:"));
             spX = new JSpinner(new SpinnerNumberModel(0, -300, 300, 1));
             panel.add(spX);
@@ -70,6 +68,14 @@ public class LayerEditor extends JPanel {
             spY.setValue(p.y);
             
             jtable.setRowHeight(rowIndex, Math.max(jtable.getRowHeight(rowIndex), panel.getPreferredSize().height));
+            if (isSelected) {
+                panel.setBackground(jtable.getSelectionBackground());
+                panel.setForeground(jtable.getSelectionForeground());
+            } else {
+                panel.setBackground(jtable.getBackground());
+                panel.setForeground(jtable.getForeground());
+            }
+            
             return panel;
         }
 
@@ -87,6 +93,13 @@ public class LayerEditor extends JPanel {
                 spY.setEnabled(true);
             }
             jtable.setRowHeight(rowIndex, Math.max(jtable.getRowHeight(rowIndex), panel.getPreferredSize().height));
+            if (isSelected) {
+                panel.setBackground(jtable.getSelectionBackground());
+                panel.setForeground(jtable.getSelectionForeground());
+            } else {
+                panel.setBackground(jtable.getBackground());
+                panel.setForeground(jtable.getForeground());
+            }
             return panel;
         }
         
