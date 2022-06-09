@@ -12,22 +12,28 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.swing.AbstractCellEditor;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.images.ImageLink;
+import jsettlers.graphics.image.Image;
+import jsettlers.graphics.image.SettlerImage;
 import jsettlers.graphics.map.draw.ImageProvider;
 
 /**
@@ -47,10 +53,10 @@ public class LayerEditor extends JPanel {
             panel = new JPanel();
             panel.setLayout(new FlowLayout());
             panel.add(new JLabel("X:"));
-            spX = new JSpinner(new SpinnerNumberModel());
+            spX = new JSpinner(new SpinnerNumberModel(0, -300, 300, 1));
             panel.add(spX);
             panel.add(new JLabel("Y:"));
-            spY = new JSpinner(new SpinnerNumberModel());
+            spY = new JSpinner(new SpinnerNumberModel(0, -300, 300, 1));
             panel.add(spY);
         }
 
@@ -68,9 +74,18 @@ public class LayerEditor extends JPanel {
         }
 
         public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean isFocused, int rowIndex, int columnIndex) {
-            Point p = (Point)value;
-            spX.setValue(p.x);
-            spY.setValue(p.y);
+            if (value == null) {
+                spX.setValue(0);
+                spY.setValue(0);
+                spX.setEnabled(false);
+                spY.setEnabled(false);
+            } else {
+                Point p = (Point)value;
+                spX.setValue(p.x);
+                spY.setValue(p.y);
+                spX.setEnabled(true);
+                spY.setEnabled(true);
+            }
             jtable.setRowHeight(rowIndex, Math.max(jtable.getRowHeight(rowIndex), panel.getPreferredSize().height));
             return panel;
         }
@@ -83,19 +98,28 @@ public class LayerEditor extends JPanel {
         String imageName;
         private Point offset;
         String purpose;
-        ImageLink imageLink;
+        Image image;
         
         public ImageData(ImageLink il, String purpose) {
             this(il);
             this.purpose = purpose;
         }
-
         
         public ImageData(ImageLink il) {
             show = true;
             imageName = String.format("%s_%s_%s_%s", il.getFile(), il.getType(), il.getSequence(), il.getImageIndex());
-            jsettlers.graphics.map.draw.ImageProvider.getInstance().getImage(il);
-            this.imageLink = il;
+            this.image = ImageProvider.getInstance().getImage(il);
+        }
+
+        public ImageData(Image i, String purpose) {
+            this(i);
+            this.purpose = purpose;
+        }
+        
+        public ImageData(Image i) {
+            show = true;
+            imageName = "n/a";
+            this.image = i;
         }
         
         public void setOffset(Point offset) {
@@ -104,7 +128,6 @@ public class LayerEditor extends JPanel {
         
         public Point getOffset() {
             if (offset==null) {
-                jsettlers.graphics.image.Image image = ImageProvider.getInstance().getImage(imageLink);
                 if (image != null) {
                     if (image instanceof jsettlers.graphics.image.SingleImage) {
                         jsettlers.graphics.image.SingleImage si = (jsettlers.graphics.image.SingleImage)image;
@@ -127,15 +150,33 @@ public class LayerEditor extends JPanel {
         public ImageLinkTableModel() {
             images = new ArrayList<>();
         }
+        
+        private void addImage(ImageLink il, String purpose) {
+            ImageData imageData = new ImageData(il, purpose);
+            images.add(imageData);
+
+            // search for shadow
+            if (imageData.image instanceof SettlerImage) {
+                SettlerImage simage = (SettlerImage)imageData.image;
+                Image shadow = simage.getShadow();
+                if (shadow != null) {
+                    ImageData shadowData = new ImageData(il, "shadow");
+                    shadowData.image = shadow;
+                    shadowData.imageName = shadowData.imageName + "_shadow";
+                    images.add(shadowData);
+                }
+            }
+        }
 
         public ImageLinkTableModel(BuildingVariant building) {
             images = new ArrayList<>();
             for (ImageLink il: building.getBuildImages()) {
-                images.add(new ImageData(il, "under construction"));
+                addImage(il, "under construction");
             }
             for (ImageLink il: building.getImages()) {
-                images.add(new ImageData(il, "built"));
+                addImage(il, "built");
             }
+            
         }
 
         public int getRowCount() {
@@ -176,8 +217,6 @@ public class LayerEditor extends JPanel {
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            System.out.println("setValueAt("+aValue+", ...)");
-            
             ImageData row = images.get(rowIndex);
             switch(columnIndex) {
                 case 0:
@@ -193,7 +232,11 @@ public class LayerEditor extends JPanel {
             }
             
         }
-        
+
+        @Override
+        public String getColumnName(int column) {
+            return columnNames[column];
+        }
         
     }
     
@@ -233,10 +276,9 @@ public class LayerEditor extends JPanel {
                         continue;
                     }
 
-                    jsettlers.graphics.image.Image image = ImageProvider.getInstance().getImage(row.imageLink);
-                    if (image != null) {
-                        if (image instanceof jsettlers.graphics.image.SingleImage) {
-                            jsettlers.graphics.image.SingleImage si = (jsettlers.graphics.image.SingleImage)image;
+                    if (row.image != null) {
+                        if (row.image instanceof jsettlers.graphics.image.SingleImage) {
+                            jsettlers.graphics.image.SingleImage si = (jsettlers.graphics.image.SingleImage)row.image;
 
                             if (row.offset== null) {
                                 row.offset = new Point(si.getOffsetX(), si.getOffsetY());
@@ -273,6 +315,7 @@ public class LayerEditor extends JPanel {
         table = new JTable();
         table.setDefaultRenderer(Point.class, new PointEditor());
         table.setDefaultEditor(Point.class, new PointEditor());
+        table.setPreferredScrollableViewportSize(new Dimension(500, 500));
         add(new JScrollPane(table), BorderLayout.WEST);
         imagePanel = new ImagePanel();
         add(imagePanel, BorderLayout.CENTER);
@@ -282,6 +325,11 @@ public class LayerEditor extends JPanel {
         this.building = building;
         model = new ImageLinkTableModel(building);
         table.setModel(model);
+        TableColumnModel tcm = table.getColumnModel();
+        tcm.getColumn(0).setPreferredWidth(50);
+        tcm.getColumn(0).setMaxWidth(50);
+        tcm.getColumn(1).setPreferredWidth(220);
+        tcm.getColumn(1).setMaxWidth(220);
         imagePanel.setModel(model);
     }
 }
