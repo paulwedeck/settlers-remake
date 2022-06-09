@@ -170,22 +170,19 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             
             JPanel b = new JPanel();
             b.setLayout(new BoxLayout(b, BoxLayout.Y_AXIS));
-            JCheckBox cbShowFront = new JCheckBox("Show Front");
-            b.add(cbShowFront);
-            JCheckBox cbShowBack = new JCheckBox("Show Back");
-            b.add(cbShowBack);
             menu.add("Layers", b);
-            JButton btReload = new JButton("Layers...");
-            btReload.addActionListener(e -> {
+
+            JButton btLayers = new JButton("Layers...");
+            btLayers.addActionListener(e -> {
                 jsettlers.graphics.map.draw.ImageProvider.getInstance().invalidateAll();
                 
                 jsettlers.buildingcreator.editor.layers.LayerEditor le = new jsettlers.buildingcreator.editor.layers.LayerEditor();
                 le.setBuilding(definition.getBuilding());
                 System.out.println("editing...");
-                JOptionPane.showMessageDialog(window, le);
+                JOptionPane.showMessageDialog(window, le, "Layers...", JOptionPane.PLAIN_MESSAGE);
                 System.out.println("edited");
             });
-            b.add(btReload);
+            b.add(btLayers);
             
             b = new JPanel();
             b.setLayout(new BoxLayout(b, BoxLayout.Y_AXIS));
