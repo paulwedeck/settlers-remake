@@ -179,7 +179,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 jsettlers.buildingcreator.editor.layers.LayerEditor le = new jsettlers.buildingcreator.editor.layers.LayerEditor();
                 le.setBuilding(definition.getBuilding());
                 System.out.println("editing...");
-                JOptionPane.showMessageDialog(window, le, "Layers...", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(window, le, "Layers of " + definition.getBuilding().getCivilisation() + " " + definition.getBuilding().getType(), JOptionPane.PLAIN_MESSAGE);
                 System.out.println("edited");
             });
             b.add(btLayers);
