@@ -81,7 +81,7 @@ public class OccupierPlacesEditor extends JPanel {
             
             @Override
             public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean isFocused, int rowIndex, int columnIndex) {
-                //ope.setData((OccupierPlace)value);
+                ope.setData((OccupierPlace)value);
                 
                 ope.setOpaque(true);
                 if (isSelected) {
