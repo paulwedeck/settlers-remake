@@ -20,6 +20,8 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -40,10 +42,14 @@ import jsettlers.graphics.map.draw.ImageProvider;
  */
 public class LayerEditor extends JPanel {
     
-    private class PointEditor extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
+    private class PointEditor extends AbstractCellEditor implements TableCellEditor, TableCellRenderer, ChangeListener {
         private JPanel panel;
         private JSpinner spX;
         private JSpinner spY;
+        private Point data;
+        private int editRow;
+        private int editColumn;
+        private boolean configuring;
         
         public PointEditor() {
             panel = new JPanel();
@@ -52,9 +58,11 @@ public class LayerEditor extends JPanel {
             
             panel.add(new JLabel("X:"));
             spX = new JSpinner(new SpinnerNumberModel(0, -300, 300, 1));
+            spX.getModel().addChangeListener(this);
             panel.add(spX);
             panel.add(new JLabel("Y:"));
             spY = new JSpinner(new SpinnerNumberModel(0, -300, 300, 1));
+            spY.getModel().addChangeListener(this);
             panel.add(spY);
         }
 
@@ -63,9 +71,15 @@ public class LayerEditor extends JPanel {
         }
 
         public Component getTableCellEditorComponent(JTable jtable, Object value, boolean isSelected, int rowIndex, int columnIndex) {
-            Point p = (Point)value;
-            spX.setValue(p.x);
-            spY.setValue(p.y);
+            System.out.println("getTableCellEditorComponent(..., " + value + ")");
+            
+            configuring = true;
+            data = (Point)value;
+            spX.setValue(data.x);
+            spY.setValue(data.y);
+            editRow = rowIndex;
+            editColumn = columnIndex;
+            configuring = false;
             
             jtable.setRowHeight(rowIndex, Math.max(jtable.getRowHeight(rowIndex), panel.getPreferredSize().height));
             if (isSelected) {
@@ -80,6 +94,8 @@ public class LayerEditor extends JPanel {
         }
 
         public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean isFocused, int rowIndex, int columnIndex) {
+            //System.out.println("getTableCellRenderComponent(..., " + value + ")");
+            configuring = true;
             if (value == null) {
                 spX.setValue(0);
                 spY.setValue(0);
@@ -92,6 +108,8 @@ public class LayerEditor extends JPanel {
                 spX.setEnabled(true);
                 spY.setEnabled(true);
             }
+            configuring = false;
+            
             jtable.setRowHeight(rowIndex, Math.max(jtable.getRowHeight(rowIndex), panel.getPreferredSize().height));
             if (isSelected) {
                 panel.setBackground(jtable.getSelectionBackground());
@@ -101,6 +119,15 @@ public class LayerEditor extends JPanel {
                 panel.setForeground(jtable.getForeground());
             }
             return panel;
+        }
+
+        @Override
+        public void stateChanged(ChangeEvent ce) {
+            if (!configuring && data != null) {
+                data.x = Integer.parseInt(String.valueOf(spX.getValue()));
+                data.y = Integer.parseInt(String.valueOf(spY.getValue()));
+                model.fireTableCellUpdated(editRow, editColumn);
+            }
         }
         
     }
