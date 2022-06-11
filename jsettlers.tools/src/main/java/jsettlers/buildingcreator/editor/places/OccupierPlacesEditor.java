@@ -3,21 +3,20 @@
 package jsettlers.buildingcreator.editor.places;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Arrays;
-import javax.swing.Action;
-import javax.swing.DefaultListModel;
+import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
+import javax.swing.JTable;
+import javax.swing.event.CellEditorListener;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import jsettlers.buildingcreator.editor.map.PseudoBuilding;
 import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.movable.ESoldierClass;
@@ -30,15 +29,17 @@ import jsettlers.common.position.RelativePoint;
  */
 public class OccupierPlacesEditor extends JPanel {
     
-    private final JList<OccupierPlace> list;
-    private DefaultListModel<OccupierPlace> listModel;
+    private final JTable table;
+    private OccupierPlaceTableModel tableModel;
     private final PseudoBuilding building;
     
     public OccupierPlacesEditor(PseudoBuilding building) {
         setLayout(new BorderLayout());
 
         // need to initialize list early so we can address it in action listeners
-        list = new JList<>();
+        table = new JTable();
+        table.setTableHeader(null);
+        table.setRowHeight((int)new OccupierPlaceEditor().getPreferredSize().getHeight());
         
         // toolbar to add/remove places
         JPanel toolbar = new JPanel(new FlowLayout());
@@ -59,12 +60,12 @@ public class OccupierPlacesEditor extends JPanel {
         toolbar.add(btAdd);
         JButton btRemove = new JButton("Remove");
         btRemove.addActionListener((ae) -> {
-            OccupierPlace op = list.getSelectedValue();
-            if (op == null) {
+            int rowIndex = table.getSelectedRow();
+            if (rowIndex == -1) {
                 JOptionPane.showMessageDialog(this, "Please select the position to delete first.");
                 return;
             }
-            
+            OccupierPlace op = tableModel.getRow(rowIndex);
             building.getBuildingVariant().removeOccupierPlace(op);
             updateModel();
 
@@ -75,87 +76,103 @@ public class OccupierPlacesEditor extends JPanel {
         toolbar.add(btRemove);
         add(toolbar, BorderLayout.NORTH);
         
-        list.setCellRenderer(new ListCellRenderer<OccupierPlace>() {
-
-            private OccupierPlaceEditor renderer;
-            private Border selectedBorder;
-            private Border normalBorder;
+        table.setDefaultRenderer(OccupierPlace.class, new TableCellRenderer() {
+            private OccupierPlaceEditor ope = new OccupierPlaceEditor();
             
             @Override
-            public Component getListCellRendererComponent(JList<? extends OccupierPlace> list, OccupierPlace value, int index, boolean isSelected, boolean cellHasFocus) {
-                if (renderer == null) {
-                    renderer = new OccupierPlaceEditor();
-                    renderer.setEnabled(false);
-                    
-                    selectedBorder = new LineBorder(list.getSelectionBackground(), 3);
-                    normalBorder = new LineBorder(list.getBackground(), 3);
-                }
-
-                if (cellHasFocus) {
-                    renderer.setEnabled(true);
-                    renderer.grabFocus();
-                } else {
-                    renderer.setEnabled(false);
-                }
+            public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean isFocused, int rowIndex, int columnIndex) {
+                //ope.setData((OccupierPlace)value);
                 
+                ope.setOpaque(true);
                 if (isSelected) {
-                    renderer.setBorder(selectedBorder);
-                    renderer.setBackground(list.getSelectionBackground());
-                    renderer.setForeground(list.getSelectionForeground());
+                    ope.setForeground(jtable.getSelectionForeground());
+                    ope.setBackground(jtable.getSelectionBackground());
                 } else {
-                    renderer.setBorder(normalBorder);
-                    renderer.setBackground(list.getBackground());
-                    renderer.setForeground(list.getForeground());
+                    ope.setForeground(jtable.getForeground());
+                    ope.setBackground(jtable.getBackground());
                 }
-                
-                renderer.setData(value);
-                
-                return renderer;
+                return ope;
             }
         });
-        list.addListSelectionListener(lse -> {
+        table.setDefaultEditor(OccupierPlace.class, new TableCellEditor() {
+            private OccupierPlaceEditor ope = new OccupierPlaceEditor();
+            private List<CellEditorListener> listeners = new ArrayList<>();
+
+            @Override
+            public Component getTableCellEditorComponent(JTable jtable, Object value, boolean isSelected, int rowIndex, int columnIndex) {
+                ope.setData((OccupierPlace)value);
+                ope.setOpaque(true);
+                if (isSelected) {
+                    ope.setForeground(jtable.getSelectionForeground());
+                    ope.setBackground(jtable.getSelectionBackground());
+                } else {
+                    ope.setForeground(jtable.getForeground());
+                    ope.setBackground(jtable.getBackground());
+                }
+                return ope;
+            }
+
+            @Override
+            public Object getCellEditorValue() {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public boolean isCellEditable(EventObject eo) {
+                return true;
+            }
+
+            @Override
+            public boolean shouldSelectCell(EventObject eo) {
+                return true;
+            }
+
+            @Override
+            public boolean stopCellEditing() {
+                // we modified the unerlying objects directly, so no cleanup
+                // required
+                
+                return true;
+            }
+
+            @Override
+            public void cancelCellEditing() {
+                // we modified the unerlying objects directly, so no cleanup
+                // required
+            }
+
+            @Override
+            public void addCellEditorListener(CellEditorListener cl) {
+                if (!listeners.contains(cl)) {
+                    listeners.add(cl);
+                }
+            }
+
+            @Override
+            public void removeCellEditorListener(CellEditorListener cl) {
+                listeners.remove(cl);
+            }
+        });
+        table.getSelectionModel().addListSelectionListener(lse -> {
             if (!lse.getValueIsAdjusting()) {
-                OccupierPlace selected = list.getSelectedValue();
-                building.selectOccupierPlace(selected);
-            }
-        });
-        list.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent me) {
-                if (me.getClickCount() == 2) {
-                    OccupierPlace op = list.getSelectedValue();
-                    OccupierPlaceEditor ope = new OccupierPlaceEditor();
-                    ope.setData(op);
-                    JOptionPane.showMessageDialog(OccupierPlacesEditor.this, ope);
-                    repaint();
+                int rowIndex = table.getSelectedRow();
+                if (rowIndex == -1) {
+                    building.selectOccupierPlace(null);
+                } else {
+                    OccupierPlace selected = tableModel.getRow(rowIndex);
+                    building.selectOccupierPlace(selected);
                 }
             }
-
-            @Override
-            public void mousePressed(MouseEvent me) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent me) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent me) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent me) {
-            }
         });
-        add(new JScrollPane(list), BorderLayout.CENTER);
+        JScrollPane sp = new JScrollPane(table);
+        add(sp, BorderLayout.CENTER);
         
         this.building = building;
         updateModel();
     }
     
     private void updateModel() {
-        listModel = new DefaultListModel<>();
-        listModel.addAll(Arrays.asList(building.getBuildingVariant().getOccupierPlaces()));
-        list.setModel(listModel);
+        tableModel = new OccupierPlaceTableModel(building.getBuildingVariant());
+        table.setModel(tableModel);
     }
 }
