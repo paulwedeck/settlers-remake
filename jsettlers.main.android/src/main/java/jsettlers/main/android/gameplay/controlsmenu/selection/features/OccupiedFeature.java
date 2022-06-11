@@ -15,6 +15,7 @@
 
 package jsettlers.main.android.gameplay.controlsmenu.selection.features;
 
+import android.widget.TextView;
 import java.util.List;
 
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
+import java.util.Map;
 import jsettlers.common.action.EActionType;
 import jsettlers.common.action.SoldierAction;
 import jsettlers.common.buildings.IBuilding;
@@ -68,6 +70,10 @@ public class OccupiedFeature extends SelectionFeature implements DrawListener {
 	private LinearLayout.LayoutParams occupiedLayoutParams;
 	private LinearLayout.LayoutParams waitingLayoutParams;
 
+	private TextView availableSwordsmenCount;
+	private TextView availableBowmenCount;
+	private TextView availablePikemenCount;
+
 	public OccupiedFeature(View view, IBuilding building, MenuNavigator menuNavigator, ActionControls actionControls, DrawControls drawControls) {
 		super(view, building, menuNavigator);
 		this.actionControls = actionControls;
@@ -86,6 +92,10 @@ public class OccupiedFeature extends SelectionFeature implements DrawListener {
 		InGameButton removeSwordsmanButton = (InGameButton) getView().findViewById(R.id.image_view_remove_swordsman);
 		InGameButton removeBowmanButton = (InGameButton) getView().findViewById(R.id.image_view_remove_bowman);
 		InGameButton removePikemanButton = (InGameButton) getView().findViewById(R.id.image_view_remove_pikeman);
+
+		availableSwordsmenCount = getView().findViewById(R.id.text_view_available_swordsmen);
+		availableBowmenCount = getView().findViewById(R.id.text_view_available_bowmen);
+		availablePikemenCount = getView().findViewById(R.id.text_view_available_pikemen);
 
 		controlsLayout = (TableLayout) getView().findViewById(R.id.layout_occupier_controls);
 		infantryLayout = (LinearLayout) getView().findViewById(R.id.layout_infantry);
@@ -131,18 +141,26 @@ public class OccupiedFeature extends SelectionFeature implements DrawListener {
 	@Override
 	public void draw() {
 		if (hasNewState()) {
-			getView().post(() -> update());
+			getView().post(this::update);
 		}
 	}
 
 	private void update() {
-		if (!getBuildingState().isConstruction()) {
-			controlsLayout.setVisibility(View.VISIBLE);
-			infantryLayout.removeAllViews();
-			bowmenLayout.removeAllViews();
-			addOccupiers(infantryLayout, getBuildingState().getOccupiers(ESoldierClass.INFANTRY));
-			addOccupiers(bowmenLayout, getBuildingState().getOccupiers(ESoldierClass.BOWMAN));
+		if (getBuildingState().isConstruction()) {
+			return;
 		}
+
+		controlsLayout.setVisibility(View.VISIBLE);
+		infantryLayout.removeAllViews();
+		bowmenLayout.removeAllViews();
+		addOccupiers(infantryLayout, getBuildingState().getOccupiers(ESoldierClass.INFANTRY));
+		addOccupiers(bowmenLayout, getBuildingState().getOccupiers(ESoldierClass.BOWMAN));
+
+		Map<ESoldierType, Integer> availableSoldiers = getBuildingState().getAvailableSoldiers();
+		availableSwordsmenCount.setText(Integer.toString(availableSoldiers.get(ESoldierType.SWORDSMAN)));
+		availableBowmenCount.setText(Integer.toString(availableSoldiers.get(ESoldierType.BOWMAN)));
+		availablePikemenCount.setText(Integer.toString(availableSoldiers.get(ESoldierType.PIKEMAN)));
+
 	}
 
 	private void addOccupiers(LinearLayout container, List<BuildingState.OccupierState> occupierStates) {
