@@ -1,4 +1,5 @@
 apply plugin: 'application'
+apply plugin: 'checkstyle'
 
 mainClassName = 'jsettlers.ToolsMain'
 
@@ -24,3 +25,10 @@ jar {
 }
 
 tasks.run.workingDir = rootProject.projectDir
+
+project.extensions.findByName('checkstyle').sourceSets.each { SourceSet s ->
+    Checkstyle task = (Checkstyle) tasks.findByName(s.getTaskName('checkstyle', null));
+    task.setSource(s.allSource);
+    getLogger().info('Reconfigured task \'' + task.name +
+        '\' to include all files in sourceSet \'' + s.name + '\'');
+}
