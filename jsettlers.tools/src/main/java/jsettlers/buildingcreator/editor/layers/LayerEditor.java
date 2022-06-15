@@ -308,6 +308,15 @@ public class LayerEditor extends JPanel {
             
             Point center = new Point(getWidth()/2, getHeight()/2);
             
+            // target point is where the shadow should be. It is calculated
+            // as 30° up-right from the center point
+            double rad = 60.0/180.0 * Math.PI;
+            double cos = Math.cos(rad);
+            Point target = new Point(getWidth(), (int)(center.getY() - cos * getWidth()/2.0) );
+            
+            g2d.setColor(Color.RED);
+            g2d.drawLine(center.x, center.y, target.x, target.y);
+            
             try {
                 for(int rowIndex = 0; rowIndex<model.getRowCount(); rowIndex++) {
                     ImageData row = model.getRow(rowIndex);
