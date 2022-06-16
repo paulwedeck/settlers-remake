@@ -5,6 +5,7 @@ package jsettlers.buildingcreator.editor.layers;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -13,6 +14,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +79,6 @@ public class LayerEditor extends JPanel {
         }
 
         public Component getTableCellEditorComponent(JTable jtable, Object value, boolean isSelected, int rowIndex, int columnIndex) {
-            System.out.println("getTableCellEditorComponent(..., " + value + ")");
-            
             configuring = true;
             data = (Point)value;
             spX.setValue(data.x);
@@ -98,7 +100,6 @@ public class LayerEditor extends JPanel {
         }
 
         public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean isFocused, int rowIndex, int columnIndex) {
-            //System.out.println("getTableCellRenderComponent(..., " + value + ")");
             configuring = true;
             if (value == null) {
                 spX.setValue(0);
@@ -321,7 +322,6 @@ public class LayerEditor extends JPanel {
         }
 
         public void setDrawAllAxis(boolean drawAllAxis) {
-            System.out.println("setDrawAllAxis("+drawAllAxis+")");
             this.drawAllAxis = drawAllAxis;
             repaint();
         }
@@ -412,6 +412,8 @@ public class LayerEditor extends JPanel {
     private JTable table;
     private ImagePanel imagePanel;
     private ImageLinkTableModel model;
+    private Point dragStart;
+    private Point layerPosition;
     
     public LayerEditor() {
         setLayout(new GridBagLayout());
@@ -423,6 +425,73 @@ public class LayerEditor extends JPanel {
         imagePanel = new ImagePanel();
         imagePanel.setDrawCenter(true);
         imagePanel.setDrawShadowAxis(true);
+        imagePanel.addMouseListener(new MouseAdapter() {
+            
+            /** Determines whether a layer can be dragged.
+             * Is one selected and visible?
+             */
+            private boolean canDragLayer() {
+                int rowIndex = table.getSelectedRow();
+                if (rowIndex == -1) {
+                    // nothing selected
+                    return false;
+                } else {
+                    ImageData row = (ImageData)model.getRow(rowIndex);
+                    return row.show;
+                }
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (dragStart != null) {
+                    imagePanel.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                } else if (canDragLayer()) {
+                    // we can draw, show a finger cursor
+                    imagePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                } else {
+                    imagePanel.setCursor(Cursor.getDefaultCursor());
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (canDragLayer()) {
+                    imagePanel.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                    dragStart = e.getPoint();
+                    
+                    int rowIndex = table.getSelectedRow();
+                    ImageData row = model.getRow(rowIndex);
+                    layerPosition = row.getOffset();
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                dragStart = null;
+                if (canDragLayer()) {
+                    // we can draw, show a finger cursor
+                    imagePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                } else {
+                    imagePanel.setCursor(Cursor.getDefaultCursor());
+                }
+            }
+        });
+        imagePanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (dragStart != null) {
+                    Point dragDistance = new Point(e.getPoint().x - dragStart.x, e.getPoint().y - dragStart.y);
+                    
+                    Point newOffset = new Point(layerPosition.x + dragDistance.x, layerPosition.y + dragDistance.y);
+                    
+                    int rowIndex = table.getSelectedRow();
+                    ImageData row = model.getRow(rowIndex);
+                    row.setOffset(newOffset);
+                    
+                    repaint();
+                }
+            }
+        });
         
         JCheckBox cbShowCenter = new JCheckBox("Center");
         cbShowCenter.addChangeListener((ce) -> {
