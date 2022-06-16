@@ -9,11 +9,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -283,6 +287,9 @@ public class LayerEditor extends JPanel {
     private class ImagePanel extends JPanel implements TableModelListener {
         
         private ImageLinkTableModel model;
+        private boolean drawShadowAxis;
+        private boolean drawAllAxis;
+        private boolean drawCenter;
 
         public ImagePanel() {
             setPreferredSize(new Dimension(400, 400));
@@ -299,6 +306,36 @@ public class LayerEditor extends JPanel {
             this.model = model;
             model.addTableModelListener(this);
         }
+
+        public boolean isDrawShadowAxis() {
+            return drawShadowAxis;
+        }
+
+        public void setDrawShadowAxis(boolean drawShadowAxis) {
+            this.drawShadowAxis = drawShadowAxis;
+            repaint();
+        }
+
+        public boolean isDrawAllAxis() {
+            return drawAllAxis;
+        }
+
+        public void setDrawAllAxis(boolean drawAllAxis) {
+            System.out.println("setDrawAllAxis("+drawAllAxis+")");
+            this.drawAllAxis = drawAllAxis;
+            repaint();
+        }
+
+        public boolean isDrawCenter() {
+            return drawCenter;
+        }
+
+        public void setDrawCenter(boolean drawCenter) {
+            this.drawCenter = drawCenter;
+            repaint();
+        }
+
+        
         
         @Override
         protected void paintComponent(Graphics g) {
@@ -307,15 +344,30 @@ public class LayerEditor extends JPanel {
             g2d.fillRect(0, 0, getWidth(), getHeight());
             
             Point center = new Point(getWidth()/2, getHeight()/2);
-            
-            // target point is where the shadow should be. It is calculated
-            // as 30° up-right from the center point
-            double rad = 30.0/180.0 * Math.PI;
-            double sin = Math.sin(rad);
-            Point target = new Point(getWidth(), (int)(center.getY() - sin * getWidth()/2.0) );
-            
-            g2d.setColor(Color.RED);
-            g2d.drawLine(center.x, center.y, target.x, target.y);
+
+            if (drawAllAxis) {
+                // We have an isometric view, hence the axes are tilted 30 degrees
+                double rad = 30.0/180.0 * Math.PI;
+                double sin = Math.sin(rad);
+                int offset = (int)(sin * getWidth()/2.0);
+                g2d.setColor(Color.gray);
+                g2d.drawLine(0, center.y + offset, getWidth(), center.y - offset);
+                g2d.drawLine(0, center.y - offset, getWidth(), center.y + offset);
+            }
+            if (drawShadowAxis) {
+                // target point is where the shadow should be. It deviates from the
+                // axes since the buldings have a shadow in the front right
+                // however the mountains do not?
+
+                // It is calculated
+                // as 20° up-right from the center point
+                double rad = 20.0/180.0 * Math.PI;
+                double sin = Math.sin(rad);
+                int offset = (int)(sin * getWidth()/2.0);
+
+                g2d.setColor(Color.pink);
+                g2d.drawLine(center.x, center.y, getWidth(), center.y - offset);
+            }
             
             try {
                 for(int rowIndex = 0; rowIndex<model.getRowCount(); rowIndex++) {
@@ -342,10 +394,12 @@ public class LayerEditor extends JPanel {
             } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
-            
-            g2d.setColor(Color.white);
-            g2d.drawLine(center.x-5, center.y, center.x+5, center.y);
-            g2d.drawLine(center.x, center.y-5, center.x, center.y+5);
+
+            if (drawCenter) {
+                g2d.setColor(Color.white);
+                g2d.drawLine(center.x-5, center.y, center.x+5, center.y);
+                g2d.drawLine(center.x, center.y-5, center.x, center.y+5);
+            }
         }
 
         public void tableChanged(TableModelEvent tme) {
@@ -360,14 +414,40 @@ public class LayerEditor extends JPanel {
     private ImageLinkTableModel model;
     
     public LayerEditor() {
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout());
         table = new JTable();
         table.setDefaultRenderer(Point.class, new PointEditor());
         table.setDefaultEditor(Point.class, new PointEditor());
         table.setPreferredScrollableViewportSize(new Dimension(500, 500));
-        add(new JScrollPane(table), BorderLayout.WEST);
+
         imagePanel = new ImagePanel();
-        add(imagePanel, BorderLayout.CENTER);
+        imagePanel.setDrawCenter(true);
+        imagePanel.setDrawShadowAxis(true);
+        
+        JCheckBox cbShowCenter = new JCheckBox("Center");
+        cbShowCenter.addChangeListener((ce) -> {
+            imagePanel.setDrawCenter(cbShowCenter.isSelected());
+        });
+        JCheckBox cbShowAxes = new JCheckBox("Axes");
+        cbShowAxes.addChangeListener((ce) -> {
+            imagePanel.setDrawAllAxis(cbShowAxes.isSelected());
+        });
+        JCheckBox cbShowShadowAxis = new JCheckBox("ShadowAxis");
+        cbShowShadowAxis.addChangeListener((ce) -> {
+            imagePanel.setDrawShadowAxis(cbShowShadowAxis.isSelected());
+        });
+        
+        add(new JScrollPane(table), 
+                new GridBagConstraints(0, 0, 1, 2, 0, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0,0,0,0), 0, 0));
+        add(imagePanel, 
+                new GridBagConstraints(1, 1, 3, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
+        add(cbShowCenter, 
+                new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
+        add(cbShowAxes, 
+                new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
+        add(cbShowShadowAxis, 
+                new GridBagConstraints(3, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
+        
     }
     
     public void setBuilding(BuildingVariant building) {
