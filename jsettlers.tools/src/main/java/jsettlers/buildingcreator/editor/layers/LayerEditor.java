@@ -2,7 +2,6 @@
  */
 package jsettlers.buildingcreator.editor.layers;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -185,14 +184,14 @@ public class LayerEditor extends JPanel {
         }
     }
     
-    private class ImageLinkTableModel extends AbstractTableModel {
+    private class ImageDataTableModel extends AbstractTableModel {
         
         private String[] columnNames = new String[]{"Show", "Name", "Offset"};
         private Class[] columnClasses = new Class[]{Boolean.class, String.class, Point.class};
         
         List<ImageData> images;
         
-        public ImageLinkTableModel() {
+        public ImageDataTableModel() {
             images = new ArrayList<>();
         }
         
@@ -213,7 +212,7 @@ public class LayerEditor extends JPanel {
             }
         }
 
-        public ImageLinkTableModel(BuildingVariant building) {
+        public ImageDataTableModel(BuildingVariant building) {
             images = new ArrayList<>();
             for (ImageLink il: building.getBuildImages()) {
                 addImage(il, "under construction");
@@ -287,20 +286,21 @@ public class LayerEditor extends JPanel {
     
     private class ImagePanel extends JPanel implements TableModelListener {
         
-        private ImageLinkTableModel model;
+        private ImageDataTableModel model;
         private boolean drawShadowAxis;
         private boolean drawAllAxis;
         private boolean drawCenter;
+        private boolean drawSelection;
 
         public ImagePanel() {
             setPreferredSize(new Dimension(400, 400));
         }
 
-        public ImageLinkTableModel getModel() {
+        public ImageDataTableModel getModel() {
             return model;
         }
 
-        public void setModel(ImageLinkTableModel model) {
+        public void setModel(ImageDataTableModel model) {
             if (this.model != null) {
                 model.removeTableModelListener(this);
             }
@@ -335,8 +335,15 @@ public class LayerEditor extends JPanel {
             repaint();
         }
 
-        
-        
+        public boolean isDrawSelection() {
+            return drawSelection;
+        }
+
+        public void setDrawSelection(boolean drawSelection) {
+            this.drawSelection = drawSelection;
+            repaint();
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             Graphics2D g2d = (Graphics2D)g;
@@ -391,6 +398,23 @@ public class LayerEditor extends JPanel {
                     }
 
                 }
+                
+                
+                if (drawSelection) {
+                    int rowIndex = table.getSelectedRow();
+                    if (rowIndex != -1) {
+                        ImageData row = model.getRow(rowIndex);
+                        if (row.image != null) {
+                            if (row.image instanceof jsettlers.graphics.image.SingleImage) {
+                                jsettlers.graphics.image.SingleImage si = (jsettlers.graphics.image.SingleImage)row.image;
+                                BufferedImage bi = si.convertToBufferedImage();
+
+                                g2d.setColor(Color.white);
+                                g2d.drawRect(center.x + row.offset.x -1, center.y+ row.offset.y - 1, bi.getWidth() + 2, bi.getHeight() + 2);
+                            }
+                        }
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
@@ -411,7 +435,7 @@ public class LayerEditor extends JPanel {
     private BuildingVariant building;
     private JTable table;
     private ImagePanel imagePanel;
-    private ImageLinkTableModel model;
+    private ImageDataTableModel model;
     private Point dragStart;
     private Point layerPosition;
     
@@ -492,36 +516,48 @@ public class LayerEditor extends JPanel {
                 }
             }
         });
+        table.getSelectionModel().addListSelectionListener((lse) -> {
+            imagePanel.repaint();
+        });
         
         JCheckBox cbShowCenter = new JCheckBox("Center");
+        cbShowCenter.setSelected(imagePanel.isDrawCenter());
         cbShowCenter.addChangeListener((ce) -> {
             imagePanel.setDrawCenter(cbShowCenter.isSelected());
         });
         JCheckBox cbShowAxes = new JCheckBox("Axes");
+        cbShowAxes.setSelected(imagePanel.isDrawAllAxis());
         cbShowAxes.addChangeListener((ce) -> {
             imagePanel.setDrawAllAxis(cbShowAxes.isSelected());
         });
         JCheckBox cbShowShadowAxis = new JCheckBox("ShadowAxis");
+        cbShowShadowAxis.setSelected(imagePanel.isDrawShadowAxis());
         cbShowShadowAxis.addChangeListener((ce) -> {
             imagePanel.setDrawShadowAxis(cbShowShadowAxis.isSelected());
+        });
+        JCheckBox cbShowSelection = new JCheckBox("Selection");
+        cbShowSelection.addChangeListener((ce) -> {
+            imagePanel.setDrawSelection(cbShowSelection.isSelected());
         });
         
         add(new JScrollPane(table), 
                 new GridBagConstraints(0, 0, 1, 2, 0, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0,0,0,0), 0, 0));
         add(imagePanel, 
-                new GridBagConstraints(1, 1, 3, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
+                new GridBagConstraints(1, 1, 4, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
         add(cbShowCenter, 
-                new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
+                new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2,4,2,4), 0, 0));
         add(cbShowAxes, 
-                new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
+                new GridBagConstraints(2, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2,4,2,4), 0, 0));
         add(cbShowShadowAxis, 
-                new GridBagConstraints(3, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
+                new GridBagConstraints(3, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2,4,2,4), 0, 0));
+        add(cbShowSelection, 
+                new GridBagConstraints(4, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2,4,2,4), 0, 0));
         
     }
     
     public void setBuilding(BuildingVariant building) {
         this.building = building;
-        model = new ImageLinkTableModel(building);
+        model = new ImageDataTableModel(building);
         table.setModel(model);
         TableColumnModel tcm = table.getColumnModel();
         tcm.getColumn(0).setPreferredWidth(50);
