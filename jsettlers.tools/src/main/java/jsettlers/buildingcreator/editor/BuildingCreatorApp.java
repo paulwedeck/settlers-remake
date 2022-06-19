@@ -77,6 +77,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import jsettlers.buildingcreator.editor.animation.AnimationEditor;
 import jsettlers.buildingcreator.editor.map.PseudoBuilding;
 import jsettlers.buildingcreator.editor.places.OccupierPlacesEditor;
 import jsettlers.common.buildings.OccupierPlace;
@@ -170,7 +171,7 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
             
             JPanel b = new JPanel();
             b.setLayout(new BoxLayout(b, BoxLayout.Y_AXIS));
-            menu.add("Layers", b);
+            menu.add("Graphics", b);
 
             JButton btLayers = new JButton("Layers...");
             btLayers.addActionListener(e -> {
@@ -183,6 +184,18 @@ public class BuildingCreatorApp implements IMapInterfaceListener, Runnable {
                 System.out.println("edited");
             });
             b.add(btLayers);
+            
+            JButton btAnimation = new JButton("Animation...");
+            btAnimation.addActionListener(e -> {
+                jsettlers.graphics.map.draw.ImageProvider.getInstance().invalidateAll();
+                
+                AnimationEditor ae = new AnimationEditor();
+                ae.setBuilding(definition.getBuilding());
+                System.out.println("editing...");
+                JOptionPane.showMessageDialog(window, ae, "Animation of " + definition.getBuilding().getCivilisation() + " " + definition.getBuilding().getType(), JOptionPane.PLAIN_MESSAGE);
+                System.out.println("edited");
+            });
+            b.add(btAnimation);
             
             b = new JPanel();
             b.setLayout(new BoxLayout(b, BoxLayout.Y_AXIS));
