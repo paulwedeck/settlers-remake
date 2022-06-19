@@ -35,3 +35,9 @@ out/
 
 productionStats/*.png
 productionStats/*.log
+
+# these files get easily created when running the tools from the IDE
+/*/maps/
+/*/images/
+/*/save/
+/*/buildings/

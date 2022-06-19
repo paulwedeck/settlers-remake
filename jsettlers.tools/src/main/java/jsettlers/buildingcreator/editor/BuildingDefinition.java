@@ -55,6 +55,10 @@ public class BuildingDefinition {
 	private RelativePoint flag = new RelativePoint(0, 0);
 
 	public BuildingDefinition(BuildingVariant building) {
+            if (building == null) {
+                throw new IllegalArgumentException("building must not be null");
+            }
+            
 		this.building = building;
 		for (RelativePoint pos : building.getBlockedTiles()) {
 			blocked.add(pos);

@@ -14,23 +14,32 @@
  *******************************************************************************/
 package jsettlers.buildingcreator.editor.map;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import jsettlers.buildingcreator.editor.BuildingCreatorBuildingOccupier;
+import jsettlers.buildingcreator.editor.BuildingCreatorGraphicsMovable;
 
 import jsettlers.common.buildings.BuildingVariant;
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.IBuilding;
 import jsettlers.common.buildings.IBuildingMaterial;
+import jsettlers.common.buildings.IBuildingOccupier;
+import jsettlers.common.buildings.OccupierPlace;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
 import jsettlers.common.material.EPriority;
+import jsettlers.common.movable.EMovableType;
+import jsettlers.common.movable.ESoldierClass;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 
-public class PseudoBuilding implements IBuilding, IBuilding.IMill {
+public class PseudoBuilding implements IBuilding, IBuilding.IMill, IBuilding.IOccupied {
 	private final BuildingVariant building;
 	private final ShortPoint2D pos;
+        
+    private final List<BuildingCreatorBuildingOccupier> occupiers = new ArrayList<>();
 
 	PseudoBuilding(BuildingVariant building, ShortPoint2D pos) {
 		this.building = building;
@@ -129,4 +138,57 @@ public class PseudoBuilding implements IBuilding, IBuilding.IMill {
 	public boolean cannotWork() {
 		return false;
 	}
+
+    @Override
+    public List<? extends IBuildingOccupier> getOccupiers() {
+        return occupiers;
+    }
+
+    @Override
+    public int getSearchedSoldiers(ESoldierClass esc) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public int getComingSoldiers(ESoldierClass esc) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    /**
+     * Populates all OccupierPlaces with matching soldiers.
+     */
+    public void occupy() {
+        for (OccupierPlace op: building.getOccupierPlaces()) {
+            if (op != null) {
+                switch (op.getSoldierClass()) {
+                    case BOWMAN:
+                        occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.BOWMAN_L3)) );
+                        break;
+                    case INFANTRY:
+                        occupiers.add( new BuildingCreatorBuildingOccupier(op, new BuildingCreatorGraphicsMovable(EMovableType.SWORDSMAN_L3)) );
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Frees up all OccupierPlaces by removing the soldiers.
+     */
+    public void evacuate() {
+        occupiers.clear();
+    }
+
+    /**
+     * Unselects all places and ensures the given one is selected.
+     * 
+     * @param selected the place to be selected
+     */
+    public void selectOccupierPlace(OccupierPlace selected) {
+        for (IBuildingOccupier occupier: occupiers) {
+            occupier.getMovable().setSelected( occupier.getPlace() == selected );
+        }
+    }
 }

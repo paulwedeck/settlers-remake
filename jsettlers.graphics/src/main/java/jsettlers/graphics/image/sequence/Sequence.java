@@ -39,6 +39,8 @@ public interface Sequence<T extends Image> {
 	 * 
 	 * @param index
 	 *            The image index in the sequence.
+         * @param custom_name
+         *            The custom name of the image
 	 * @return The image.
 	 * @throws IndexOutOfBoundsException
 	 *             if the index is out of the ounds of the base array.
@@ -50,6 +52,8 @@ public interface Sequence<T extends Image> {
 	 * 
 	 * @param index
 	 *            The image index in the sequence.
+         * @param custom_name
+         *            The custom name of the image
 	 * @return The image, or a null image if the index is out of bounds
 	 */
 	Image getImageSafe(int index, Supplier<String> custom_name);

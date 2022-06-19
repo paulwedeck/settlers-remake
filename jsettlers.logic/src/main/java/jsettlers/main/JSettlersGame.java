@@ -16,6 +16,7 @@ package jsettlers.main;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -379,6 +380,15 @@ public class JSettlersGame {
 		}
 	}
 
+        /**
+         * Configures logging for the given mapcreator.
+         * 
+         * Depending on CommonConstants.ENABLE_CONSOLE_LOGGING the logging
+         * will go to the logfile only or to console and logfile. The logfile
+         * will be calculated using getLogFile(mapcreator, "_out.log").
+         * 
+         * @param mapcreator the map for which to set the logfile
+         */
 	private void configureLogging(final IGameCreator mapcreator) {
 		try {
 			systemErrorStream = System.err;
@@ -386,14 +396,18 @@ public class JSettlersGame {
 
 			OutputStream logStream;
 			OutputStream errStream;
-			OutputStream logFileStream = ResourceManager.writeUserFile(getLogFile(mapcreator, "_out.log"));
+                        String logfile = getLogFile(mapcreator, "_out.log");
+			OutputStream logFileStream = ResourceManager.writeUserFile(logfile);
 			if(CommonConstants.ENABLE_CONSOLE_LOGGING) {
+                                System.out.println("Duplicating stdout and stderr to "+new File(logfile).getAbsolutePath());
 				logStream = new MultiplexingOutputStream(System.out, logFileStream);
 				errStream = new MultiplexingOutputStream(System.err, logFileStream);
 			} else {
+                                System.out.println("Redirecting stdout and stderr to "+new File(logfile).getAbsolutePath());
 				logStream = logFileStream;
 				errStream = logFileStream;
 			}
+
 			System.setOut(new PrintStream(logStream));
 			System.setErr(new PrintStream(errStream));
 		} catch (IOException ex) {
@@ -401,6 +415,13 @@ public class JSettlersGame {
 		}
 	}
 
+        /**
+         * Calculates the logfile based on map and date.
+         * 
+         * @param mapcreator The map used
+         * @param suffix the suffix for the logfile
+         * @return a relative path to the desired logfile
+         */
 	private static String getLogFile(IGameCreator mapcreator, String suffix) {
 		final String dateAndMap = getLogDateFormatter().format(new Date()) + "_" + mapcreator.getMapName().replace(" ", "_");
 		final String logFolder = "logs/" + dateAndMap + "/";

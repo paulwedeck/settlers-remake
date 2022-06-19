@@ -34,6 +34,8 @@ public class BuildingtestMap implements IGraphicsGrid {
 	public static final int OFFSET = TESTMAP_SIZE / 2;
 
 	private final PseudoTile[][] tiles;
+        
+    private final PseudoBuilding building;
 
 	public BuildingtestMap(BuildingDefinition definition) {
 		tiles = new PseudoTile[TESTMAP_SIZE][TESTMAP_SIZE];
@@ -43,8 +45,7 @@ public class BuildingtestMap implements IGraphicsGrid {
 			}
 		}
 		PseudoTile middle = tiles[OFFSET][OFFSET];
-		// TODO BuildingVariant
-		IBuilding building = new PseudoBuilding(definition.getBuilding(), middle.getPosition());
+		building = new PseudoBuilding(definition.getBuilding(), middle.getPosition());
 		middle.setBuilding(building);
 	}
 
@@ -119,5 +120,11 @@ public class BuildingtestMap implements IGraphicsGrid {
 	public boolean isBuilding(int x, int y) {
 		return false;
 	}
+
+    public IBuilding getBuilding() {
+        return building;
+    }
+        
+        
 
 }
