@@ -57,8 +57,10 @@ public class JSettlersSwingUtil {
 
 
 	/**
-	 * code taken from: http://stackoverflow.com/questions/21382966/colorize-a-picture-in-java
-     */
+         * Apply color to an image.
+         * 
+	 * Code taken from: http://stackoverflow.com/questions/21382966/colorize-a-picture-in-java
+         */
 	public static BufferedImage dye(BufferedImage image, Color color) {
 		int w = image.getWidth();
 		int h = image.getHeight();

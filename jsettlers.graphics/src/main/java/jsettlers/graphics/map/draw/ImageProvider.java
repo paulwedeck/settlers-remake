@@ -132,6 +132,14 @@ public final class ImageProvider {
 		return set;
 	}
 
+	/**
+	 * Tries to get a file content.
+	 *
+	 * @param file
+	 * 		The file number to search for.
+	 * @return The content as set or <code> null </code>
+         * @deprecated use getFileReader(int) directly
+	 */
 	public synchronized DatFileSet getFileSet(int file) {
 		return getFileReader(file);
 	}
