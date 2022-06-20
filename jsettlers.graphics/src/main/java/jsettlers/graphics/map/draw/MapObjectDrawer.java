@@ -1337,12 +1337,7 @@ public class MapObjectDrawer {
 				if (seq.length() > 0) {
 					int i = getAnimationStep(x, y);
 					int step = i % seq.length();
-					drawOnlyImage(seq.getImageSafe(step, () -> "mill-" + step), x, y, 0, MapDrawContext.getPlayerColor(building.getPlayer().getPlayerId()), color);
-					ImageLink[] images = variant.getImages();
-					if (images.length > 0) {
-						Image image = imageProvider.getImage(images[0]);
-						drawOnlyShadow(image, x, y);
-					}
+					draw(seq.getImageSafe(step, () -> "mill-" + step), x, y, 0, MapDrawContext.getPlayerColor(building.getPlayer().getPlayerId()), color);
 				}
 				playSound(building, SOUND_MILL, x, y);
 
