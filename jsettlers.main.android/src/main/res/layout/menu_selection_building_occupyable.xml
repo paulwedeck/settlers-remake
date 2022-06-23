@@ -112,6 +112,44 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
+				<android.support.v4.widget.Space
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"/>
+
+				<TextView
+					android:id="@+id/text_view_available_swordsmen"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textAlignment="center"
+					android:gravity="center"
+					android:text="?"/>
+
+				<TextView
+					android:id="@+id/text_view_available_bowmen"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textAlignment="center"
+					android:gravity="center"
+					android:text="?"/>
+
+				<TextView
+					android:id="@+id/text_view_available_pikemen"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textAlignment="center"
+					android:gravity="center"
+					android:text="?"/>
+
+			</TableRow>
+
+			<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
 				<jsettlers.main.android.gameplay.customviews.InGameButton
 					android:id="@+id/image_view_minimum_soldiers"
 					android:layout_width="0dp"
@@ -146,8 +184,6 @@
 			android:layout_height="@dimen/menu_button_size"
 			android:orientation="horizontal"
 			android:layout_margin="8dp"/>
-		android:layout_gravity="bottom" />
-
 	</FrameLayout>
 
 

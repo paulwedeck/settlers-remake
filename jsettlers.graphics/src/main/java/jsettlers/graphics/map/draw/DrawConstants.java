@@ -42,6 +42,8 @@ public final class DrawConstants {
 	 */
 	public static final float TEXTURE_BORDER_OFFSET = 0.5f;
 
+	public static final long AVAILABLE_SOLDIERS_EXPIRE_TIME = 1000L*1000L;
+
 	private DrawConstants() {
 	}
 }
