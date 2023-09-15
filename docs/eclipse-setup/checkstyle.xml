@@ -16,8 +16,14 @@ The checkstyle profile that matches the default formatter profile.
     <module name="JavadocMethod">
       <property name="validateThrows" value="true"/>
       <property name="scope" value="package"/>
+      <!-- 
+      According to https://checkstyle.org/config_javadoc.html#JavadocMethod
+      these two properties no longer exist. We also do not know what the checks
+      intended to achieve and how to mimick them on current checkstyle.
+      
       <property name="allowUndeclaredRTE" value="true"/>
-      <property name="suppressLoadErrors" value="true"/>
+      <property name="suppressLoadErrors" value="true"/> 
+      -->
     </module>
     <module name="JavadocType"/>
     <module name="JavadocVariable">
@@ -37,11 +43,6 @@ The checkstyle profile that matches the default formatter profile.
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
-    <module name="LineLength">
-      <property name="ignorePattern" value="^.*(Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files \(the \&quot;Software\&quot;\),|to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,|and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions\:|The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software\.|THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,|FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER|LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER|DEALINGS IN THE SOFTWARE.)\s*$"/>
-      <property name="max" value="150"/>
-      <property name="tabWidth" value="4"/>
-    </module>
     <module name="MethodLength"/>
     <module name="ParameterNumber"/>
     <module name="EmptyForIteratorPad"/>
@@ -63,7 +64,11 @@ The checkstyle profile that matches the default formatter profile.
     <module name="AvoidNestedBlocks"/>
     <module name="EmptyBlock"/>
     <module name="LeftCurly">
+      <!--
+jjjj      These properties do not exist.
+      https://checkstyle.org/config_blocks.html#LeftCurly
       <property name="maxLineLength" value="100"/>
+      -->
     </module>
     <module name="NeedBraces"/>
     <module name="RightCurly"/>
@@ -129,7 +134,16 @@ The checkstyle profile that matches the default formatter profile.
     </module>
     <module name="RegexpSinglelineJava">
       <property name="format" value="$  .*^"/>
+      <property name="message" value="Line must not start with spaces."/>
     </module>
+  </module>
+  <!-- LineLength can no longer be within TreeWalker, so we moved it here.
+       https://checkstyle.org/config_sizes.html#LineLength
+  -->
+  <module name="LineLength">
+    <property name="ignorePattern" value="^.*(Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files \(the \&quot;Software\&quot;\),|to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,|and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions\:|The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software\.|THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,|FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER|LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER|DEALINGS IN THE SOFTWARE.)\s*$"/>
+    <property name="max" value="150"/>
+    <property name="tabWidth" value="4"/>
   </module>
   <module name="JavadocPackage">
     <property name="severity" value="ignore"/>
@@ -144,14 +158,32 @@ The checkstyle profile that matches the default formatter profile.
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="(?&lt;!^\s*\*)\s+$"/>
-    <property name="messageLabel" value="Line has trailing spaces."/>
+    <property name="message" value="Line has trailing spaces."/>
   </module>
   <module name="Header">
+    <!--
+    Cannot find a solution to reference the header file with a relative path.
+    We'll go for an inline document instead.
     <property name="headerFile" value="/home/michael/Arbeitsfläche/settlers/docs/eclipse-setup/checkstyle-header"/>
+    -->
     <property name="ignoreLines" value="2"/>
+    <property name="header" value="/*******************************************************************************\n
+* Copyright (c) 2015\n
+*\n
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;),\n
+* to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,\n
+* and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n
+*\n
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n
+*\n
+* THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER\n
+* DEALINGS IN THE SOFTWARE.\n
+*******************************************************************************/"/>
   </module>
   <module name="RegexpMultiline">
     <property name="format" value="\r\n[\w\W]*"/>
-    <property name="messageLabel" value="Use unix line endings."/>
+    <property name="message" value="Use unix line endings."/>
   </module>
 </module>
