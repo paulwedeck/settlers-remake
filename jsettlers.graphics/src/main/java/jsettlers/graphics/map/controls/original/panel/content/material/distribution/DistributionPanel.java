@@ -192,9 +192,14 @@ public class DistributionPanel extends AbstractContentProvider implements IUiCon
 		panel = buildPanel();
 	}
 
+    private boolean isMaterialRequestedByMultiple(EMaterialType materialType) {
+        EBuildingType[] requestingBuildings = MaterialsOfBuildings.getBuildingTypesRequestingMaterial(materialType, player!=null?player.getCivilisation():ECivilisation.ROMAN);
+        return requestingBuildings != null && requestingBuildings.length > 1;
+    }
+
 	private List<MaterialDistributionTab> createTabs(IPositionSupplier positionSupplier) {
 		return Arrays.stream(EMaterialType.values())
-				.filter(EMaterialType::isDistributionConfigurable)
+				.filter(materialType -> materialType.isDistributionConfigurable() && isMaterialRequestedByMultiple(materialType))
 				.map(materialType -> new MaterialDistributionTab(materialType, positionSupplier, player))
 				.collect(Collectors.toList());
 	}

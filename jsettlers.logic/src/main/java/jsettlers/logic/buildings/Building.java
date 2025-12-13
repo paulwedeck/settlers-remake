@@ -228,7 +228,7 @@ public abstract class Building extends AbstractHexMapObject implements IConstruc
 		List<IRequestStack> result = new LinkedList<>();
 
 		for (ConstructionStack stack : getBuildingVariant().getConstructionStacks()) {
-			result.add(new RequestStack(grid.getRequestStackGrid(), stack.calculatePoint(this.pos), stack.getMaterialType(), type, priority,
+			result.add(new RequestStack(grid.getRequestStackGrid(), stack.calculatePoint(this.pos), stack.getMaterialType(), EBuildingType.BUILDING_SITE, priority,
 					stack.requiredForBuild()));
 		}
 

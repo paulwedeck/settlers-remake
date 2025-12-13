@@ -31,7 +31,9 @@ import jsettlers.common.position.RelativePoint;
  * @author Andreas Eberle
  */
 public enum EBuildingType {
-	STONECUTTER,
+	BUILDING_SITE, // Only used for material distribution settings
+
+    STONECUTTER,
 	FORESTER,
 	LUMBERJACK,
 	SAWMILL,

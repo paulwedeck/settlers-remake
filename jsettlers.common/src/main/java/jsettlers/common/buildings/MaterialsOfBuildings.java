@@ -53,7 +53,14 @@ public final class MaterialsOfBuildings {
 			Map<EMaterialType, EBuildingType[]> asArray = new EnumMap<>(EMaterialType.class);
 
 			for(EMaterialType material : EMaterialType.VALUES) {
-				asArray.put(material, buildingsForMaterials.get(material).toArray(new EBuildingType[0]));
+                List<EBuildingType> list = buildingsForMaterials.get(material);
+
+                // If material is plank or stone, add building site
+                if (material == EMaterialType.PLANK || material == EMaterialType.STONE) {
+                    list.add(EBuildingType.BUILDING_SITE);
+                }
+
+                asArray.put(material, list.toArray(new EBuildingType[0]));
 			}
 
 			buildingsRequestingMaterial.put(civilisation, asArray);

@@ -15,12 +15,12 @@
 package jsettlers.logic.map.grid.partition.manager.settings;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.map.partition.IPartitionSettings;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.player.ECivilisation;
-import jsettlers.common.player.IPlayer;
 import jsettlers.logic.buildings.stack.multi.StockSettings;
 import jsettlers.logic.map.grid.partition.manager.PartitionManager;
 
@@ -33,14 +33,259 @@ import jsettlers.logic.map.grid.partition.manager.PartitionManager;
 public final class PartitionManagerSettings implements IPartitionSettings, Serializable {
 	private static final long serialVersionUID = -6269898822727665606L;
 
-	private static final MaterialDistributionSettings[][] defaultSettings = new MaterialDistributionSettings[ECivilisation.VALUES.length][EMaterialType.NUMBER_OF_MATERIALS];
+    private static final HashMap<ECivilisation, HashMap<EMaterialType, HashMap<EBuildingType, Float>>> DEFAULT_MATERIAL_DISTRIBUTION = new HashMap<ECivilisation, HashMap<EMaterialType, HashMap<EBuildingType, Float>>>() {
+        {
+            put(ECivilisation.ROMAN, new HashMap<EMaterialType, HashMap<EBuildingType, Float>>() {
+                {
+                    put(EMaterialType.COAL, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMELT, 0.32f);
+                        put(EBuildingType.GOLDMELT, 0.32f);
+                        put(EBuildingType.WEAPONSMITH, 0.24f);
+                        put(EBuildingType.TOOLSMITH, 0.12f);
+                    }});
+                    put(EMaterialType.IRON, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.WEAPONSMITH, 0.33f);
+                        put(EBuildingType.TOOLSMITH, 0.33f);
+                        put(EBuildingType.DOCKYARD, 0.16f);
+                        // TODO: Add Catapult Hall
+                    }});
+                    put(EMaterialType.PLANK, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.BUILDING_SITE, 0.45f);
+                        put(EBuildingType.DOCKYARD, 0.22f);
+                        put(EBuildingType.CHARCOAL_BURNER, 0.11f);
+                        // TODO: Add Catapult Hall
+                    }});
+                    put(EMaterialType.CROP, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.MILL, 0.4f);
+                        put(EBuildingType.PIG_FARM, 0.4f);
+                        put(EBuildingType.DONKEY_FARM, 0.2f);
+                    }});
+                    put(EMaterialType.WATER, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.BAKER, 0.4f);
+                        put(EBuildingType.PIG_FARM, 0.4f);
+                        put(EBuildingType.DONKEY_FARM, 0.2f);
+                    }});
+                    put(EMaterialType.BREAD, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.COALMINE, 1.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.MEAT, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMINE, 1.0f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.FISH, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.GOLDMINE, 1.0f);
+                        put(EBuildingType.GEMSMINE, 1.0f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                }
+            });
+            put(ECivilisation.EGYPTIAN, new HashMap<EMaterialType, HashMap<EBuildingType, Float>>() {
+                {
+                    put(EMaterialType.COAL, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMELT, 0.32f);
+                        put(EBuildingType.GOLDMELT, 0.32f);
+                        put(EBuildingType.WEAPONSMITH, 0.24f);
+                        put(EBuildingType.TOOLSMITH, 0.12f);
+                    }});
+                    put(EMaterialType.IRON, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.WEAPONSMITH, 0.33f);
+                        put(EBuildingType.TOOLSMITH, 0.33f);
+                        put(EBuildingType.DOCKYARD, 0.16f);
+                        // TODO: Add Ballista Hall
+                    }});
+                    put(EMaterialType.PLANK, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.BUILDING_SITE, 0.45f);
+                        put(EBuildingType.DOCKYARD, 0.22f);
+                        put(EBuildingType.CHARCOAL_BURNER, 0.11f);
+                        // TODO: Add Ballista Hall
+                    }});
+                    put(EMaterialType.TRUNK, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.SAWMILL, 0.8f);
+                        // TODO: Add Ballista Hall
+                    }});
+                    put(EMaterialType.CROP, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.MILL, 0.33f);
+                        put(EBuildingType.PIG_FARM, 0.33f);
+                        put(EBuildingType.DONKEY_FARM, 0.16f);
+                        put(EBuildingType.BREWERY, 0.18f);
+                    }});
+                    put(EMaterialType.WATER, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.BAKER, 0.33f);
+                        put(EBuildingType.PIG_FARM, 0.33f);
+                        put(EBuildingType.DONKEY_FARM, 0.16f);
+                        put(EBuildingType.BREWERY, 0.18f);
+                    }});
+                    put(EMaterialType.BREAD, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.COALMINE, 1.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.MEAT, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMINE, 1.0f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.FISH, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.GOLDMINE, 1.0f);
+                        put(EBuildingType.GEMSMINE, 1.0f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                }
+            });
+            put(ECivilisation.ASIAN, new HashMap<EMaterialType, HashMap<EBuildingType, Float>>() {
+                {
+                    put(EMaterialType.COAL, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMELT, 0.25f);
+                        put(EBuildingType.GOLDMELT, 0.25f);
+                        put(EBuildingType.WEAPONSMITH, 0.19f);
+                        put(EBuildingType.TOOLSMITH, 0.09f);
+                        put(EBuildingType.DISTILLERY, 0.16f);
+                    }});
+                    put(EMaterialType.IRON, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.WEAPONSMITH, 0.33f);
+                        put(EBuildingType.TOOLSMITH, 0.33f);
+                        put(EBuildingType.DOCKYARD, 0.16f);
+                        // TODO: Add Cannon Hall
+                    }});
+                    put(EMaterialType.PLANK, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.BUILDING_SITE, 0.50f);
+                        put(EBuildingType.DOCKYARD, 0.25f);
+                        // TODO: Add Cannon Hall
+                    }});
+                    put(EMaterialType.RICE, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.SULFURMINE, 0.5f);
+                        put(EBuildingType.DISTILLERY, 0.5f);
+                    }});
+                    put(EMaterialType.CROP, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.MILL, 0.4f);
+                        put(EBuildingType.PIG_FARM, 0.4f);
+                        put(EBuildingType.DONKEY_FARM, 0.2f);
+                    }});
+                    put(EMaterialType.WATER, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.BAKER, 0.4f);
+                        put(EBuildingType.PIG_FARM, 0.4f);
+                        put(EBuildingType.DONKEY_FARM, 0.2f);
+                    }});
+                    put(EMaterialType.BREAD, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.COALMINE, 1.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.MEAT, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMINE, 1.0f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.FISH, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.GOLDMINE, 1.0f);
+                        put(EBuildingType.GEMSMINE, 1.0f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                }
+            });
+            put(ECivilisation.AMAZON, new HashMap<EMaterialType, HashMap<EBuildingType, Float>>() {
+                {
+                    put(EMaterialType.COAL, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMELT, 0.32f);
+                        put(EBuildingType.GOLDMELT, 0.32f);
+                        put(EBuildingType.WEAPONSMITH, 0.24f);
+                        put(EBuildingType.TOOLSMITH, 0.12f);
+                    }});
+                    put(EMaterialType.IRON, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.WEAPONSMITH, 0.33f);
+                        put(EBuildingType.TOOLSMITH, 0.33f);
+                        put(EBuildingType.DOCKYARD, 0.16f);
+                        // TODO: Add Gong Hall
+                    }});
+                    put(EMaterialType.PLANK, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.BUILDING_SITE, 0.50f);
+                        put(EBuildingType.DOCKYARD, 0.25f);
+                        // TODO: Add Gong Hall
+                    }});
+                    put(EMaterialType.HONEY, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.MEAD_BREWERY, 0.5f);
+                        put(EBuildingType.SULFURMINE, 0.5f);
+                    }});
+                    put(EMaterialType.CROP, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.MILL, 0.4f);
+                        put(EBuildingType.PIG_FARM, 0.4f);
+                        put(EBuildingType.DONKEY_FARM, 0.2f);
+                    }});
+                    put(EMaterialType.WATER, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.PIG_FARM, 0.33f);
+                        put(EBuildingType.DONKEY_FARM, 0.16f);
+                        put(EBuildingType.MEAD_BREWERY, 0.18f);
+                    }});
+                    put(EMaterialType.BREAD, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.COALMINE, 1.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.MEAT, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.IRONMINE, 1.0f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.GOLDMINE, 0.0f);
+                        put(EBuildingType.GEMSMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                    put(EMaterialType.FISH, new HashMap<EBuildingType, Float>() {{
+                        put(EBuildingType.GOLDMINE, 0.67f);
+                        put(EBuildingType.GEMSMINE, 0.33f);
+                        put(EBuildingType.COALMINE, 0.0f);
+                        put(EBuildingType.IRONMINE, 0.0f);
+                        put(EBuildingType.SULFURMINE, 0.0f);
+                    }});
+                }
+            });
+        }
+    };
+
+	private static final MaterialDistributionSettings[][] INITIAL_MATERIAL_DISTRIBUTION_SETTINGS = new MaterialDistributionSettings[ECivilisation.VALUES.length][EMaterialType.NUMBER_OF_MATERIALS];
 	private static final boolean[] INITIAL_STOCK_SETTINGS = new boolean[EMaterialType.NUMBER_OF_DROPPABLE_MATERIALS];
 	private static final boolean[] INITIAL_STOCK_SETTINGS_EGYPTIAN = new boolean[EMaterialType.NUMBER_OF_DROPPABLE_MATERIALS];
 
 	static {
 		for(ECivilisation civilisation : ECivilisation.VALUES) {
+            var civilisationMap = DEFAULT_MATERIAL_DISTRIBUTION.containsKey(civilisation) ? DEFAULT_MATERIAL_DISTRIBUTION.get(civilisation) : DEFAULT_MATERIAL_DISTRIBUTION.get(ECivilisation.ROMAN);
+
 			for(EMaterialType materialType : EMaterialType.VALUES) {
-				defaultSettings[civilisation.ordinal][materialType.ordinal] = new MaterialDistributionSettings(materialType, civilisation);
+                MaterialDistributionSettings distributionSettings = new MaterialDistributionSettings(materialType, civilisation);
+
+                if(civilisationMap.containsKey(materialType)) {
+                    var materialMap = civilisationMap.get(materialType);
+
+                    EBuildingType[] requestingBuildingTypes = distributionSettings.getBuildingTypes();
+
+                    for (EBuildingType buildingType : requestingBuildingTypes) {
+                        if (materialMap.containsKey(buildingType))
+                            distributionSettings.setUserConfiguredDistributionValue(buildingType, materialMap.get(buildingType));
+                    }
+                }
+
+                INITIAL_MATERIAL_DISTRIBUTION_SETTINGS[civilisation.ordinal][materialType.ordinal] = distributionSettings;
 			}
 		}
 
@@ -63,17 +308,7 @@ public final class PartitionManagerSettings implements IPartitionSettings, Seria
 
 		if(civilisation == null) civilisation = ECivilisation.ROMAN;
 
-		settingsOfMaterials = new MaterialDistributionSettings[EMaterialType.NUMBER_OF_MATERIALS];
-		for (int i = 0; i < EMaterialType.NUMBER_OF_MATERIALS; i++) {
-			EMaterialType materialType = EMaterialType.VALUES[i];
-
-			if (materialType.isDistributionConfigurable()) {
-				settingsOfMaterials[i] = new MaterialDistributionSettings(materialType, civilisation);
-			} else {
-				settingsOfMaterials[i] = defaultSettings[civilisation.ordinal][i];
-			}
-		}
-
+		settingsOfMaterials = INITIAL_MATERIAL_DISTRIBUTION_SETTINGS[civilisation.ordinal];
 		materialProductionSettings = new MaterialProductionSettings();
 		stockSettings = new StockSettings(civilisation == ECivilisation.EGYPTIAN ? INITIAL_STOCK_SETTINGS_EGYPTIAN : INITIAL_STOCK_SETTINGS);
 		professionSettings = new ProfessionSettings();
