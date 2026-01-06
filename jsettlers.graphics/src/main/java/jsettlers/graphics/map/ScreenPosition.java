@@ -17,6 +17,7 @@ package jsettlers.graphics.map;
 import java.util.Hashtable;
 
 import go.graphics.UIPoint;
+import jsettlers.common.CommonConstants;
 import jsettlers.common.position.FloatRectangle;
 
 /**
@@ -25,17 +26,6 @@ import jsettlers.common.position.FloatRectangle;
  * @author Michael Zangl
  */
 public class ScreenPosition {
-
-	/**
-	 * Minimum zoom allowed
-	 */
-	private static final float MINIMUM_ZOOM = .2f;
-
-	/**
-	 * Maximum zoom allowed
-	 */
-	private static final float MAXIMUM_ZOOM = 3f;
-
 	private static final int TOPBORDER = 100;
 
 	private FloatRectangle screen = new FloatRectangle(0, 0, 1, 1);
@@ -130,7 +120,7 @@ public class ScreenPosition {
 	 */
 	public void setZoom(float newZoom, UIPoint pointingPosition) {
 		oldZoom = zoom;
-		zoom = clamp(MINIMUM_ZOOM, MAXIMUM_ZOOM, newZoom);
+		zoom = clamp(CommonConstants.MINIMUM_ZOOM, CommonConstants.MAXIMUM_ZOOM, newZoom);
 		pointer = pointingPosition;
 	}
 

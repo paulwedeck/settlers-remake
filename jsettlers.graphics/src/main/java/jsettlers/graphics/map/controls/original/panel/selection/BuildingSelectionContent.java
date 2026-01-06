@@ -32,6 +32,7 @@ import jsettlers.common.movable.ESoldierType;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.selectable.ISelectionSet;
 import jsettlers.common.action.Action;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.action.AskSetTradingWaypointAction;
 import jsettlers.common.action.ChangeTradingRequestAction;
 import jsettlers.common.action.SetBuildingPriorityAction;
@@ -270,7 +271,7 @@ public class BuildingSelectionContent extends AbstractSelectionContent {
 			if (step >= 0) {
 				return Optional.of(getActionForStep(step));
 			} else {
-				return Optional.of(new Action(EActionType.ASK_SET_DOCK));
+				return Optional.of(new Action(EActionType.ASK_SET_DOCK, ESoundType.UI_INCREASE));
 			}
 		}
 	}

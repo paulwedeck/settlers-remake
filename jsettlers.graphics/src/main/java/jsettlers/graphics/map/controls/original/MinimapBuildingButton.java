@@ -16,6 +16,7 @@ package jsettlers.graphics.map.controls.original;
 
 import jsettlers.common.images.EImageLinkType;
 import jsettlers.common.images.OriginalImageLink;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.action.ExecutableAction;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.map.controls.original.panel.MainPanel;
@@ -37,6 +38,7 @@ public class MinimapBuildingButton extends Button {
 		private final MinimapMode minimapSettings;
 
 		private NextDisplayMode(MinimapMode minimapSettings) {
+            super(ESoundType.UI_CLICK_GENERAL);
 			this.minimapSettings = minimapSettings;
 		}
 

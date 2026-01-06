@@ -2,6 +2,7 @@ package jsettlers.common.action;
 
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public class SetMovableLimitTypeAction extends PointAction {
 	private final boolean relative;
 
 	public SetMovableLimitTypeAction(ShortPoint2D position, EMovableType movableType, boolean relative) {
-		super(EActionType.SET_MOVABLE_LIMIT_TYPE, position);
+		super(EActionType.SET_MOVABLE_LIMIT_TYPE, position, ESoundType.UI_CLICK_GENERAL);
 
 		this.movableType = movableType;
 		this.relative = relative;

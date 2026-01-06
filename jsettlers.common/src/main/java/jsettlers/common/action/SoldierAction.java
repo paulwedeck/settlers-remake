@@ -15,6 +15,9 @@
 package jsettlers.common.action;
 
 import jsettlers.common.movable.ESoldierType;
+import jsettlers.common.sound.ESoundType;
+
+import java.util.Map;
 
 /**
  * This is for all actions that allows you to specify a soldier type.
@@ -23,6 +26,13 @@ import jsettlers.common.movable.ESoldierType;
  *
  */
 public class SoldierAction extends Action {
+    private final static Map<EActionType, ESoundType> triggerSoundMap = Map.of(
+            EActionType.UPGRADE_SOLDIERS, ESoundType.UI_INCREASE,
+            EActionType.SOLDIERS_LESS, ESoundType.UI_DECREASE,
+            EActionType.SOLDIERS_MORE, ESoundType.UI_INCREASE
+            // SOLDIERS_ALL and SOLDIERS_ONE are SimpleActionButton TODO: Make them SoldierButtons?
+    );
+
 
 	private final ESoldierType soldierType;
 
@@ -35,7 +45,7 @@ public class SoldierAction extends Action {
 	 *            The soldiers.
 	 */
 	public SoldierAction(EActionType actionType, ESoldierType soldierType) {
-		super(actionType);
+		super(actionType, triggerSoundMap.getOrDefault(actionType, null));
 		this.soldierType = soldierType;
 	}
 

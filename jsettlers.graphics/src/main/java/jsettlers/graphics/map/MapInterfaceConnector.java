@@ -23,6 +23,7 @@ import jsettlers.common.action.IAction;
 import jsettlers.common.menu.messages.IMessage;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.action.ActionFirerer;
 
@@ -116,13 +117,14 @@ public class MapInterfaceConnector implements ActionFireable, IMapInterfaceConne
 	}
 
 	@Override
-	public void fireAction(IAction action) {
-		this.actionFirerer.fireAction(action);
+	public void fireAction(IAction action)
+    {
+        this.actionFirerer.fireAction(action);
 	}
 
 	@Override
-	public void playSound(int soundId, float volume) {
-		content.playSound(soundId, volume);
+	public void playSound(ESoundType soundType, float volume) {
+		content.playSound(soundType, volume);
 	}
 
 	@Override

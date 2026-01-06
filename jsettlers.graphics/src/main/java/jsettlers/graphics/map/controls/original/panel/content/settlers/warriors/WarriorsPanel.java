@@ -190,6 +190,7 @@ public class WarriorsPanel extends AbstractContentProvider {
 		@Override
 		public void update(IMannaInformation mannaInformation) {
 			this.mannaInformation = mannaInformation;
+            this.getAction().setActive(isActive());
 		}
 	}
 }

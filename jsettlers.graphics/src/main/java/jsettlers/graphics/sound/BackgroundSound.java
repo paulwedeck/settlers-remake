@@ -18,6 +18,7 @@ import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.mapobject.IMapObject;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.map.MapDrawContext;
 
 /**
@@ -36,14 +37,6 @@ public class BackgroundSound implements Runnable {
 	private static final float RIVER_VOLUME =  .03f;
 	private static final float MOUNTAIN_VOLUME =  .003f;
 	private static final float BEES_VOLUME =  .05f;
-
-	private static final int INDEX_BIRDS1 = 69;
-	private static final int INDEX_BIRDS2 = 70;
-	private static final int INDEX_WATER = 68;
-	private static final int INDEX_DESERT = 67;
-	private static final int INDEX_RIVER = 71;
-	private static final int INDEX_MOUNTAIN = 73;
-	public static final int INDEX_BEES = 117;
 
 	private final MapDrawContext map;
 	private final SoundManager sound;
@@ -84,21 +77,21 @@ public class BackgroundSound implements Runnable {
 
 				if (hasTree(x, y) && Math.random() < BIRDS_FREQUENCY) {
 					if (Math.random() < BIRDS1_FRACTION) {
-						sound.playSound(INDEX_BIRDS1, BIRDS_VOLUME, x, y);
+						sound.playSound(ESoundType.BIRD_A, BIRDS_VOLUME, x, y, false);
 					} else {
-						sound.playSound(INDEX_BIRDS2, BIRDS_VOLUME, x, y);
+						sound.playSound(ESoundType.BIRD_B, BIRDS_VOLUME, x, y, false);
 					}
 				} else if (hasDesert(x, y)) {
-					sound.playSound(INDEX_DESERT, DESERT_VOLUME, x, y);
+					sound.playSound(ESoundType.DESERT, DESERT_VOLUME, x, y, false);
 				} else if (hasWater(x, y)) {
-					sound.playSound(INDEX_WATER, WATER_VOLUME, x, y);
+					sound.playSound(ESoundType.SEA_A, WATER_VOLUME, x, y, false);
 				} else if (hasMountain(x, y)) {
-					sound.playSound(INDEX_MOUNTAIN, MOUNTAIN_VOLUME, x, y);
+					sound.playSound(ESoundType.WIND, MOUNTAIN_VOLUME, x, y, false);
 				} else for (int x1 = 0; x1 < screen.getWidth(); x1++) {
 					if (hasRiver(x0 + x1, y)) {
-						sound.playSound(INDEX_RIVER, RIVER_VOLUME, x0 + x1, y);
+						sound.playSound(ESoundType.WATER_RIVER, RIVER_VOLUME, x0 + x1, y, false);
 					} else if(hasBeeHive(x0 + x1, y)) {
-						sound.playSound(INDEX_BEES, BEES_VOLUME, x0 + x1, y);
+						sound.playSound(ESoundType.BEES, BEES_VOLUME, x0 + x1, y, false);
 					}
 				}
 			}

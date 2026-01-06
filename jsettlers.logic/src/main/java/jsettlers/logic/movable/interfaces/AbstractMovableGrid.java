@@ -19,6 +19,7 @@ import jsettlers.algorithms.path.Path;
 import jsettlers.common.mapobject.EMapObjectType;
 import jsettlers.common.material.ESearchType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.logic.player.Player;
 
 /**
@@ -89,7 +90,7 @@ public abstract class AbstractMovableGrid extends AbstractStrategyGrid {
 	 */
 	public abstract void addSelfDeletingMapObject(ShortPoint2D position, EMapObjectType mapObjectType, float duration, Player player);
 
-	public abstract void addSelfDeletingMapObject(ShortPoint2D point, int sound, int animation, float duration, Player player);
+    public abstract void addSelfDeletingMapObject(ShortPoint2D point, ESoundType soundType, boolean playInFog, int animation, float duration, Player player);
 
 	public abstract void addEyeMapObject(ShortPoint2D position, short radius, float duration, Player player);
 

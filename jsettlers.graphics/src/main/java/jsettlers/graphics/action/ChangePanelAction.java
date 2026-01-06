@@ -16,6 +16,7 @@ package jsettlers.graphics.action;
 
 import jsettlers.common.action.Action;
 import jsettlers.common.action.EActionType;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.map.controls.original.panel.content.AbstractContentProvider;
 
 public class ChangePanelAction extends Action {
@@ -23,7 +24,7 @@ public class ChangePanelAction extends Action {
 	private final AbstractContentProvider content;
 
 	public ChangePanelAction(AbstractContentProvider content) {
-		super(EActionType.CHANGE_PANEL);
+		super(EActionType.CHANGE_PANEL, ESoundType.UI_CLICK_G);
 		this.content = content;
 	}
 

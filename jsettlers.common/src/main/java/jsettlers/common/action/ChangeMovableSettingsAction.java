@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 
 public class ChangeMovableSettingsAction extends PointAction {
 
@@ -12,7 +13,7 @@ public class ChangeMovableSettingsAction extends PointAction {
 	private final int amount;
 
 	public ChangeMovableSettingsAction(EMovableType movableType, boolean relative, int amount, ShortPoint2D position) {
-		super(EActionType.CHANGE_MOVABLE_SETTINGS, position);
+		super(EActionType.CHANGE_MOVABLE_SETTINGS, position, amount > 0 ? ESoundType.UI_INCREASE : amount < 0 ? ESoundType.UI_DECREASE : ESoundType.UI_CLICK_GENERAL);
 		this.movableType = movableType;
 		this.relative = relative;
 		this.amount = amount;

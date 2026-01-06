@@ -299,7 +299,7 @@ public class MaterialPriorityContent extends AbstractContentProvider {
 				return null;
 			}
 			EMaterialType[] order = panel.reorder(selected, panel.indexOf(selected) + add);
-			return new SetMaterialPrioritiesAction(mapPosition, order);
+			return new SetMaterialPrioritiesAction(mapPosition, order, add);
 		}
 	}
 

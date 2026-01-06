@@ -17,13 +17,27 @@ package jsettlers.graphics.ui;
 import jsettlers.common.images.ImageLink;
 import jsettlers.common.action.EActionType;
 import jsettlers.common.action.Action;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.localization.Labels;
+
+import java.util.Map;
 
 public class SimpleActionButton extends Button {
 
-	public SimpleActionButton(EActionType actionType, ImageLink image, ImageLink active) {
-		super(new Action(actionType), image, active, Labels.getName(actionType));
-	}
+    private final static Map<EActionType, ESoundType> triggerSoundMap = Map.of(
+            EActionType.ASK_SET_WORK_AREA, ESoundType.UI_CLICK_GENERAL,
+            EActionType.ASK_DESTROY, ESoundType.BUILDING_DESTRUCTION,
+            EActionType.ASK_SET_DOCK, ESoundType.UI_INCREASE,
+            EActionType.MAKE_FERRY, ESoundType.UI_CLICK_GENERAL,
+            EActionType.MAKE_CARGO_SHIP, ESoundType.UI_CLICK_GENERAL,
+            EActionType.SOLDIERS_ONE, ESoundType.UI_DECREASE_MAX,
+            EActionType.SOLDIERS_ALL, ESoundType.UI_INCREASE_MAX
+            // SOLDIERS_LESS and SOLDIERS_MORE are SoldierButtons
+    );
+
+    public SimpleActionButton(EActionType actionType, ImageLink image, ImageLink active) {
+        super(new Action(actionType, triggerSoundMap.getOrDefault(actionType, null)), image, active, Labels.getName(actionType));
+    }
 
 	public SimpleActionButton(EActionType actionType, ImageLink image) {
 		this(actionType, image, image);

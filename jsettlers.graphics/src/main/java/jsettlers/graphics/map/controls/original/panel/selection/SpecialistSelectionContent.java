@@ -20,6 +20,7 @@ import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.selectable.ISelectionSet;
 import jsettlers.common.action.Action;
 import jsettlers.common.action.ConvertAction;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.ui.LabeledButton;
 import jsettlers.graphics.ui.UIPanel;
@@ -43,9 +44,9 @@ public class SpecialistSelectionContent extends AbstractSelectionContent {
 		SoldierSelectionContent.addRowsToPanel(panel, selection, specialists);
 
 		UIPanel stop = new LabeledButton(Labels.getString("stop"),
-				new Action(EActionType.STOP_WORKING));
+				new Action(EActionType.STOP_WORKING, ESoundType.MOVE_ACTION));
 		UIPanel work = new LabeledButton(Labels.getString("work"), new Action(
-				EActionType.START_WORKING));
+				EActionType.START_WORKING, ESoundType.MOVE_ACTION));
 
 		panel.addChild(stop, .1f, .1f, .5f, .2f);
 		panel.addChild(work, .5f, .1f, .9f, .2f);

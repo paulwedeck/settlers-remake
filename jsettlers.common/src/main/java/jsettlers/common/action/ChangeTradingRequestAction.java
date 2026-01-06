@@ -15,6 +15,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.material.EMaterialType;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This {@link Action} changes the trading request of a market place.
@@ -22,7 +23,6 @@ import jsettlers.common.material.EMaterialType;
  * @author Michael Zangl
  */
 public class ChangeTradingRequestAction extends Action {
-
 	private final EMaterialType material;
 	private final int amount;
 	private final boolean relative;
@@ -38,7 +38,8 @@ public class ChangeTradingRequestAction extends Action {
 	 *            If <code>true</code>, the amount is treated as relative value.
 	 */
 	public ChangeTradingRequestAction(EMaterialType material, int amount, boolean relative) {
-		super(EActionType.CHANGE_TRADING_REQUEST);
+		super(EActionType.CHANGE_TRADING_REQUEST, amount < -1 ? ESoundType.UI_DECREASE_MAX : amount == -1 ? ESoundType.UI_DECREASE : amount == 1 ? ESoundType.UI_INCREASE
+                : amount > 1 ? ESoundType.UI_INCREASE_MAX : ESoundType.UI_DECREASE_MAX);
 		this.material = material;
 		this.amount = amount;
 		this.relative = relative;

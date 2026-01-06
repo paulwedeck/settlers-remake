@@ -13,6 +13,7 @@ import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.player.IMannaInformation;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.selectable.ISelectionSet;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.ui.Button;
 import jsettlers.graphics.ui.Label;
@@ -56,8 +57,8 @@ public class PriestSelectionContent extends AbstractSelectionContent {
 			i++;
 		}
 
-		UIPanel kill = new LabeledButton(Labels.getString("kill"), new Action(EActionType.DESTROY));
-		UIPanel stop = new LabeledButton(Labels.getString("stop"), new Action(EActionType.STOP_WORKING));
+		UIPanel kill = new LabeledButton(Labels.getString("kill"), new Action(EActionType.DESTROY, ESoundType.UI_DECREASE_MAX));
+		UIPanel stop = new LabeledButton(Labels.getString("stop"), new Action(EActionType.STOP_WORKING, ESoundType.MOVE_ACTION));
 
 		panel.addChild(kill, .1f, 0.025f, .5f, .125f);
 		panel.addChild(stop, .5f, 0.025f, .9f, .125f);

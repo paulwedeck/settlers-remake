@@ -14,6 +14,8 @@
  */
 package jsettlers.common.action;
 
+import jsettlers.common.sound.ESoundType;
+
 /**
  * This is a action the user has requested.
  * <p>
@@ -27,7 +29,12 @@ package jsettlers.common.action;
  */
 public class Action implements IAction {
 	private final EActionType actionType;
-	private boolean active = false;
+    private final ESoundType triggerSound;
+	private boolean active = true;
+
+    public Action(EActionType actionType) {
+        this(actionType, null);
+    }
 
 	/**
 	 * Creates a new generic action.
@@ -35,8 +42,9 @@ public class Action implements IAction {
 	 * @param actionType
 	 *            The type the action should have.
 	 */
-	public Action(EActionType actionType) {
+	public Action(EActionType actionType, ESoundType triggerSound) {
 		this.actionType = actionType;
+        this.triggerSound = triggerSound;
 	}
 
 	/**
@@ -67,4 +75,8 @@ public class Action implements IAction {
 	public boolean isActive() {
 		return this.active;
 	}
+
+    public ESoundType getTriggerSound() {
+        return this.active ? triggerSound : null;
+    }
 }

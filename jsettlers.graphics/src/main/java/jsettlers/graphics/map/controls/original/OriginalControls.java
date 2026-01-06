@@ -32,6 +32,7 @@ import jsettlers.common.position.FloatRectangle;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
 import jsettlers.common.action.Action;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.action.ChangePanelAction;
 import jsettlers.graphics.action.ExecutableAction;
@@ -230,7 +231,8 @@ public class OriginalControls implements IControls {
 		if (action.isPresent()
 				&& action.get().getActionType() == EActionType.CHANGE_PANEL) {
 			mainPanel.setContent(((ChangePanelAction) action.get()).getContent());
-			return Optional.empty();
+            //return Optional.empty();
+            return action; // We need to return the action, so the sound is played.
 		} else {
 			return action;
 		}
@@ -246,7 +248,7 @@ public class OriginalControls implements IControls {
 	 * @return the action for that point or <code>null</code> for no action.
 	 */
 	private Optional<Action> getScrollForMinimap(float relativex, float relativey) {
-		return computeClickPosition(relativex, relativey).map(clickPosition -> new PointAction(EActionType.PAN_TO, clickPosition));
+		return computeClickPosition(relativex, relativey).map(clickPosition -> new PointAction(EActionType.PAN_TO, clickPosition, ESoundType.UI_CLICK_GENERAL));
 	}
 	
 	private Optional<Action> getMoveToForMinimap(float relativex, float relativey, EMoveToType moveTo) {
@@ -318,6 +320,10 @@ public class OriginalControls implements IControls {
 	 * This should one day display the chat.
 	 */
 	private final class ShowChatAction extends ExecutableAction {
+        public ShowChatAction() {
+            super(ESoundType.UI_CLICK_GENERAL);
+        }
+
 		private final MessageContent messageContent = new MessageContent(
 				"This is not yet implemented.",
 				"Cancel",

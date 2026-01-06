@@ -16,11 +16,20 @@ package jsettlers.common.action;
 
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
+
+import java.util.Map;
 
 /**
  * @author codingberlin
  */
 public class SetMaterialProductionAction extends Action {
+    private final static Map<EMaterialProductionType, ESoundType> triggerSoundMap = Map.of(
+            EMaterialProductionType.INCREASE, ESoundType.UI_INCREASE,
+            EMaterialProductionType.DECREASE, ESoundType.UI_DECREASE,
+            EMaterialProductionType.SET_PRODUCTION, ESoundType.UI_CLICK_GENERAL,
+            EMaterialProductionType.SET_RATIO, ESoundType.UI_CLICK_GENERAL
+    );
 
 	public enum EMaterialProductionType {
 		INCREASE,
@@ -37,7 +46,8 @@ public class SetMaterialProductionAction extends Action {
 	private final ShortPoint2D position;
 
 	public SetMaterialProductionAction(ShortPoint2D position, EMaterialType materialType, EMaterialProductionType productionType, float ratio) {
-		super(EActionType.SET_MATERIAL_PRODUCTION);
+        super(EActionType.SET_MATERIAL_PRODUCTION, triggerSoundMap.getOrDefault(productionType, null));
+
 		this.materialType = materialType;
 		this.productionType = productionType;
 		this.ratio = ratio;

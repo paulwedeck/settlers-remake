@@ -16,6 +16,7 @@ package jsettlers.graphics.action;
 
 import jsettlers.common.action.Action;
 import jsettlers.common.action.EActionType;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This is an action that can be executed. When fired, this action is not interpreted but executed instead.
@@ -24,12 +25,18 @@ import jsettlers.common.action.EActionType;
  *
  */
 public abstract class ExecutableAction extends Action {
+
+
+    public ExecutableAction() {
+        this(null);
+    }
 	/**
 	 * Creates a new {@link ExecutableAction}.
+     * @param triggerSound The sound to play when this action is triggered.
 	 */
-	public ExecutableAction() {
-		super(EActionType.EXECUTABLE);
-	}
+    public ExecutableAction(ESoundType triggerSound) {
+        super(EActionType.EXECUTABLE, triggerSound);
+    }
 
 	/**
 	 * Executes this action.

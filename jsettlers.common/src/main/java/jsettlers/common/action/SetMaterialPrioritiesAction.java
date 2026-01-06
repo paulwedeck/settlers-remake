@@ -16,6 +16,7 @@ package jsettlers.common.action;
 
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This {@link Action} is used to set the priority order of {@link EMaterialType}s.
@@ -35,8 +36,9 @@ public class SetMaterialPrioritiesAction extends PointAction {
 	 *            An array of all droppable {@link EMaterialType}s. The first element has the highest priority, the last one hast the lowest.
 	 */
 	public SetMaterialPrioritiesAction(ShortPoint2D managerPosition,
-			EMaterialType[] materialTypeForPriority) {
-		super(EActionType.SET_MATERIAL_PRIORITIES, managerPosition);
+			EMaterialType[] materialTypeForPriority, int add) {
+		super(EActionType.SET_MATERIAL_PRIORITIES, managerPosition, add < -1 ? ESoundType.UI_INCREASE_MAX : add == -1 ? ESoundType.UI_INCREASE : add == 1 ? ESoundType.UI_DECREASE
+                : add > 1 ? ESoundType.UI_DECREASE_MAX : ESoundType.UI_CLICK_GENERAL);
 
 		assert materialTypeForPriority.length == EMaterialType.NUMBER_OF_DROPPABLE_MATERIALS : "The given material types for priorities may only contain droppable materials";
 

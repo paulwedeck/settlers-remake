@@ -21,6 +21,7 @@ import jsettlers.common.action.IAction;
 import jsettlers.common.menu.messages.IMessage;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
+import jsettlers.common.sound.ESoundType;
 
 class DummyMapInterfaceConnector implements IMapInterfaceConnector {
 
@@ -69,7 +70,7 @@ class DummyMapInterfaceConnector implements IMapInterfaceConnector {
 	}
 
 	@Override
-	public void playSound(int soundId, float volume) {
+	public void playSound(ESoundType soundType, float volume) {
 
 	}
 }

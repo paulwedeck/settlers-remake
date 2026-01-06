@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.action.Action;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.action.ExecutableAction;
 
 /**
@@ -48,7 +49,7 @@ public class SelectionManager {
 	}
 
 	public Action getSelectAction(final EMaterialType material) {
-		return new ExecutableAction() {
+		return new ExecutableAction(ESoundType.UI_CLICK_GENERAL) {
 			@Override
 			public void execute() {
 				select(material);

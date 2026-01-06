@@ -17,6 +17,7 @@ package jsettlers.graphics.action;
 import jsettlers.common.action.Action;
 import jsettlers.common.action.EActionType;
 import jsettlers.common.action.SetTradingWaypointAction.EWaypointType;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This is an action combined with a {@link EWaypointType} that asks the user to set the trading waypoint.
@@ -34,7 +35,7 @@ public class AskSetTradingWaypointAction extends Action {
 	 *            The waypoint
 	 */
 	public AskSetTradingWaypointAction(EWaypointType waypoint) {
-		super(EActionType.ASK_SET_TRADING_WAYPOINT);
+		super(EActionType.ASK_SET_TRADING_WAYPOINT, ESoundType.UI_CLICK_GENERAL);
 		this.waypoint = waypoint;
 	}
 

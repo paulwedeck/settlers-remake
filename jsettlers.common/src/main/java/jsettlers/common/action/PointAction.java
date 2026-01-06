@@ -15,6 +15,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This action states that the user wants something to happen at the given position.
@@ -25,6 +26,9 @@ public class PointAction extends Action {
 
 	private final ShortPoint2D position;
 
+    public PointAction(EActionType type, ShortPoint2D position) {
+        this(type, position, null);
+    }
 	/**
 	 * Creates a new point action
 	 *
@@ -32,9 +36,11 @@ public class PointAction extends Action {
 	 *            The type of this action.
 	 * @param position
 	 *            The position the user clicked at.
+     * @param triggerSound
+     *            The sound to play when this action is triggered.
 	 */
-	public PointAction(EActionType type, ShortPoint2D position) {
-		super(type);
+	public PointAction(EActionType type, ShortPoint2D position, ESoundType triggerSound) {
+		super(type, triggerSound);
 		this.position = position;
 	}
 

@@ -16,6 +16,7 @@ package jsettlers.common.action;
 
 import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This is a build action. This happens when the user clicks on a map position to build a building there.
@@ -36,7 +37,7 @@ public class BuildAction extends PointAction {
 	 *            The position at which the building should (approximately) be built.
 	 */
 	public BuildAction(EBuildingType building, ShortPoint2D position) {
-		super(EActionType.BUILD, position);
+		super(EActionType.BUILD, position, ESoundType.PLACE_BUILDING);
 		this.building = building;
 	}
 

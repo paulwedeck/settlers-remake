@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 import jsettlers.algorithms.construction.ConstructionMarksThread;
 import jsettlers.common.CommonConstants;
+import jsettlers.common.action.Action;
 import jsettlers.common.action.BuildAction;
 import jsettlers.common.action.CastSpellAction;
 import jsettlers.common.action.ChangeTradingRequestAction;
@@ -72,6 +73,7 @@ import jsettlers.common.position.ILocatable;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ESelectionType;
 import jsettlers.common.selectable.ISelectable;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.input.tasks.CastSpellGuiTask;
 import jsettlers.input.tasks.ChangeTowerSoldiersGuiTask;
 import jsettlers.input.tasks.ChangeTowerSoldiersGuiTask.EChangeTowerSoldierTaskType;
@@ -97,9 +99,12 @@ import jsettlers.input.tasks.UpgradeSoldiersGuiTask;
 import jsettlers.input.tasks.WorkAreaGuiTask;
 import jsettlers.logic.buildings.Building;
 import jsettlers.logic.buildings.IDockBuilding;
+import jsettlers.logic.buildings.WorkAreaBuilding;
 import jsettlers.logic.buildings.military.occupying.OccupyingBuilding;
 import jsettlers.logic.buildings.workers.DockyardBuilding;
 import jsettlers.logic.constants.MatchConstants;
+import jsettlers.logic.movable.cargo.DonkeyMovable;
+import jsettlers.logic.movable.interfaces.IAttackableMovable;
 import jsettlers.logic.movable.interfaces.IDebugable;
 import jsettlers.logic.player.Player;
 import jsettlers.network.client.interfaces.IGameClock;
@@ -162,6 +167,13 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 		if (action.getActionType() != EActionType.SCREEN_CHANGE) {
 			System.out.println("action(Action): " + action.getActionType() + "   at game time: " + MatchConstants.clock().getTime());
 		}
+
+        // Play trigger sound
+        Action gotAction = (Action)action;
+        ESoundType triggerSound = gotAction.getTriggerSound();
+        if(triggerSound != null) {
+            connector.playSound(triggerSound, 1.0f);
+        }
 
 		switch (action.getActionType()) {
 			case BUILD:
@@ -248,11 +260,19 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 
 					if (building instanceof IDockBuilding) {
 						setDock(moveToAction.getPosition());
-					} else {
+					} else if(building instanceof WorkAreaBuilding)  {
 						setBuildingWorkArea(moveToAction.getPosition());
+                        connector.playSound(ESoundType.SET_WORKER_AREA, 1.0f);
 					}
 				} else {
-					moveTo(moveToAction.getPosition(), moveToAction.getMoveToType());
+                    moveTo(moveToAction.getPosition(), moveToAction.getMoveToType());
+
+                    // Check if at least one selected movable is IAttackableMovable (except donkeys).
+                    boolean isAttackableMovable = currentSelection.stream().anyMatch(iSelectable -> iSelectable instanceof IAttackableMovable && !(iSelectable instanceof DonkeyMovable));
+
+                    if(isAttackableMovable) {
+                        connector.playSound(ESoundType.MOVE_ACTION, 1.0f);
+                    }
 				}
 				break;
 			}
@@ -264,6 +284,7 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 
 			case SET_WORK_AREA:
 				setBuildingWorkArea(((PointAction) action).getPosition());
+                connector.playSound(ESoundType.SET_WORKER_AREA, 1.0f);
 				break;
 
 			case CAST_SPELL:
@@ -361,6 +382,7 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 			case SET_TRADING_WAYPOINT: {
 				final ISelectable selected = currentSelection.getSingle();
 				if (selected instanceof Building) {
+                    connector.playSound(ESoundType.SET_WORKER_AREA, 1);
 					final SetTradingWaypointAction a = (SetTradingWaypointAction) action;
 					scheduleTask(new SetTradingWaypointGuiTask(EGuiAction.SET_TRADING_WAYPOINT, playerId, ((Building) selected).getPosition(),
 															   a.getWaypointType(), a.getPosition()
@@ -417,8 +439,8 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 
 				scheduleTask(new SetMovableLimitTypeTask(playerId, setTypeAction.getPosition(), setTypeAction.getMovableType(), setTypeAction.isRelative()));
 
-			default:
-				System.out.println("WARNING: GuiInterface.action() called, but event can't be handled... (" + action.getActionType() + ")");
+			//default:
+			//	System.out.println("WARNING: GuiInterface.action() called, but event can't be handled... (" + action.getActionType() + ")");
 		}
 	}
 
@@ -475,10 +497,15 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 			}
 
 			if (next != null) {
+                connector.playSound(ESoundType.UI_INCREASE, 1);
 				setSelection(new SelectionSet(next));
 			} else if (first != null) {
+                connector.playSound(ESoundType.UI_INCREASE, 1);
 				setSelection(new SelectionSet(first));
 			}
+            else {
+                connector.playSound(ESoundType.REFUSED, 1); // Play nono sound
+            }
 		}
 	}
 
@@ -491,9 +518,10 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 		IDockBuilding building = (IDockBuilding) selected;
 
 		if (building.canDockBePlaced(requestedDockPosition)) {
+            connector.playSound(ESoundType.SET_WORKER_AREA, 1);
 			taskScheduler.scheduleTask(new SetDockGuiTask(playerId, building, requestedDockPosition));
 		} else {
-			connector.playSound(116, 1); // this dock position is not at the coast
+			connector.playSound(ESoundType.REFUSED, 1); // this dock position is not at the coast
 		}
 	}
 
@@ -501,7 +529,7 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 		final ISelectable selected = currentSelection.getSingle();
 		if (selected instanceof Building) {
 			scheduleTask(new WorkAreaGuiTask(EGuiAction.SET_WORK_AREA, playerId, workAreaPosition, ((Building) selected).getPosition()));
-		}
+        }
 	}
 
 	private void castSpell(ShortPoint2D at, ESpellType spell) {
@@ -556,7 +584,7 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 		if (currentSelection == null || currentSelection.getSize() == 0) {
 			return;
 		} else if (currentSelection.getSize() == 1 && currentSelection.iterator().next() instanceof Building) {
-			taskScheduler.scheduleTask(new SimpleBuildingGuiTask(EGuiAction.DESTROY_BUILDING, playerId, ((Building) currentSelection.iterator().next()).getPosition()));
+            taskScheduler.scheduleTask(new SimpleBuildingGuiTask(EGuiAction.DESTROY_BUILDING, playerId, ((Building) currentSelection.iterator().next()).getPosition()));
 		} else {
 			taskScheduler.scheduleTask(new MovableGuiTask(EGuiAction.DESTROY_MOVABLES, playerId, getIDsOfSelected()));
 		}
@@ -565,6 +593,17 @@ public class GuiInterface implements IMapInterfaceListener, ITaskExecutorGuiInte
 
 	private void setBuildingPriority(EPriority newPriority) {
 		if (currentSelection != null && currentSelection.getSize() == 1 && currentSelection.iterator().next() instanceof Building) {
+            switch (newPriority) {
+                case STOPPED:
+                    connector.playSound(ESoundType.PAUSE_CONSTRUCTION, 1);
+                    break;
+                case LOW:
+                    connector.playSound(ESoundType.UI_DECREASE, 1);
+                    break;
+                case HIGH:
+                    connector.playSound(ESoundType.UI_INCREASE, 1);
+                    break;
+            }
 			taskScheduler
 				.scheduleTask(new SetBuildingPriorityGuiTask(playerId, ((Building) currentSelection.iterator().next()).getPosition(), newPriority));
 		}

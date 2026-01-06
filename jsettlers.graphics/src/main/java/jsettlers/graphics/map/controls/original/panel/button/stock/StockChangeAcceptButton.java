@@ -59,6 +59,7 @@ public class StockChangeAcceptButton extends Button {
 		if (selected == null || mapPosition == null) {
 			return null;
 		}
+
 		return new SetAcceptedStockMaterialAction(mapPosition, selected, accept, local);
 	}
 

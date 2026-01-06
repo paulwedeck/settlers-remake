@@ -19,6 +19,7 @@ import jsettlers.common.action.EActionType;
 import jsettlers.common.movable.EMovableType;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.selectable.ISelectionSet;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.ui.LabeledButton;
 import jsettlers.graphics.ui.UIPanel;
@@ -46,7 +47,7 @@ public class ShipSelectionContent extends AbstractSelectionContent {
 		panel.addChild(kill, .1f, .3f, .9f, .4f);
 
 		if(selection.getMovableCount(EMovableType.FERRY, null) > 0) {
-			UIPanel unload = new LabeledButton(Labels.getString("unload"), new Action(EActionType.UNLOAD_FERRIES));
+			UIPanel unload = new LabeledButton(Labels.getString("unload"), new Action(EActionType.UNLOAD_FERRIES, ESoundType.GUI_DENY));
 			panel.addChild(unload, .1f, .1f, .9f, .2f);
 		}
 	}

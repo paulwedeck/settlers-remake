@@ -17,6 +17,16 @@ package jsettlers.common;
 import java.util.function.Supplier;
 
 public abstract class CommonConstants {
+    /**
+     * Minimum zoom allowed
+     */
+    public static final float MINIMUM_ZOOM = .2f;
+
+    /**
+     * Maximum zoom allowed
+     */
+    public static final float MAXIMUM_ZOOM = 3f;
+
 	/**
 	 * A byte value indicating that the given position is visible.
 	 */

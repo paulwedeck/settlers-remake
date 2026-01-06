@@ -67,7 +67,7 @@ public class Button extends UIPanel {
 	}
 
 	public void setAction(Action action) {
-		this.action = action;
+        this.action = action;
 	}
 
 	@Override
@@ -79,4 +79,5 @@ public class Button extends UIPanel {
 	public String getDescription(float relativex, float relativey) {
 		return description;
 	}
+
 }

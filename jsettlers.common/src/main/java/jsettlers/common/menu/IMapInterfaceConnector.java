@@ -18,6 +18,7 @@ import jsettlers.common.action.IAction;
 import jsettlers.common.menu.messages.IMessenger;
 import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.selectable.ISelectionSet;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This is the interface that the map logic uses to access the UI.
@@ -83,5 +84,5 @@ public interface IMapInterfaceConnector extends IMessenger {
 
 	void fireAction(IAction action);
 
-	void playSound(int soundId, float volume);
+	void playSound(ESoundType soundType, float volume);
 }

@@ -15,6 +15,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.movable.EMovableType;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This action is used to convert any movables to the given {@link EMovableType}.
@@ -36,7 +37,7 @@ public class ConvertAction extends Action {
 	 *            if amount == {@link Short}.MAX_VALUE all selected movables will be converted.
 	 */
 	public ConvertAction(EMovableType toType, short amount) {
-		super(EActionType.CONVERT);
+		super(EActionType.CONVERT, amount > 1 ? ESoundType.UI_INCREASE_MAX : ESoundType.UI_INCREASE);
 		this.toType = toType;
 		this.amount = amount;
 	}

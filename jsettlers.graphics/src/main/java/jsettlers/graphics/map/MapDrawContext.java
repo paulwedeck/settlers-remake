@@ -18,6 +18,7 @@ import java.util.Iterator;
 
 import go.graphics.GLDrawContext;
 
+import go.graphics.UIPoint;
 import jsettlers.common.Color;
 import jsettlers.common.landscape.ELandscapeType;
 import jsettlers.common.map.IDirectGridProvider;
@@ -226,6 +227,21 @@ public final class MapDrawContext implements IGLProvider {
 			x / this.screen.getZoom() + this.screen.getLeft(), y
 				/ this.screen.getZoom() + this.screen.getBottom());
 	}
+
+    /**
+     * @param x
+     *            The x coordinate in map space
+     * @param y
+     *           The y coordinate in map space.
+     * @return
+     *       The screen position of the map coordinate (opposite of getPositionOnScreen).
+     */
+    public UIPoint getScreenPosition(int x, int y) {
+        int height = getHeight(x, y);
+        float viewX = converter.getViewX(x, y, height);
+        float viewY = converter.getViewY(x, y, height);
+        return new UIPoint((int)((viewX - this.screen.getLeft()) * this.screen.getZoom()), (int)((viewY - this.screen.getBottom()) * this.screen.getZoom()));
+    }
 
 	/**
 	 * Checks two map coordiantes if they are on the map.

@@ -16,6 +16,7 @@ package jsettlers.common.action;
 
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This {@link Action} allows you to change the partition default settings for putting materials in stock.
@@ -41,7 +42,7 @@ public class SetAcceptedStockMaterialAction extends PointAction {
 	 *            If <code>true</code>, this setting is set locally for a single stock.
 	 */
 	public SetAcceptedStockMaterialAction(ShortPoint2D mapPosition, EMaterialType material, boolean accept, boolean local) {
-		super(EActionType.SET_MATERIAL_STOCK_ACCEPTED, mapPosition);
+		super(EActionType.SET_MATERIAL_STOCK_ACCEPTED, mapPosition, accept ? ESoundType.GUI_ACCEPT : ESoundType.GUI_DENY);
 		this.material = material;
 		this.accept = accept;
 		this.local = local;

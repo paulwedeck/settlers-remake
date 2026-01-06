@@ -31,6 +31,7 @@ import jsettlers.common.map.IGraphicsGrid;
 import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.menu.IStartedGame;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.action.AskSetTradingWaypointAction;
 import jsettlers.graphics.action.ExecutableAction;
 import jsettlers.graphics.localization.Labels;
@@ -85,7 +86,7 @@ public class MainPanel extends UIPanel {
 
 	private final UIPanel gamePanel = new UIPanel();
 
-	private final CountArrows changeSpeedArrows = new CountArrows(() -> new Action(EActionType.SPEED_FASTER), () -> new Action(EActionType.SPEED_SLOWER));
+	private final CountArrows changeSpeedArrows = new CountArrows(() -> new Action(EActionType.SPEED_FASTER, ESoundType.UI_INCREASE), () -> new Action(EActionType.SPEED_SLOWER, ESoundType.UI_DECREASE));
 	private final Label speedLabel = new Label("", EFontSize.NORMAL) {
 		@Override
 		public synchronized void drawAt(GLDrawContext gl) {
@@ -94,25 +95,25 @@ public class MainPanel extends UIPanel {
 		}
 	};
 
-	private final LabeledButton pausedButton = new LabeledButton(Labels.getString("game-menu-pause"), new Action(EActionType.SPEED_TOGGLE_PAUSE)) {
+	private final LabeledButton pausedButton = new LabeledButton(Labels.getString("game-menu-pause"), new Action(EActionType.SPEED_TOGGLE_PAUSE, ESoundType.GUI_DENY)) {
 		@Override
 		public boolean isActive() {
 			return game.getGameTimeProvider().isGamePausing();
 		}
 	};
 
-	private final LabeledButton musicOnOff = new LabeledButton(Labels.getString("game-menu-music"), new Action(EActionType.TOGGLE_MUSIC)) {
+	private final LabeledButton musicOnOff = new LabeledButton(Labels.getString("game-menu-music"), new Action(EActionType.TOGGLE_MUSIC, ESoundType.UI_CLICK_GENERAL)) {
 		@Override
 		public boolean isActive() {
 			return parentMapContent.getMusicManager().isRunning();
 		}
 	};
 
-	private final CountArrows changeMusicVolumeArrows = new CountArrows(() -> new Action(EActionType.MUSIC_VOLUME_UP), () -> new Action(EActionType.MUSIC_VOLUME_DOWN));
+	private final CountArrows changeMusicVolumeArrows = new CountArrows(() -> new Action(EActionType.MUSIC_VOLUME_UP, ESoundType.UI_INCREASE), () -> new Action(EActionType.MUSIC_VOLUME_DOWN, ESoundType.UI_DECREASE));
 
-	private final LabeledButton exitButton = new LabeledButton(Labels.getString("game-menu-quit"), new Action(EActionType.EXIT));
-	private final LabeledButton saveButton = new LabeledButton(Labels.getString("game-menu-save"), new Action(EActionType.SAVE));
-	private final LabeledButton cancelButton = new LabeledButton(Labels.getString("game-menu-cancel"), new ExecutableAction() {
+	private final LabeledButton exitButton = new LabeledButton(Labels.getString("game-menu-quit"), new Action(EActionType.EXIT, ESoundType.UI_CLICK_GENERAL));
+	private final LabeledButton saveButton = new LabeledButton(Labels.getString("game-menu-save"), new Action(EActionType.SAVE, ESoundType.GUI_ACCEPT));
+	private final LabeledButton cancelButton = new LabeledButton(Labels.getString("game-menu-cancel"), new ExecutableAction(ESoundType.UI_CLICK_GENERAL) {
 		public void execute() {
 			setContent(ContentType.BUILD_NORMAL);
 			btnSystem.setActive(false);
@@ -354,7 +355,7 @@ public class MainPanel extends UIPanel {
 					Labels.getString("click_set_workcenter")) {
 				@Override
 				public PointAction getSelectAction(ShortPoint2D position) {
-					return new PointAction(EActionType.SET_WORK_AREA, position);
+					return new PointAction(EActionType.SET_WORK_AREA, position); // Sound is played in GuiInterface
 				}
 			});
 			return null;

@@ -50,7 +50,6 @@ import jsettlers.common.movable.IGraphicsFerry;
 import jsettlers.common.movable.IGraphicsMovable;
 import jsettlers.common.movable.IGraphicsThief;
 import jsettlers.common.movable.IShipInConstruction;
-import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.player.IPlayerable;
@@ -58,12 +57,12 @@ import jsettlers.common.position.ShortPoint2D;
 import jsettlers.common.sound.ISoundable;
 import jsettlers.graphics.image.Image;
 import jsettlers.graphics.image.SettlerImage;
-import jsettlers.graphics.image.SingleImage;
 import jsettlers.graphics.image.sequence.Sequence;
 import jsettlers.graphics.localization.Labels;
 import jsettlers.graphics.map.MapDrawContext;
 import jsettlers.graphics.map.draw.settlerimages.SettlerImageMap;
 import jsettlers.graphics.map.geometry.MapCoordinateConverter;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.sound.SoundManager;
 
 /**
@@ -102,13 +101,6 @@ public class MapObjectDrawer {
 		0};
 	private static final int   maxNumberOfStacks           = CARGO_POSITION_TO_FRONT.length;
 	private static final int   CARGO_DECK_HEIGHT           = 18;
-
-	private static final int SOUND_MILL               = 42;
-	private static final int SOUND_SLAUGHTERHOUSE     = 14;
-	private static final int SOUND_BUILDING_DESTROYED = 93;
-	private static final int SOUND_SETTLER_KILLED     = 35;
-	private static final int SOUND_FALLING_TREE       = 36;
-
 
 	private static final int OBJECTS_FILE   = 1;
 	private static final int BUILDINGS_FILE = 13;
@@ -253,6 +245,15 @@ public class MapObjectDrawer {
 	 */
 	public void drawMapObject(int x, int y, IMapObject object) {
 		byte fogStatus = visibleGrid != null ? visibleGrid[x][y] : CommonConstants.FOG_OF_WAR_VISIBLE;
+
+        // We should draw spell effects even in fog of war if they are configured to do so.
+        if(object instanceof ISpecializedMapObject) {
+        	ISpecializedMapObject smo = (ISpecializedMapObject) object;
+        	if(smo.isPlayInFog()) {
+        		fogStatus = CommonConstants.FOG_OF_WAR_VISIBLE;
+        	}
+        }
+
 		if (fogStatus == 0) {
 			return; // break
 		}
@@ -453,7 +454,7 @@ public class MapObjectDrawer {
 				break;
 
 			case TREE_DEAD:
-				playSound(object, SOUND_FALLING_TREE, x, y);
+				playSound(object, ESoundType.FALLING_TREE, x, y);
 				drawFallingTree(x, y, progress, color);
 				break;
 
@@ -519,7 +520,7 @@ public class MapObjectDrawer {
 
 			case GHOST:
 				drawPlayerableByProgress(x, y, object, color, imageProvider.getSettlerSequence(DEAD_SETTLER_FILE, DEAD_SETTLER_INDEX));
-				playSound(object, SOUND_SETTLER_KILLED, x, y);
+				playSound(object, ESoundType.SOLDIER_KILLED, x, y);
 				break;
 
 			case SPELL_EFFECT:
@@ -530,7 +531,7 @@ public class MapObjectDrawer {
 
 			case BUILDING_DECONSTRUCTION_SMOKE:
 				drawByProgress(x, y, 0, 13, 38, object.getStateProgress(), color);
-				playSound(object, SOUND_BUILDING_DESTROYED, x, y);
+				playSound(object, ESoundType.COLLAPSING_BUILDING, x, y);
 				break;
 
 			case FOUND_COAL:
@@ -726,101 +727,101 @@ public class MapObjectDrawer {
 		if (movable.isSoundPlayed()) {
 			return;
 		}
-		int soundNumber = -1;
+		ESoundType soundType = null;
 		float delay = movable.getMoveProgress();
 		switch (movable.getAction()) {
 			case ACTION1:
 				switch (movable.getMovableType()) {
 					case LUMBERJACK:
 						if (delay > .8) {
-							soundNumber = 0;
+							soundType = ESoundType.LUMBERJACK;
 						}
 						break;
 					case BRICKLAYER:
 						if (delay > .7) {
-							soundNumber = 1;
+							soundType = ESoundType.BRICKLAYER;
 						}
 						break;
 					case DIGGER:
 						if (delay > .6) {
-							soundNumber = 2;
+							soundType = ESoundType.DIGGER;
 						}
 						break;
 					case STONECUTTER:
 						if (delay > .8) {
-							soundNumber = 3;
+							soundType = ESoundType.STONECUTTER;
 						}
 						break;
 					case SAWMILLER:
 						if (delay > .2) {
-							soundNumber = 5;
+							soundType = ESoundType.SAWMILLER;
 						}
 						break;
 					case SMITH:
 						if (delay > .7) {
-							soundNumber = 6;
+							soundType = ESoundType.SMITH_A;
 						}
 						break;
 					case FARMER:
 						if (delay > .8) {
-							soundNumber = 9;
+							soundType = ESoundType.FARMER_B;
 						}
 						break;
 					case FISHERMAN:
-						if (delay > .8) {
-							soundNumber = 16;
+						if (delay > .5) {
+							soundType = ESoundType.FISHERMAN_B;
 						}
 						break;
 					case DOCKWORKER:
 						if (delay > .8) {
-							soundNumber = 20;
+							soundType = ESoundType.DOCKYARD;
 						}
 						break;
 					case HEALER:
 						if (delay > .8) {
-							soundNumber = 21;
+							soundType = ESoundType.HEALER;
 						}
 						break;
 					case GEOLOGIST: // TODO: should also check grid.getResourceAmountAt(x, y)
 						if (sound.random.nextInt(256) == 0) {
-							soundNumber = 24;
+							soundType = ESoundType.GEOLOGIST;
 						}
 						break;
 					case SWORDSMAN_L1:
 					case SWORDSMAN_L2:
 					case SWORDSMAN_L3:
 						if (delay > .8) {
-							soundNumber = 30;
+							soundType = ESoundType.SWORD_SOLDIER;
 						}
 						break;
 					case BOWMAN_L1:
 					case BOWMAN_L2:
 					case BOWMAN_L3:
 						if (delay > .4) {
-							soundNumber = 33;
+							soundType = ESoundType.BOWMAN_ALT;
 						}
 						break;
 					case PIKEMAN_L1:
 					case PIKEMAN_L2:
 					case PIKEMAN_L3:
-						soundNumber = 34;
+						soundType = ESoundType.PIKEMAN;
 						break;
 					case MELTER:
-						soundNumber = 38;
+						soundType = ESoundType.MOLTEN_METAL_B;
 						break;
 					case PIG_FARMER:
 						if (delay > .4) {
-							soundNumber = 39;
+							soundType = ESoundType.PIGS;
 						}
 						break;
 					case DONKEY_FARMER:
 						if (delay > .4) {
-							soundNumber = 40;
-						}
+							soundType = ESoundType.DONKEY_A;
+                        }
 						break;
 					case CHARCOAL_BURNER:
 						if (delay > .8) {
-							soundNumber = 45;
+							soundType = ESoundType.CHARCOAL_BURNER;
 						}
 						break;
 				}
@@ -829,17 +830,17 @@ public class MapObjectDrawer {
 				switch (movable.getMovableType()) {
 					case FARMER:
 						if (delay > .8) {
-							soundNumber = 12;
+							soundType = ESoundType.FARMER_C;
 						}
 						break;
 					case FISHERMAN:
 						if (delay > .5) {
-							soundNumber = 15;
+							soundType = ESoundType.FISHERMAN_A;
 						}
 						break;
 					case LUMBERJACK:
 						if (delay > .8) {
-							soundNumber = 36;
+							soundType = ESoundType.FALLING_TREE;
 						}
 						break;
 				}
@@ -847,17 +848,18 @@ public class MapObjectDrawer {
 				switch (movable.getMovableType()) {
 					case FISHERMAN:
 						if (delay > .95) {
-							soundNumber = 17;
+							soundType = ESoundType.FISHERMAN_C;
 						}
 						break;
 				}
 				break;
 
 		}
-		if (soundNumber >= 0) {
-			sound.playSound(soundNumber, 1, movable.getPosition());
-			movable.setSoundPlayed();
-		}
+
+        if (soundType != null) {
+            sound.playSound(soundType, 1, movable.getPosition());
+            movable.setSoundPlayed();
+        }
 	}
 
 	private void drawMovableAt(IGraphicsMovable movable, int x, int y) {
@@ -985,15 +987,21 @@ public class MapObjectDrawer {
 		}
 	}
 
-	private void playSound(IMapObject object, int soundId, int x, int y) {
-		if(soundId == -1) return;
+	private void playSound(IMapObject object, ESoundType soundType, int x, int y) {
+		if(soundType == null) return;
 
 		if (object instanceof IBuilding.ISoundRequestable) {
-			sound.playSound(soundId, 1, x, y);
+			sound.playSound(soundType, 1, x, y, false);
 		} else if (object instanceof ISoundable) {
 			ISoundable soundable = (ISoundable) object;
 			if (!soundable.isSoundPlayed()) {
-				sound.playSound(soundId, 1, x, y);
+                boolean playInFog = false;
+                if(soundable instanceof ISpecializedMapObject)
+                {
+                    ISpecializedMapObject specialized = (ISpecializedMapObject) soundable;
+                    playInFog = specialized.isPlayInFog();
+                }
+				sound.playSound(soundType, 1, x, y, playInFog);
 				soundable.setSoundPlayed();
 			}
 		}
@@ -1328,7 +1336,7 @@ public class MapObjectDrawer {
 
 		if (state >= 0.99) {
 			if (variant.isVariantOf(EBuildingType.SLAUGHTERHOUSE) && building instanceof IBuilding.ISoundRequestable && ((IBuilding.ISoundRequestable) building).isSoundRequested()) {
-				playSound(building, SOUND_SLAUGHTERHOUSE, x, y);
+				playSound(building, ESoundType.DYING_PIG, x, y);
 			}
 
 			if (variant.isVariantOf(EBuildingType.MILL) && building instanceof IBuilding.IMill && ((IBuilding.IMill) building).isRotating()) {
@@ -1344,7 +1352,7 @@ public class MapObjectDrawer {
 						drawOnlyShadow(image, x, y);
 					}
 				}
-				playSound(building, SOUND_MILL, x, y);
+				playSound(building, ESoundType.WINDMILL, x, y);
 
 			} else if(variant.isVariantOf(EBuildingType.STOCK)) {
 				float[] zvalues = new float[] {-4*z_per_y, -2*z_per_y, 2*z_per_y, 3*z_per_y, 2*z_per_y, -2*z_per_y};

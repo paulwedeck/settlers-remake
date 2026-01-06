@@ -22,6 +22,7 @@ import jsettlers.common.movable.EMovableType;
 import jsettlers.common.movable.ESpellType;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.common.utils.mutables.MutableInt;
 import jsettlers.logic.constants.Constants;
@@ -168,7 +169,7 @@ public class MageMovable extends AttackableHumanMovable implements IMageMovable 
 			return false;
 		}
 
-		int sound = -1;
+		ESoundType sound = null;
 		int animation = -1;
 		float duration = 2;
 		List<ShortPoint2D> effectLocations = new ArrayList<>();
@@ -183,25 +184,25 @@ public class MageMovable extends AttackableHumanMovable implements IMageMovable 
 			case REMOVE_GOLD:
 				convertMaterial(EMaterialType.GOLD, EMaterialType.STONE, ESpellType.REMOVE_GOLD_MAX_GOLD, effectLocations);
 
-				sound = 95;
+				sound = ESoundType.SET_WORKER_AREA;
 				animation = 121;
 				break;
 			case GILDING:
 				convertMaterial(EMaterialType.IRON, EMaterialType.GOLD, ESpellType.GILDING_MAX_IRON, effectLocations);
 
-				sound = 95;
+				sound = ESoundType.SET_WORKER_AREA;
 				animation = 121;
 				break;
 			case CONVERT_FOOD:
 				convertMaterial(EMaterialType.FISH, EMaterialType.MEAT, ESpellType.CONVERT_FOOD_MAX_FISH, effectLocations);
 
-				sound = 95;
+				sound = ESoundType.SET_WORKER_AREA;
 				animation = 121;
 				break;
 			case MELT_STONE:
 				convertMaterial(EMaterialType.STONE, EMaterialType.IRON, ESpellType.CONVERT_IRON_MAX_STONE, effectLocations);
 
-				sound = 95;
+				sound = ESoundType.SET_WORKER_AREA;
 				animation = 121;
 				break;
 			case GREEN_THUMB:
@@ -335,7 +336,7 @@ public class MageMovable extends AttackableHumanMovable implements IMageMovable 
 							effectLocations.add(at);
 						});
 				duration = 1;
-				sound = 78;
+				sound = ESoundType.GIFTS;
 				animation = 114;
 				break;
 			case CURSE_MOUNTAIN:
@@ -343,7 +344,7 @@ public class MageMovable extends AttackableHumanMovable implements IMageMovable 
 						.filter((x, y) -> teamId(x, y) == -1 || teamId(x, y) != teamId())
 						.forEach((x, y) -> grid.tryCursingLocation(new ShortPoint2D(x, y)));
 				effectLocations.add(currentTarget);
-				sound = 100;
+				sound = ESoundType.ATTACKED_A;
 				animation = 120;
 				break;
 			case SUMMON_FISH:
@@ -363,7 +364,7 @@ public class MageMovable extends AttackableHumanMovable implements IMageMovable 
 							lm.defectTo(player);
 							effectLocations.add(lm.getPosition());
 						});
-				sound = 95;
+				sound = ESoundType.SET_WORKER_AREA;
 				animation = 119;
 				break;
 			case IRRIGATE:
@@ -393,13 +394,13 @@ public class MageMovable extends AttackableHumanMovable implements IMageMovable 
 			case AMAZON_EYE:
 				grid.addEyeMapObject(position, ESpellType.AMAZON_EYE_RADIUS, ESpellType.AMAZON_EYE_TIME, player);
 				effectLocations.add(position);
-				sound = 80;
+				sound = ESoundType.BEING_ATTACKED;
 				animation = 126;
 				break;
 			case ROMAN_EYE:
 				grid.addEyeMapObject(currentTarget, ESpellType.ROMAN_EYE_RADIUS, ESpellType.ROMAN_EYE_TIME, player);
 				effectLocations.add(currentTarget);
-				sound = 80;
+				sound = ESoundType.BEING_ATTACKED;
 				animation = 126;
 				break;
 			case BURN_FOREST:
@@ -426,7 +427,7 @@ public class MageMovable extends AttackableHumanMovable implements IMageMovable 
 
 		if(animation != -1) {
 			for (ShortPoint2D point : effectLocations) {
-				grid.addSelfDeletingMapObject(point, sound, animation, duration, player);
+				grid.addSelfDeletingMapObject(point, sound, true, animation, duration, player);
 			}
 		}
 

@@ -75,6 +75,7 @@ import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.MutablePoint2D;
 import jsettlers.common.position.RelativePoint;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.common.utils.collections.IPredicate;
 import jsettlers.common.utils.coordinates.CoordinateStream;
 import jsettlers.input.IGuiInputGrid;
@@ -1534,9 +1535,9 @@ public final class MainGrid implements Serializable {
 		}
 
 		@Override
-		public void addSelfDeletingMapObject(ShortPoint2D point, int sound, int animation, float duration, Player player) {
-			mapObjectsManager.addSelfDeletingMapObject(point, sound, animation, duration, player);
-		}
+        public void addSelfDeletingMapObject(ShortPoint2D point, ESoundType soundType, boolean playInFog, int animation, float duration, Player player) {
+            mapObjectsManager.addSelfDeletingMapObject(point, soundType, playInFog, animation, duration, player);
+        }
 
 		@Override
 		public void addEyeMapObject(ShortPoint2D position, short radius, float duration, Player player) {

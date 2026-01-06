@@ -48,7 +48,7 @@ public class ActionHandler implements GOEventHandler {
 
 	@Override
 	public void finished(GOEvent event) {
-		action.ifPresent(this.connector::fireAction);
+        action.ifPresent(this.connector::fireAction);
 	}
 
 	@Override

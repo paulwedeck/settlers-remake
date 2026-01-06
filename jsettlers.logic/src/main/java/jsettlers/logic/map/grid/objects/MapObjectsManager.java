@@ -29,6 +29,7 @@ import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IPlayer;
 import jsettlers.common.position.RelativePoint;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.logic.buildings.stack.IStackSizeSupplier;
 import jsettlers.logic.constants.Constants;
 import jsettlers.logic.constants.MatchConstants;
@@ -398,8 +399,11 @@ public final class MapObjectsManager implements IScheduledTimerable, Serializabl
 		timingQueue.add(new TimeEvent(object, duration, true));
 	}
 
-	public void addSelfDeletingMapObject(ShortPoint2D point, int sound, int animation, float duration, Player player) {
-		SelfDeletingMapObject object = new SpecializedSoundableSelfDeletingObject(point, sound, animation, duration, player);
+    public void addSelfDeletingMapObject(ShortPoint2D point, ESoundType soundType, int animation, float duration, Player player) {
+        this.addSelfDeletingMapObject(point, soundType, false, animation, duration, player);
+    }
+	public void addSelfDeletingMapObject(ShortPoint2D point, ESoundType soundType, boolean playInFog, int animation, float duration, Player player) {
+		SelfDeletingMapObject object = new SpecializedSoundableSelfDeletingObject(point, soundType, playInFog, animation, duration, player);
 		addMapObject(point, object);
 		timingQueue.add(new TimeEvent(object, duration, true));
 	}

@@ -28,6 +28,7 @@ import jsettlers.common.player.ECivilisation;
 import jsettlers.common.player.IInGamePlayer;
 import jsettlers.common.position.IPositionSupplier;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.action.ActionFireable;
 import jsettlers.graphics.action.ExecutableAction;
 import jsettlers.common.action.SetMaterialDistributionSettingsAction;
@@ -146,7 +147,7 @@ public class DistributionPanel extends AbstractContentProvider implements IUiCon
 
 		private MaterialDistributionTab(EMaterialType materialType, IPositionSupplier positionSupplier, IInGamePlayer player) {
 			MaterialDistributionTab thisTab = this;
-			materialButton = new MaterialButton(new ExecutableAction() {
+			materialButton = new MaterialButton(new ExecutableAction(ESoundType.UI_CLICK_GENERAL) {
 				@Override
 				public void execute() {
 					setCurrentTab(thisTab);

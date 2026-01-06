@@ -1,6 +1,9 @@
 package jsettlers.common.mapobject;
 
+import jsettlers.common.sound.ESoundType;
+
 public interface ISpecializedMapObject {
 	int getAnimation();
-	int getSound();
+	ESoundType getSound();
+    boolean isPlayInFog();
 }

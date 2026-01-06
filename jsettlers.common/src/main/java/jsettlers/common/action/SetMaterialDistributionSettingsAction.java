@@ -18,6 +18,7 @@ import jsettlers.common.buildings.EBuildingType;
 import jsettlers.common.buildings.MaterialsOfBuildings;
 import jsettlers.common.material.EMaterialType;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * This {@link Action} is used to set the distribution settings for a material in a manager.
@@ -32,7 +33,7 @@ public class SetMaterialDistributionSettingsAction extends Action {
 	private final float ratio;
 
 	public SetMaterialDistributionSettingsAction(ShortPoint2D managerPosition, EMaterialType materialType, EBuildingType buildingType, float ratio) {
-		super(EActionType.SET_MATERIAL_DISTRIBUTION_SETTINGS);
+		super(EActionType.SET_MATERIAL_DISTRIBUTION_SETTINGS, ESoundType.UI_CLICK_GENERAL);
 		this.managerPosition = managerPosition;
 		this.materialType = materialType;
 		this.buildingType = buildingType;

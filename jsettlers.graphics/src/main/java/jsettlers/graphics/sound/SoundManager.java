@@ -19,14 +19,17 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
 
+import go.graphics.UIPoint;
 import go.graphics.sound.ISoundDataRetriever;
 import go.graphics.sound.SoundPlayer;
 import jsettlers.common.CommonConstants;
-import jsettlers.common.map.shapes.MapRectangle;
 import jsettlers.common.position.ShortPoint2D;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.common.utils.FileUtils;
 import jsettlers.graphics.map.MapDrawContext;
 import jsettlers.graphics.image.reader.bytereader.ByteReader;
+import jsettlers.graphics.map.ScreenPosition;
+
 
 /*
  * This class manages reading and playing of the sound file.
@@ -38,6 +41,7 @@ import jsettlers.graphics.image.reader.bytereader.ByteReader;
  * 1 (6 times): bricklayer <br>
  * 2 (3 times): digger <br>
  * 3 (twice): stonecutter <br>
+ * 4: plant tree?
  * 5: sawmiller <br>
  * 6/7 smith <br>
  * 8/9 and 12: farmer <br>
@@ -60,11 +64,18 @@ import jsettlers.graphics.image.reader.bytereader.ByteReader;
  * 42: wind/mill: 5s <br>
  * 43/44: distillery
  * 45: charcoal burner coughing
- * 46-50 no sound
+ * 46-50 UI sounds
+ * 48: decrease UI sound
+ * 49: increase UI sound
  * 51: trigger for building destruction
- * 56: lock <br>
- * 57-59: notification sounds<br>
+ * 52: set distribution of goods
+ * 54: pause construction
+ * 56: lock storage <br>
+ * 57: move action
+ * 58-59: notification sounds<br>
+ * 61 GUI click sound
  * 62: Ui klick <br>
+ * 63-66: GUI click sounds
  * 67: desert
  * 68, 68b: Sea <br>
  * 69, 69b: Bird <br>
@@ -85,8 +96,9 @@ import jsettlers.graphics.image.reader.bytereader.ByteReader;
  * 91: fire <br>
  * 92: small fire on wood or building <br>
  * 93: collapsing building
- * 100-110: Attacked (same sound?) ? <br>
- * 106: announcement of missing tool
+ * 95: set worker area
+ * 100-109: Attacked (same sound?) ? <br>
+ * 110: announcement of missing tool
  * 111: 112: gong, <br>
  * 113: (4 times): amazone killed
  * 116: refused center of work displacement
@@ -98,7 +110,6 @@ public class SoundManager {
 
 	private static final String SOUND_FILE_NAME = "Siedler3_00.dat";
 
-	private static final int Z_STEPS_FOR_MAX_VOLUME = 50;
 	private static final int SOUND_META_LENGTH = 16;
 	private static final int SOUND_FILE_START = 0x24;
 	private static final int SEQUENCE_N = 118;
@@ -133,9 +144,9 @@ public class SoundManager {
 	private int[][] soundStarts;
 	private boolean initializing = false;
 	private MapDrawContext map = null;
-	private MapRectangle area = null;
+    private ScreenPosition screen = null;
 
-	/**
+    /**
 	 * Creates a new sound manager.
 	 *
 	 * @param soundPlayer
@@ -205,16 +216,16 @@ public class SoundManager {
 	/**
 	 * Plays a given sound.
 	 *
-	 * @param soundId
-	 * 		The sound id to play.
+	 * @param soundType
+	 * 		The sound to play.
 	 * @param volume
 	 * 		The volume
 	 */
-	public void playSound(int soundId, float volume) {
+	public void playSound(ESoundType soundType, float volume) {
 		initialize();
 
-		if (soundStarts != null && soundId >= 0 && soundId < SEQUENCE_N) {
-			int[] alternatives = soundStarts[soundId];
+		if (soundStarts != null && soundType != null && soundType.ordinal() < SEQUENCE_N) {
+			int[] alternatives = soundStarts[soundType.ordinal()];
 			if (alternatives != null && alternatives.length > 0) {
 				int rand = random.nextInt(alternatives.length);
 				soundPlayer.playSound(alternatives[rand], volume, volume);
@@ -222,75 +233,86 @@ public class SoundManager {
 		}
 	}
 
-	public void playSound(int soundId, float volume, ShortPoint2D position) {
-		playSound(soundId, volume, position.x, position.y);
+	public void playSound(ESoundType soundType, float volume, ShortPoint2D position) {
+		playSound(soundType, volume, position.x, position.y, false);
 	}
+    public void playSound(ESoundType soundType, float volume, ShortPoint2D position, boolean playInFog) {
+        playSound(soundType, volume, position.x, position.y, playInFog);
+    }
 
 	/**
 	 * Plays a given sound at a given coordinate
 	 *
-	 * @param soundId
-	 * 		The sound id to play
+	 * @param soundType
+	 * 		The sound to play
 	 * @param volume
 	 * 		The volume
 	 * @param x
 	 * 		The x coordinate of the sound
 	 * @param y
 	 * 		The y coordinate of the sound
+     * 	@param playInFog
+     * 	    Whether to play the sound even if the position is in fog of war.
 	 */
-	public void playSound(int soundId, float volume, int x, int y) {
-		if (map == null || map.getVisibleStatus(x, y) <= CommonConstants.FOG_OF_WAR_EXPLORED) { // only play sounds when fog of war level is higher than explored
+	public void playSound(ESoundType soundType, float volume, int x, int y, boolean playInFog) {
+		if (map == null || (map.getVisibleStatus(x, y) <= CommonConstants.FOG_OF_WAR_EXPLORED && !playInFog)) { // only play sounds when fog of war level is higher than explored
 			return;
 		}
 
 		initialize();
 
-		if (soundStarts != null && soundId >= 0 && soundId < SEQUENCE_N && area != null) {
-			int[] alternatives = soundStarts[soundId];
+		if (soundStarts != null && soundType != null && soundType.ordinal() < SEQUENCE_N && screen != null) {
+			int[] alternatives = soundStarts[soundType.ordinal()];
 			if (alternatives != null && alternatives.length > 0) {
-				int rand = random.nextInt(alternatives.length);
+				int rand = random.nextInt(alternatives.length);;
 
-				int maxA = area.getWidth(); // get screen area
-				int maxB = area.getHeight();
-				int b = y - area.getMinY();
-				int a = x - area.getLineStartX(b);
-				float leftVolume, rightVolume;
+                UIPoint soundScreenPos = map.getScreenPosition(x, y);
+                float zoom = this.screen.getZoom();
 
-				if (a < 0) { // volume depending on position right or left
-					leftVolume = 0;
-					rightVolume = 0;
-				} else if (a < maxA / 4) {
-					leftVolume = volume * 4f * a / maxA;
-					rightVolume = 0;
-				} else if (a < 3 * maxA / 4) {
-					leftVolume = volume * (2f * a / maxA - .5f);
-					rightVolume = volume * (2f * (maxA - a) / maxA - .5f);
-				} else if (a < maxA) {
-					leftVolume = 0;
-					rightVolume = volume * 4f * (maxA - a) / maxA;
-				} else {
-					leftVolume = 0;
-					rightVolume = 0;
-				}
+                float width = this.screen.getWidth() * zoom;
+                float height = this.screen.getHeight() * zoom;
 
-				float distanceVolume = Z_STEPS_FOR_MAX_VOLUME;
-				if (b < 0) { // volume depending on position up or down
-					distanceVolume = 0;
-				} else if (b < maxB / 4) {
-					distanceVolume = 4f * Z_STEPS_FOR_MAX_VOLUME * b / maxB;
-				} else if (b >= maxB) {
-					distanceVolume = 0;
-				} else if (b >= 3 * maxB / 4) {
-					distanceVolume = 4f * Z_STEPS_FOR_MAX_VOLUME * (maxB - b) / maxB;
-				}
+                // Between 0 and 1, where 0 is left/bottom of the screen, 1 is right/top of the screen
+                float screenX = (float)soundScreenPos.getX() / width;
+                float screenY = (float)soundScreenPos.getY() / height;
 
-				distanceVolume /= maxA; // volume depending on zoom level
-				if (distanceVolume > 1) {
-					distanceVolume = 1;
-				}
+                float zeroDistance = 1.0f;
+                float fullDistance = 0.25f;
+                float screenXCenter = 0.5f;
+                float screenYCenter = 0.5f;
 
-				leftVolume *= distanceVolume;
-				rightVolume *= distanceVolume;
+                float distance = (float) Math.sqrt((screenX - screenXCenter) * (screenX - screenXCenter) + (screenY - screenYCenter) * (screenY - screenYCenter));
+                float distanceVolume = 1;
+                if (distance > fullDistance) {
+                	if (distance >= zeroDistance) {
+                		distanceVolume = 0;
+                	} else {
+                		distanceVolume = (zeroDistance - distance) / (zeroDistance - fullDistance);
+                	}
+                }
+
+                // Shift sound to left or right ear. 0 means both ears have full volume, 1 means only right ear has volume, -1 means only left ear has volume
+                // We want to shift only to max -0.25/+0.25
+                float shift = (screenX - screenXCenter) / screenXCenter * 0.25f;
+                float leftVolume = 1;
+                float rightVolume = 1;
+                if (shift > 0) {
+                	leftVolume = 1 - shift;
+                } else if (shift < 0) {
+                	rightVolume = 1 + shift;
+                }
+
+                // Zoom level volume. It should fade to 0.05 when zoomed out to minimum zoom
+                float minZoomForFull = CommonConstants.MAXIMUM_ZOOM - (CommonConstants.MAXIMUM_ZOOM - CommonConstants.MINIMUM_ZOOM) / 2f;
+                float minZoomVolume = 0.05f;
+                float zoomVolume = 1;
+                if (zoom < minZoomForFull) {
+                	zoomVolume = minZoomVolume + (zoom - CommonConstants.MINIMUM_ZOOM) / (minZoomForFull - CommonConstants.MINIMUM_ZOOM) * (1 - minZoomVolume);
+                }
+
+                leftVolume *= distanceVolume * zoomVolume * volume;
+                rightVolume *= distanceVolume * zoomVolume * volume;
+
 				soundPlayer.playSound(alternatives[rand], leftVolume, rightVolume);
 			}
 		}
@@ -389,6 +411,6 @@ public class SoundManager {
 
 	public void setMap(MapDrawContext map) {
 		this.map = map;
-		this.area = map.getScreenArea();
+        this.screen = map.getScreen();
 	}
 }

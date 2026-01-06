@@ -15,6 +15,7 @@
 package jsettlers.common.action;
 
 import jsettlers.common.buildings.EBuildingType;
+import jsettlers.common.sound.ESoundType;
 
 /**
  * Instructs the logic to compute and display the constructions mark for the given building.
@@ -26,7 +27,7 @@ public class ShowConstructionMarksAction extends Action {
 	private EBuildingType buildingType;
 
 	public ShowConstructionMarksAction(EBuildingType buildingType) {
-		super(EActionType.SHOW_CONSTRUCTION_MARK);
+		super(EActionType.SHOW_CONSTRUCTION_MARK, ESoundType.UI_CLICK_GENERAL);
 		this.buildingType = buildingType;
 
 	}

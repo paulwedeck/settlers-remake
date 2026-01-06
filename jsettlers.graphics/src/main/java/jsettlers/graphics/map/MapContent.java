@@ -92,6 +92,7 @@ import jsettlers.graphics.map.draw.ImageProvider;
 import jsettlers.graphics.map.draw.MapObjectDrawer;
 import jsettlers.graphics.messages.Messenger;
 import jsettlers.graphics.sound.BackgroundSound;
+import jsettlers.common.sound.ESoundType;
 import jsettlers.graphics.sound.MusicManager;
 import jsettlers.graphics.sound.SoundManager;
 
@@ -160,10 +161,6 @@ public final class MapContent implements RegionContent, IMapInterfaceListener, A
 	private static final int MESSAGE_OFFSET_Y = 30;
 	private static final long GOTO_MARK_TIME = 1500;
 	private static final long DOUBLE_CLICK_TIME = 500;
-	/**
-	 * Sound ID when we are attacked.
-	 */
-	private static final int NOTIFY_ATTACKED_SOUND_ID = 80;
 
 	private final IGraphicsGrid map;
 	private final IMapObject[] objectsGrid;
@@ -1088,7 +1085,7 @@ public final class MapContent implements RegionContent, IMapInterfaceListener, A
 		if (printMsg) {
 			switch (message.getType()) {
 			case ATTACKED:
-				soundmanager.playSound(NOTIFY_ATTACKED_SOUND_ID, 1);
+				soundmanager.playSound(ESoundType.BEING_ATTACKED, 1);
 				break;
 
 			default:
@@ -1097,16 +1094,24 @@ public final class MapContent implements RegionContent, IMapInterfaceListener, A
 		}
 	}
 
-	public void playSound(int soundId, float volume) {
-		soundmanager.playSound(soundId, volume);
+	public void playSound(ESoundType soundType, float volume) {
+		soundmanager.playSound(soundType, volume);
 	}
 
 	@Override
 	public void fireAction(IAction action) {
 		IAction fire = controls.replaceAction(action);
 		if (fire != null) {
+            // Sounds for here are played in GuiInterface.action
 			getInterfaceConnector().fireAction(fire);
 		}
+        else {
+            Action gotAction = (Action)action;
+            ESoundType triggerSound = gotAction.getTriggerSound();
+            if (triggerSound != null) {
+                soundmanager.playSound(triggerSound, 1.0f);
+            }
+        }
 	}
 
 	@Override
