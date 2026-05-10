@@ -45,6 +45,8 @@ import org.lwjgl.vulkan.VkImageViewCreateInfo;
 import org.lwjgl.vulkan.VkInstance;
 import org.lwjgl.vulkan.VkInstanceCreateInfo;
 import org.lwjgl.vulkan.VkLayerProperties;
+import org.lwjgl.vulkan.VkLayerSettingEXT;
+import org.lwjgl.vulkan.VkLayerSettingsCreateInfoEXT;
 import org.lwjgl.vulkan.VkPhysicalDevice;
 import org.lwjgl.vulkan.VkPhysicalDeviceFeatures;
 import org.lwjgl.vulkan.VkPipelineColorBlendAttachmentState;
@@ -66,6 +68,7 @@ import org.lwjgl.vulkan.VkSemaphoreCreateInfo;
 import org.lwjgl.vulkan.VkShaderModuleCreateInfo;
 import org.lwjgl.vulkan.VkSpecializationInfo;
 import org.lwjgl.vulkan.VkSpecializationMapEntry;
+import org.lwjgl.vulkan.VkSubpassDependency;
 import org.lwjgl.vulkan.VkSubpassDescription;
 import org.lwjgl.vulkan.VkSurfaceFormatKHR;
 
@@ -83,7 +86,15 @@ import java.util.function.BiFunction;
 
 import go.graphics.EPrimitiveType;
 
+import org.lwjgl.system.Platform;
+
 import static org.lwjgl.vulkan.EXTDebugReport.*;
+import static org.lwjgl.vulkan.EXTLayerSettings.VK_EXT_LAYER_SETTINGS_EXTENSION_NAME;
+import static org.lwjgl.vulkan.EXTLayerSettings.VK_LAYER_SETTING_TYPE_BOOL32_EXT;
+import static org.lwjgl.vulkan.EXTLayerSettings.VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT;
+import static org.lwjgl.vulkan.EXTMetalSurface.VK_EXT_METAL_SURFACE_EXTENSION_NAME;
+import static org.lwjgl.vulkan.KHRPortabilityEnumeration.VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+import static org.lwjgl.vulkan.KHRPortabilityEnumeration.VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME;
 import static org.lwjgl.vulkan.KHRSwapchain.*;
 import static org.lwjgl.vulkan.KHRSurface.*;
 import static org.lwjgl.vulkan.VK10.*;
@@ -105,11 +116,74 @@ public class VulkanUtils {
 
 	public static final int MAX_GLOBALTRANS_COUNT = 10;
 
-	public static List<String> defaultExtensionArray(boolean debug) {
+	/**
+	 * Returns the set of instance extensions actually exported by the Vulkan implementation
+	 * we ended up loading. On macOS the same JAR can be backed by either:
+	 *   - the Khronos Vulkan loader (which exposes VK_KHR_portability_enumeration), or
+	 *   - libMoltenVK.dylib loaded directly (no loader, no portability_enumeration).
+	 * We can't tell which is which up front, so we ask the runtime.
+	 */
+	public static java.util.Set<String> listAvailableInstanceExtensions(MemoryStack stack) {
+		IntBuffer count = stack.ints(0);
+		if(vkEnumerateInstanceExtensionProperties((CharSequence) null, count, null) != VK_SUCCESS) {
+			return java.util.Collections.emptySet();
+		}
+		int n = count.get(0);
+		if(n == 0) return java.util.Collections.emptySet();
+		org.lwjgl.vulkan.VkExtensionProperties.Buffer props = org.lwjgl.vulkan.VkExtensionProperties.malloc(n, stack);
+		if(vkEnumerateInstanceExtensionProperties((CharSequence) null, count, props) != VK_SUCCESS) {
+			return java.util.Collections.emptySet();
+		}
+		java.util.Set<String> names = new java.util.HashSet<>();
+		for(int i = 0; i < n; i++) {
+			names.add(props.get(i).extensionNameString());
+		}
+		return names;
+	}
+
+	public static List<String> defaultExtensionArray(MemoryStack stack, boolean debug) {
+		java.util.Set<String> available = listAvailableInstanceExtensions(stack);
 		List<String> extensions = new ArrayList<>();
 		extensions.add(VK_KHR_SURFACE_EXTENSION_NAME);
-		if(debug) extensions.add(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+		if(Platform.get() == Platform.MACOSX) {
+			// VK_EXT_metal_surface is mandatory on macOS — MoltenVK exposes it directly.
+			extensions.add(VK_EXT_METAL_SURFACE_EXTENSION_NAME);
+			// VK_KHR_portability_enumeration is only provided by the Khronos Vulkan loader.
+			// When we load libMoltenVK.dylib directly (no loader installed) the extension
+			// is absent and asking for it makes vkCreateInstance fail with
+			// VK_ERROR_EXTENSION_NOT_PRESENT, which produces a silent black canvas.
+			if(available.contains(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME)) {
+				extensions.add(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+			}
+			// VK_EXT_layer_settings lets us push MoltenVK config values through the standard
+			// Vulkan channel instead of relying on MVK_CONFIG_* environment variables, which
+			// are awkward to set from inside the JVM (especially when launched via Gradle/IDE).
+			// We use it to disable Metal argument buffers, which currently break our quad
+			// rendering path on Apple Silicon. Available in MoltenVK 1.2.7+.
+			if(available.contains(VK_EXT_LAYER_SETTINGS_EXTENSION_NAME)) {
+				extensions.add(VK_EXT_LAYER_SETTINGS_EXTENSION_NAME);
+			}
+			// Always pull in the debug report extension on macOS even without --debug-opengl:
+			// MoltenVK has no validation layers shipped, but it still posts API misuse and
+			// device-loss messages through this callback. Without it, failures (e.g. an invalid
+			// swapchain extent) are silent and the user sees a black canvas with no log output.
+			if(available.contains(VK_EXT_DEBUG_REPORT_EXTENSION_NAME)) {
+				extensions.add(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+			}
+		}
+		if(debug && available.contains(VK_EXT_DEBUG_REPORT_EXTENSION_NAME)
+				&& !extensions.contains(VK_EXT_DEBUG_REPORT_EXTENSION_NAME)) {
+			extensions.add(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+		}
 		return extensions;
+	}
+
+	/** @deprecated use {@link #defaultExtensionArray(MemoryStack, boolean)}. */
+	@Deprecated
+	public static List<String> defaultExtensionArray(boolean debug) {
+		try(MemoryStack stack = MemoryStack.stackPush()) {
+			return defaultExtensionArray(stack, debug);
+		}
 	}
 
 	public static VkInstance createInstance(MemoryStack stack, List<String> extensions, boolean debug) {
@@ -134,17 +208,59 @@ public class VulkanUtils {
 				layersPointer = stack.pointers(stack.UTF8(validationLayerOpt.get()));
 			} else {
 				System.err.println("Could not find any validation layer!");
+				System.err.flush();
 			}
+		}
+
+		int instanceFlags = 0;
+		// The portability bit is only valid (and only required) when VK_KHR_portability_enumeration
+		// was actually enabled. With direct libMoltenVK.dylib loading we don't have that extension,
+		// and setting the flag anyway makes vkCreateInstance fail.
+		if(extensions.contains(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME)) {
+			instanceFlags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+		}
+
+		long pNext = 0L;
+		// On macOS, when VK_EXT_layer_settings is available, push MoltenVK configuration through
+		// the pNext chain. This is the standard Vulkan channel for layer/driver configuration and
+		// is read by MoltenVK before any instance state is created — which is the only point at
+		// which MVK_CONFIG_USE_METAL_ARGUMENT_BUFFERS can still be changed. We disable Metal
+		// argument buffers because they currently cause MoltenVK to emit broken Metal command
+		// streams for our triangle-list quad path on Apple Silicon (black gameplay canvas).
+		if(Platform.get() == Platform.MACOSX && extensions.contains(VK_EXT_LAYER_SETTINGS_EXTENSION_NAME)) {
+			ByteBuffer layerName = stack.UTF8("MoltenVK");
+			ByteBuffer settingName = stack.UTF8("MVK_CONFIG_USE_METAL_ARGUMENT_BUFFERS");
+			ByteBuffer settingValue = stack.calloc(4); // VkBool32 = 4 bytes, all zero == VK_FALSE
+
+			VkLayerSettingEXT.Buffer settings = VkLayerSettingEXT.calloc(1, stack)
+					.pLayerName(layerName)
+					.pSettingName(settingName)
+					.type(VK_LAYER_SETTING_TYPE_BOOL32_EXT)
+					.valueCount(1)
+					.pValues(settingValue);
+
+			VkLayerSettingsCreateInfoEXT layerSettings = VkLayerSettingsCreateInfoEXT.calloc(stack)
+					.sType(VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT)
+					.pSettings(settings);
+			pNext = layerSettings.address();
+			System.err.println("[VK-INST] applying MoltenVK layer-settings: MVK_CONFIG_USE_METAL_ARGUMENT_BUFFERS=0 via VK_EXT_layer_settings");
+		} else if(Platform.get() == Platform.MACOSX) {
+			System.err.println("[VK-INST] VK_EXT_layer_settings unavailable; relying on MVK_CONFIG_* env vars. available=" + extensions);
 		}
 
 		VkInstanceCreateInfo createInfo = VkInstanceCreateInfo.calloc(stack)
 				.sType(VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO)
+				.pNext(pNext)
+				.flags(instanceFlags)
 				.pApplicationInfo(applicationInfo)
 				.ppEnabledExtensionNames(extensionsPointer)
 				.ppEnabledLayerNames(layersPointer);
 
 		PointerBuffer instancePointer = stack.mallocPointer(1);
-		if(vkCreateInstance(createInfo, null, instancePointer) != VK_SUCCESS) throw new Error("Could not create Instance.");
+		int err = vkCreateInstance(createInfo, null, instancePointer);
+		if(err != VK_SUCCESS) {
+			throw new Error("vkCreateInstance failed (" + err + "); requested extensions=" + extensions);
+		}
 		return new VkInstance(instancePointer.get(0), createInfo);
 	}
 
@@ -374,10 +490,38 @@ public class VulkanUtils {
 				.pColorAttachments(colorAttachmentRef)
 				.pDepthStencilAttachment(depthAttachmentRef);
 
+		// Without explicit subpass dependencies the render pass relies on the
+		// implicit external -> subpass dependency, which sits at TOP_OF_PIPE with
+		// no access mask. On most desktop drivers that still happens to respect
+		// the swapchain-acquire semaphore (waited on COLOR_ATTACHMENT_OUTPUT in
+		// VulkanSurfaceOutput.configureDrawCommand), but on MoltenVK the implicit
+		// layout transition UNDEFINED -> COLOR_ATTACHMENT_OPTIMAL is scheduled as
+		// a Metal blit encoder that can run before the previous frame's present
+		// has actually released the swapchain image - resulting in intermittent
+		// black or stale framebuffers. Likewise the implicit subpass -> external
+		// dependency uses BOTTOM_OF_PIPE with no access mask, which doesn't make
+		// our color writes available to the subsequent vkQueuePresentKHR.
+		VkSubpassDependency.Buffer dependencies = VkSubpassDependency.calloc(2, stack);
+		dependencies.get(0)
+				.srcSubpass(VK_SUBPASS_EXTERNAL)
+				.dstSubpass(0)
+				.srcStageMask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT|VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT)
+				.dstStageMask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT|VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT)
+				.srcAccessMask(0)
+				.dstAccessMask(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT|VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
+		dependencies.get(1)
+				.srcSubpass(0)
+				.dstSubpass(VK_SUBPASS_EXTERNAL)
+				.srcStageMask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT)
+				.dstStageMask(VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT)
+				.srcAccessMask(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT)
+				.dstAccessMask(0);
+
 		VkRenderPassCreateInfo renderPassCreateInfo = VkRenderPassCreateInfo.calloc(stack)
 				.sType(VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO)
 				.pAttachments(attachments)
-				.pSubpasses(subPass);
+				.pSubpasses(subPass)
+				.pDependencies(dependencies);
 
 		LongBuffer renderPassBfr = stack.callocLong(1);
 		if(vkCreateRenderPass(device, renderPassCreateInfo, null, renderPassBfr) != VK_SUCCESS) {
@@ -391,9 +535,37 @@ public class VulkanUtils {
 		int topology = primitive-1;
 		if(primitive == EPrimitiveType.Line) topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
 
+		// On macOS / MoltenVK (Apple Silicon especially), TRIANGLE_FAN draws are emulated via
+		// a compute shader pass that BREAKS the active render pass for every fan draw call -
+		// see KhronosGroup/MoltenVK#2471 and #1419. With JSettlers issuing thousands of quad
+		// draws per frame this turns into a pathological "render pass restarted, all prior
+		// draws thrown away" cycle and the framebuffer is left holding only the clear color
+		// (solid black). We avoid the fan path entirely by promoting Quad to TRIANGLE_LIST
+		// here; VulkanDrawContext compensates by binding a static [0,1,2, 0,2,3] index buffer
+		// and switching the 4-vertex unindexed draws to indexed draws on macOS. Metal
+		// supports TRIANGLE_LIST natively so no render-pass break occurs.
+		if (org.lwjgl.system.Platform.get() == org.lwjgl.system.Platform.MACOSX
+				&& topology == VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN) {
+			topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+		}
+
+		// MoltenVK on macOS implements VK_KHR_portability_subset, which - per spec - requires
+		// primitiveRestartEnable=VK_TRUE for any strip or fan topology because Metal cannot
+		// disable primitive restart for strips/fans (it is always on at the API level).
+		// Setting it to VK_FALSE produces VK_ERROR_FEATURE_NOT_PRESENT from
+		// vkCreateGraphicsPipelines and the resulting NULL pipeline cascades into
+		// "encodeWaitForEvent:value: with uncommitted encoder" later in the frame.
+		// On non-strip topologies the field is ignored, so this is also safe on
+		// Linux/Windows where we never see the portability subset.
+		boolean isStripOrFan =
+				topology == VK_PRIMITIVE_TOPOLOGY_LINE_STRIP ||
+				topology == VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP ||
+				topology == VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN;
+
 		VkPipelineInputAssemblyStateCreateInfo inputAssemblyState = VkPipelineInputAssemblyStateCreateInfo.calloc(stack)
 				.sType(VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO)
-				.topology(topology);
+				.topology(topology)
+				.primitiveRestartEnable(isStripOrFan);
 
 		VkSpecializationMapEntry.Buffer max_globalattr_count_at = VkSpecializationMapEntry.calloc(2, stack);
 		max_globalattr_count_at.get(0).set(0, 0, 4);
@@ -607,7 +779,6 @@ public class VulkanUtils {
 				.pVulkanFunctions(VmaVulkanFunctions.calloc(stack).set(instance, device))
 				.physicalDevice(physicalDevice)
 				.instance(instance)
-				.frameInUseCount(1)
 				.device(device);
 
 		PointerBuffer allocatorBfr = stack.callocPointer(1);

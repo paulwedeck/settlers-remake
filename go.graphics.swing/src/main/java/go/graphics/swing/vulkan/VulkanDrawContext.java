@@ -73,6 +73,10 @@ import go.graphics.UnifiedDrawHandle;
 import go.graphics.VkDrawContext;
 import go.graphics.swing.text.LWJGLTextDrawer;
 
+import org.lwjgl.system.Platform;
+import org.lwjgl.vulkan.VkExtensionProperties;
+
+import static org.lwjgl.vulkan.KHRPortabilitySubset.VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME;
 import static org.lwjgl.vulkan.KHRSwapchain.*;
 import static org.lwjgl.vulkan.VK10.*;
 
@@ -112,7 +116,46 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 
 	protected final List<VulkanTextureHandle> textures = new ArrayList<>();
 
+	// Resources whose destruction has been deferred until the GPU is known to be
+	// idle on the work that referenced them. Drained at the start of every frame
+	// once the per-frame fence has been awaited (see startFrame -> drainPendingDestroys()).
+	private final java.util.Deque<Runnable> pendingDestroys = new java.util.ArrayDeque<>();
+
 	private float guiScale;
+
+	/**
+	 * Queue a resource destruction so it happens at the start of a future frame,
+	 * after we have waited on the per-frame fence and know that the GPU is no
+	 * longer executing the command buffer that may have referenced the resource.
+	 * Safe to call at any point during command-buffer recording.
+	 */
+	public void deferDestroy(Runnable destroyTask) {
+		pendingDestroys.add(destroyTask);
+	}
+
+	private void drainPendingDestroys() {
+		while (!pendingDestroys.isEmpty()) {
+			Runnable task = pendingDestroys.poll();
+			try {
+				task.run();
+			} catch (Throwable t) {
+				System.err.println("[VK] deferred destroy failed: " + t);
+			}
+		}
+	}
+
+	private static boolean physicalDeviceSupportsPortabilitySubset(MemoryStack stack, VkPhysicalDevice physicalDevice) {
+		IntBuffer count = stack.ints(0);
+		if(vkEnumerateDeviceExtensionProperties(physicalDevice, (CharSequence) null, count, null) != VK_SUCCESS) return false;
+		int n = count.get(0);
+		if(n == 0) return false;
+		VkExtensionProperties.Buffer props = VkExtensionProperties.malloc(n, stack);
+		if(vkEnumerateDeviceExtensionProperties(physicalDevice, (CharSequence) null, count, props) != VK_SUCCESS) return false;
+		for(int i = 0; i < n; i++) {
+			if(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME.equals(props.get(i).extensionNameString())) return true;
+		}
+		return false;
+	}
 
 	public VulkanDrawContext(VkInstance instance, AbstractVulkanOutput output, float guiScale) {
 		this.instance = instance;
@@ -137,6 +180,11 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 			List<String> deviceExtensions = new ArrayList<>();
 			if(queueManager.hasPresentSupport()) {
 				deviceExtensions.add(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+			}
+			if(Platform.get() == Platform.MACOSX && physicalDeviceSupportsPortabilitySubset(stack, physicalDevice)) {
+				// Required when the physical device exposes VK_KHR_portability_subset
+				// (true for MoltenVK on macOS); see VK_KHR_portability_enumeration.
+				deviceExtensions.add(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
 			}
 
 			device = VulkanUtils.createDevice(stack, physicalDevice, deviceExtensions, queueManager.getQueueIndices());
@@ -226,6 +274,9 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 		closeMutex.release();
 
 		vkDeviceWaitIdle(device);
+
+		// GPU is idle; flush any destroys that were queued but not yet executed.
+		drainPendingDestroys();
 
 		for(long sampler : samplers) {
 			if(sampler != 0) vkDestroySampler(device, sampler, null);
@@ -326,7 +377,13 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 
 		pipelineManager.bindVertexBuffers(vkDrawCalls.getBufferIdVk());
 
-		vkCmdDraw(graphCommandBuffer, 4, call.used, 0, 0);
+		if (MAC_FAN_AS_LIST) {
+			// drawMulti always renders 4-vertex quads as instances; fan->list rewrite needed.
+			vkCmdBindIndexBuffer(graphCommandBuffer, getOrCreateQuadIndexBuffer(), 0, VK_INDEX_TYPE_UINT32);
+			vkCmdDrawIndexed(graphCommandBuffer, 6, call.used, 0, 0, 0);
+		} else {
+			vkCmdDraw(graphCommandBuffer, 4, call.used, 0, 0);
+		}
 
 		((VulkanMultiBufferHandle)call.drawCalls).inc();
 	}
@@ -357,11 +414,37 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 		pipelineManager.bindVertexBuffers(vb, vb, unifiedArrayBfr.getBufferIdVk());
 		pipelineManager.bindDescSets(getTextureDescSet(call.texture));
 
-		vkCmdDraw(graphCommandBuffer, vertexCount, array_len, call.offset, 0);
+		if (MAC_FAN_AS_LIST) {
+			// vertexCount is 4 here (unified array always draws quads); promote to indexed
+			// TRIANGLE_LIST so MoltenVK doesn't break the render pass for every fan draw.
+			vkCmdBindIndexBuffer(graphCommandBuffer, getOrCreateQuadIndexBuffer(), 0, VK_INDEX_TYPE_UINT32);
+			vkCmdDrawIndexed(graphCommandBuffer, 6, array_len, 0, call.offset, 0);
+		} else {
+			vkCmdDraw(graphCommandBuffer, vertexCount, array_len, call.offset, 0);
+		}
 		unifiedArrayBfr.inc();
 	}
 
 	private final Map<Integer, VulkanBufferHandle> lineIndexBfr = new HashMap<>();
+
+	// On macOS we promote Quad pipelines to TRIANGLE_LIST (see VulkanUtils.createPipeline)
+	// so we need a tiny shared index buffer that maps fan vertex order [0,1,2,3] to the two
+	// triangles {0,1,2} and {0,2,3}. This buffer is lazily created on the first quad draw
+	// because the memory manager isn't available until command-buffer recording starts.
+	private VulkanBufferHandle quadIndexBfr = null;
+
+	private long getOrCreateQuadIndexBuffer() {
+		if (quadIndexBfr != null) return quadIndexBfr.getBufferIdVk();
+		ByteBuffer indices = BufferUtils.createByteBuffer(6 * 4);
+		IntBuffer data = indices.asIntBuffer();
+		data.put(0, 0); data.put(1, 1); data.put(2, 2);
+		data.put(3, 0); data.put(4, 2); data.put(5, 3);
+		quadIndexBfr = memoryManager.createBuffer(indices.remaining(), EVulkanMemoryType.STATIC, EVulkanBufferUsage.INDEX_BUFFER);
+		updateBufferAt(quadIndexBfr, 0, indices);
+		return quadIndexBfr.getBufferIdVk();
+	}
+
+	private static final boolean MAC_FAN_AS_LIST = Platform.get() == Platform.MACOSX;
 
 	@Override
 	protected void drawUnified(UnifiedDrawHandle call, int primitive, int vertices, int mode, float x, float y, float z, float sx, float sy, AbstractColor color, float intensity) {
@@ -407,9 +490,20 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 		pipelineManager.pushConstants();
 
 		if(primitive == EPrimitiveType.Triangle) {
+			// Triangle path is always TRIANGLE_LIST on every platform (vertices already
+			// supplied as 3 vertices per tri), so no fan->list rewrite is needed here.
 			vkCmdDraw(graphCommandBuffer, vertices, 1, call.offset, 0);
 		} else if(primitive == EPrimitiveType.Quad) {
-			vkCmdDraw(graphCommandBuffer, 4, 1, call.offset, 0);
+			if (MAC_FAN_AS_LIST) {
+				// Pipeline is TRIANGLE_LIST on macOS; emit 6 indices that fan-triangulate
+				// the 4 quad corners (see getOrCreateQuadIndexBuffer). vkCmdDrawIndexed's
+				// vertexOffset is added to every index, so we still get the per-handle
+				// offset into the shared vertex buffer.
+				vkCmdBindIndexBuffer(graphCommandBuffer, getOrCreateQuadIndexBuffer(), 0, VK_INDEX_TYPE_UINT32);
+				vkCmdDrawIndexed(graphCommandBuffer, 6, 1, 0, call.offset, 0);
+			} else {
+				vkCmdDraw(graphCommandBuffer, 4, 1, call.offset, 0);
+			}
 		} else {
 			VulkanBufferHandle indexBfr = lineIndexBfr.get(vertices);
 
@@ -691,9 +785,36 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 			.offset(0);
 
 	private void syncQueues(long event, long buffer) {
+		synQueueArea.srcAccessMask(VK_ACCESS_MEMORY_WRITE_BIT).dstAccessMask(VK_ACCESS_MEMORY_READ_BIT).buffer(buffer);
+
+		// On macOS / MoltenVK, vkCmdWaitEvents inside a render pass turns into
+		//   [MTLCommandBuffer encodeWaitForEvent:value:]
+		// which Metal rejects with the assertion
+		//   "encodeWaitForEvent:value: with uncommitted encoder"
+		// because a render encoder is still open on graphCommandBuffer at the time of
+		// the wait. We can't simply drop the sync though - without it the graphics
+		// commands read from the uniform/vertex buffer before the transfer finishes
+		// and the camera matrices / vertex data are garbage, which manifests as a
+		// solid black screen. The fix is to emit a plain pipeline barrier at the END
+		// of the transfer command buffer; Metal flushes the source command buffer
+		// before starting the next one within a single vkQueueSubmit, and the barrier
+		// makes the buffer write visible to subsequent reads. This is functionally
+		// equivalent to the SetEvent/WaitEvents pair but lives inside one command
+		// buffer, so MoltenVK encodes it as a normal MTLBlitCommandEncoder fence
+		// instead of a cross-MTLCommandBuffer wait.
+		if (Platform.get() == Platform.MACOSX) {
+			vkCmdPipelineBarrier(memCommandBuffer,
+					VK_PIPELINE_STAGE_TRANSFER_BIT,
+					VK_PIPELINE_STAGE_VERTEX_INPUT_BIT|VK_PIPELINE_STAGE_VERTEX_SHADER_BIT|VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
+					0,
+					null,
+					synQueueArea,
+					null);
+			return;
+		}
+
 		syncQueueBfr.put(0, event);
 		vkCmdSetEvent(memCommandBuffer, event, VK_PIPELINE_STAGE_TRANSFER_BIT|VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT);
-		synQueueArea.srcAccessMask(VK_ACCESS_MEMORY_WRITE_BIT).dstAccessMask(VK_ACCESS_MEMORY_READ_BIT).buffer(buffer);
 		vkCmdWaitEvents(graphCommandBuffer, syncQueueBfr, VK_PIPELINE_STAGE_TRANSFER_BIT|VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT|VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, null, synQueueArea, null);
 	}
 
@@ -778,6 +899,13 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 	}
 
 	private void doResize(int width, int height) {
+		// Make sure no command buffer is still consuming the old swapchain images,
+		// framebuffers or depth attachment before we destroy them. Previously this
+		// invariant was provided by vkQueueWaitIdle at the end of each present;
+		// with per-frame fences instead, the GPU may still be in flight when we
+		// arrive here.
+		vkDeviceWaitIdle(device);
+
 		Dimension newSize = output.resize(new Dimension(width, height));
 		if(newSize == null) return;
 		fbWidth = newSize.width;
@@ -826,13 +954,25 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 		try {
 			super.startFrame();
 
+			if(!output.startFrame()) {
+				return;
+			}
+
+			// output.startFrame() has just waited on the per-frame fence, so the
+			// previous frame's GPU work has completed. It is now safe to:
+			//   1. drain queued resource destructions (textures, etc.) that were
+			//      deferred because they may have been referenced by N-1.
+			//   2. update descriptor sets via texture.tick(), since N-1's command
+			//      buffer has finished consuming them.
+			// Both of these would otherwise be undefined behaviour (a freed
+			// Metal texture or a mutated descriptor set during command-buffer
+			// execution shows up as VK_ERROR_OUT_OF_DEVICE_MEMORY /
+			// kIOGPUCommandBufferCallbackErrorInvalidResource on MoltenVK).
+			drainPendingDestroys();
 			for (VulkanTextureHandle texture : textures) {
 				texture.tick();
 			}
 
-			if(!output.startFrame()) {
-				return;
-			}
 			renderPassBeginInfo.framebuffer(output.getFramebuffer());
 
 			if(vkBeginCommandBuffer(graphCommandBuffer, commandBufferBeginInfo) != VK_SUCCESS) return;
@@ -958,12 +1098,15 @@ public class VulkanDrawContext extends GLDrawContext implements VkDrawContext {
 
 				output.configureDrawCommand(stack, graphSubmitInfo);
 
-				int error = vkQueueSubmit(queueManager.getGraphicsQueue(), graphSubmitInfo, VK_NULL_HANDLE);
+				long submitFence = output.acquireSubmitFence();
+				int error = vkQueueSubmit(queueManager.getGraphicsQueue(), graphSubmitInfo, submitFence);
 				if(error != VK_SUCCESS) {
-					// whatever
-					System.out.println("Could not submit CommandBuffers: " + error);
+					System.err.println("[VK-FRAME] vkQueueSubmit FAILED: " + error);
 				} else {
 					cmdBfrSend = true;
+					if(submitFence != VK_NULL_HANDLE) {
+						output.onSubmitFenceInFlight();
+					}
 				}
 			}
 

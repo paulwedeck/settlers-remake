@@ -61,10 +61,38 @@ public class SwingManagedJSettlers {
   		// removes screen flickering
 		System.setProperty("sun.awt.noerasebackground", "true");
 
+		setupMacOSVulkan();
 		setupResources(true, args);
 
 		JSettlersFrame settlersFrame = createJSettlersFrame();
 		handleStartOptions(settlersFrame);
+	}
+
+	/**
+	 * On macOS Vulkan is provided by MoltenVK. The Vulkan loader uses the {@code VK_ICD_FILENAMES}
+	 * env var to find ICDs, but most users won't have it set. Probe a few common locations and set
+	 * {@code org.lwjgl.vulkan.libname} so LWJGL loads MoltenVK directly when no ICD env is present.
+	 * No-ops on non-macOS or if the user has already configured Vulkan loading explicitly.
+	 */
+	private static void setupMacOSVulkan() {
+		if(!System.getProperty("os.name", "").toLowerCase().contains("mac")) return;
+		if(System.getProperty("org.lwjgl.vulkan.libname") != null) return;
+		if(System.getenv("VK_ICD_FILENAMES") != null) return;
+		if(System.getenv("VULKAN_SDK") != null) return;
+
+		String[] candidates = {
+				"/opt/homebrew/lib/libMoltenVK.dylib",
+				"/opt/homebrew/opt/molten-vk/lib/libMoltenVK.dylib",
+				"/usr/local/lib/libMoltenVK.dylib",
+				"/usr/local/opt/molten-vk/lib/libMoltenVK.dylib",
+		};
+		for(String path : candidates) {
+			if(new File(path).exists()) {
+				System.setProperty("org.lwjgl.vulkan.libname", path);
+				return;
+			}
+		}
+		System.setProperty("org.lwjgl.vulkan.libname", "libMoltenVK.dylib");
 	}
 
 	public static void setupResources(boolean interactive, String... args) throws IOException {

@@ -34,20 +34,28 @@ dependencies {
 		}
 	}
 
-	implementation "org.lwjgl:lwjgl-vulkan:" + lwjglVersion + ":natives-macos"
 	implementation "org.lwjgl:lwjgl-vulkan:" + lwjglVersion
+	// lwjgl-vulkan only ships native MoltenVK for macOS (x64 and arm64). On Linux/Windows it loads
+	// libvulkan from the system at runtime, so no native classifier is published for those platforms.
+	runtimeOnly "org.lwjgl:lwjgl-vulkan:" + lwjglVersion + ":natives-macos"
+	runtimeOnly "org.lwjgl:lwjgl-vulkan:" + lwjglVersion + ":natives-macos-arm64"
 	implementation "org.lwjgl:lwjgl-egl:" + lwjglVersion
 	implementation "org.lwjgl:lwjgl-jawt:" + lwjglVersion
 
 	implementation "org.joml:joml:1.9.17"
-	implementation "org.lwjglx:lwjgl3-awt:0.1.8"
+	// lwjgl3-awt 0.2.x uses Maven profile activation to pick its LWJGL natives via ${lwjgl.natives};
+	// Gradle does not evaluate Maven profiles, so we exclude its transitive natives and rely on the
+	// LWJGL natives declared explicitly above.
+	implementation("org.lwjglx:lwjgl3-awt:0.2.3") {
+		exclude group: 'org.lwjgl'
+	}
 
 
 	// macos support
-	implementation "org.jogamp.gluegen:gluegen-rt:2.3.2"
-	implementation "org.jogamp.jogl:jogl-all:2.3.2"
-	runtimeOnly "org.jogamp.gluegen:gluegen-rt:2.3.2:natives-macosx-universal"
-	runtimeOnly "org.jogamp.jogl:jogl-all:2.3.2:natives-macosx-universal"
+	implementation "org.jogamp.gluegen:gluegen-rt:2.6.0"
+	implementation "org.jogamp.jogl:jogl-all:2.6.0"
+	runtimeOnly "org.jogamp.gluegen:gluegen-rt:2.6.0:natives-macosx-universal"
+	runtimeOnly "org.jogamp.jogl:jogl-all:2.6.0:natives-macosx-universal"
 }
 
 def shaderDefinitionDir = 'src/main/glsl/'

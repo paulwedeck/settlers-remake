@@ -8,6 +8,7 @@ import java.util.function.BiFunction;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.vulkan.VkExtent2D;
+import org.lwjgl.vulkan.VkFenceCreateInfo;
 import org.lwjgl.vulkan.VkFramebufferCreateInfo;
 import org.lwjgl.vulkan.VkPhysicalDevice;
 import org.lwjgl.vulkan.VkPresentInfoKHR;
@@ -29,6 +30,14 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 	private int swapchainImageIndex = -1;
 	private long waitSemaphore;
 	private long signalSemaphore;
+
+	// Fence signaled by every vkQueueSubmit that we wait on at the start of the
+	// next frame. This is the deterministic per-frame sync point: relying on
+	// vkQueueWaitIdle alone is unsound on MoltenVK because the Metal drawable
+	// present is scheduled outside of the command-buffer being waited on, so the
+	// next vkAcquireNextImageKHR can race with it and produce stale/black images.
+	private long frameFence = VK_NULL_HANDLE;
+	private boolean frameFenceInFlight = false;
 
 	private VulkanImage[] swapchainImages;
 	private long[] framebuffers;
@@ -88,6 +97,15 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 		waitSemaphore = VulkanUtils.createSemaphore(dc.getDevice());
 		signalSemaphore = VulkanUtils.createSemaphore(dc.getDevice());
 
+		try(MemoryStack initStack = MemoryStack.stackPush()) {
+			VkFenceCreateInfo fenceInfo = VkFenceCreateInfo.calloc(initStack)
+					.sType(VK_STRUCTURE_TYPE_FENCE_CREATE_INFO);
+			LongBuffer fenceHandle = initStack.callocLong(1);
+			if (vkCreateFence(dc.getDevice(), fenceInfo, null, fenceHandle) == VK_SUCCESS) {
+				frameFence = fenceHandle.get(0);
+			}
+		}
+
 		swapchainCreateInfo.sType(VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR)
 				.compositeAlpha(VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
 				.imageUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT|VK_IMAGE_USAGE_TRANSFER_SRC_BIT|VK_IMAGE_USAGE_TRANSFER_DST_BIT)
@@ -126,6 +144,15 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 	void destroy() {
 		super.destroy();
 
+		if(frameFence != VK_NULL_HANDLE) {
+			if(frameFenceInFlight) {
+				vkWaitForFences(dc.getDevice(), frameFence, true, Long.MAX_VALUE);
+				frameFenceInFlight = false;
+			}
+			vkDestroyFence(dc.getDevice(), frameFence, null);
+			frameFence = VK_NULL_HANDLE;
+		}
+
 		if(waitSemaphore != 0) {
 			vkDestroySemaphore(dc.getDevice(), waitSemaphore, null);
 		}
@@ -151,15 +178,27 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 			return null;
 		}
 
+		VkExtent2D minDim = surfaceCapabilities.minImageExtent();
+		VkExtent2D maxDim = surfaceCapabilities.maxImageExtent();
+		VkExtent2D curDim = surfaceCapabilities.currentExtent();
+
+		// Prefer currentExtent when the surface dictates one (typical on Windows/Linux). On
+		// macOS / MoltenVK, currentExtent reports 0xFFFFFFFF for "any" early on, in which case
+		// we fall back to the caller's preferred size (the canvas size in pixels).
 		int fbWidth = preferredSize.width;
 		int fbHeight = preferredSize.height;
-		int imageCount = surfaceCapabilities.minImageCount() + 1;
-
-		VkExtent2D minDim = surfaceCapabilities.maxImageExtent();
-		VkExtent2D maxDim = surfaceCapabilities.maxImageExtent();
+		// Vulkan signals "any" with 0xFFFFFFFF (== -1 as a Java signed int).
+		if (curDim.width() != -1) {
+			fbWidth = curDim.width();
+		}
+		if (curDim.height() != -1) {
+			fbHeight = curDim.height();
+		}
 
 		fbWidth = Math.max(Math.min(fbWidth, maxDim.width()), minDim.width());
 		fbHeight = Math.max(Math.min(fbHeight, maxDim.height()), minDim.height());
+
+		int imageCount = surfaceCapabilities.minImageCount() + 1;
 		if (surfaceCapabilities.maxImageCount() != 0)
 			imageCount = Math.min(imageCount, surfaceCapabilities.maxImageCount());
 
@@ -171,10 +210,12 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 				.height(fbHeight);
 
 		LongBuffer swapchainBfr = BufferUtils.createLongBuffer(1);
-		boolean error = vkCreateSwapchainKHR(dc.getDevice(), swapchainCreateInfo, null, swapchainBfr) != VK_SUCCESS;
+		int createErr = vkCreateSwapchainKHR(dc.getDevice(), swapchainCreateInfo, null, swapchainBfr);
+		boolean error = createErr != VK_SUCCESS;
 		vkDestroySwapchainKHR(dc.getDevice(), swapchain, null);
 
 		if (error) {
+			System.err.println("[VK-SC] vkCreateSwapchainKHR failed: " + createErr);
 			swapchain = VK_NULL_HANDLE;
 			return null;
 		}
@@ -256,13 +297,32 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 			return false;
 		}
 
+		// Wait for the previous frame's GPU work to finish before re-using its
+		// resources (including the swapchain image we are about to acquire and the
+		// waitSemaphore). vkQueueWaitIdle is not enough on MoltenVK because the
+		// Metal drawable presentation is scheduled outside the command buffer.
+		if(frameFence != VK_NULL_HANDLE && frameFenceInFlight) {
+			vkWaitForFences(dc.getDevice(), frameFence, true, Long.MAX_VALUE);
+			vkResetFences(dc.getDevice(), frameFence);
+			frameFenceInFlight = false;
+		}
+
 		IntBuffer swapchainImageIndexBfr = BufferUtils.createIntBuffer(1);
 		int err = vkAcquireNextImageKHR(dc.getDevice(), swapchain, -1L, waitSemaphore, VK_NULL_HANDLE, swapchainImageIndexBfr);
-		if(err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR) {
+		if(err == VK_ERROR_OUT_OF_DATE_KHR) {
+			// The swapchain was already invalidated before we acquired anything, so
+			// the semaphore was NOT signaled. Recreate and bail out of the frame.
 			dc.resize();
+			return false;
 		}
 		if(err != VK_SUBOPTIMAL_KHR && err != VK_SUCCESS) {
+			System.err.println("[VK-FRAME] vkAcquireNextImageKHR failed: " + err);
 			return false;
+		}
+		// VK_SUBOPTIMAL_KHR still produces a valid image and signals waitSemaphore;
+		// schedule a resize for the *next* frame but render this one normally.
+		if(err == VK_SUBOPTIMAL_KHR) {
+			dc.resize();
 		}
 
 		swapchainImageIndex = swapchainImageIndexBfr.get(0);
@@ -276,20 +336,41 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 		}
 
 		try(MemoryStack stack = MemoryStack.stackPush()) {
+			// If the caller didn't submit any work this frame (typically because
+			// vkBeginCommandBuffer failed), waitSemaphore is still signaled from the
+			// acquire and signalSemaphore is unsignaled. Both states are invalid for
+			// the next iteration -- the next acquire would receive a semaphore that
+			// is already signaled, which is UB and on MoltenVK reliably produces
+			// stale/black framebuffers for several frames afterwards. Submit a
+			// minimal "drain" batch that consumes waitSemaphore and signals
+			// signalSemaphore so that semaphore states are restored to the same
+			// invariants as a normal submitted frame.
+			if (!wait) {
+				VkSubmitInfo drain = VkSubmitInfo.calloc(stack)
+						.sType(VK_STRUCTURE_TYPE_SUBMIT_INFO)
+						.pWaitSemaphores(stack.longs(waitSemaphore))
+						.waitSemaphoreCount(1)
+						.pWaitDstStageMask(stack.ints(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT))
+						.pSignalSemaphores(stack.longs(signalSemaphore));
+				long submitFence = (frameFence != VK_NULL_HANDLE) ? frameFence : VK_NULL_HANDLE;
+				int err = vkQueueSubmit(dc.queueManager.getGraphicsQueue(), drain, submitFence);
+				if (err == VK_SUCCESS && submitFence != VK_NULL_HANDLE) {
+					frameFenceInFlight = true;
+				}
+			}
+
 			VkPresentInfoKHR presentInfo = VkPresentInfoKHR.calloc(stack)
 					.sType(VK_STRUCTURE_TYPE_PRESENT_INFO_KHR)
 					.pImageIndices(stack.ints(swapchainImageIndex))
 					.swapchainCount(1)
-					.pSwapchains(stack.longs(swapchain));
-			if (wait) {
-				presentInfo.pWaitSemaphores(stack.longs(signalSemaphore));
-			}
+					.pSwapchains(stack.longs(swapchain))
+					.pWaitSemaphores(stack.longs(signalSemaphore));
 
-			if (vkQueuePresentKHR(dc.queueManager.getPresentQueue(), presentInfo) != VK_SUCCESS) {
-				// should not happen but we can't do anything about it
+			int presentErr = vkQueuePresentKHR(dc.queueManager.getPresentQueue(), presentInfo);
+			if (presentErr != VK_SUCCESS && presentErr != VK_SUBOPTIMAL_KHR) {
+				System.err.println("[VK-FRAME] vkQueuePresentKHR FAILED: " + presentErr);
 			}
 		}
-		vkQueueWaitIdle(dc.queueManager.getPresentQueue());
 		swapchainImageIndex = -1;
 	}
 
@@ -314,5 +395,15 @@ public class VulkanSurfaceOutput extends AbstractVulkanOutput {
 					.pSignalSemaphores(stack.longs(signalSemaphore))
 						.pWaitDstStageMask(stack.ints(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT))
 						.waitSemaphoreCount(1);
+	}
+
+	@Override
+	long acquireSubmitFence() {
+		return frameFence;
+	}
+
+	@Override
+	void onSubmitFenceInFlight() {
+		frameFenceInFlight = true;
 	}
 }

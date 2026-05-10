@@ -56,7 +56,17 @@ public class VulkanTextureHandle extends TextureHandle {
 		}
 
 		if(shouldDestroy) {
-			destroy();
+			// We MUST NOT free the underlying VkImage here: this is called at the
+			// start of frame N (before any draws for N are recorded), but the
+			// frame N-1 command buffer that referenced this image's descriptor
+			// set may still be in flight on the GPU. Freeing it now causes the
+			// Metal driver to detect a destroyed MTLTexture during command
+			// buffer execution and tear the VkDevice down with
+			// VK_ERROR_OUT_OF_DEVICE_MEMORY / kIOGPUCommandBufferCallbackErrorInvalidResource.
+			// Instead defer the destroy until after the next frame fence wait,
+			// at which point the GPU is guaranteed to be done with N-1.
+			shouldDestroy = false;
+			((VulkanDrawContext) dc).deferDestroy(this::destroy);
 		}
 	}
 

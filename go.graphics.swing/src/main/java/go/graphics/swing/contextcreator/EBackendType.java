@@ -33,11 +33,14 @@ public enum EBackendType implements Comparable<EBackendType> {
 	EGL(EGLContextCreator::new, "egl", null, null, org.lwjgl.egl.EGL::getFunctionProvider),
 	WGL(WGLContextCreator::new, "wgl", null, Platform.WINDOWS, GDI32::getLibrary),
 	JOGL(JOGLContextCreator::new, "jogl", Platform.MACOSX, null, null),
-	VULKAN(VulkanContextCreator::new, "vulkan", null, null, VK::getFunctionProvider),
+	// Vulkan-via-MoltenVK is the macOS default. It attaches a CAMetalLayer to the
+	// AWT Canvas's NSView, which is the only surface mode that composites correctly
+	// inside Swing's layer tree on Apple Silicon / macOS 14+.
+	VULKAN(VulkanContextCreator::new, "vulkan", null, Platform.MACOSX, VK::getFunctionProvider),
 
 	GLFW(GLFWContextCreator::new, "glfw", null, null, org.lwjgl.glfw.GLFW::getLibrary),
 	GLFW_VULKAN(GLFWVulkanContextCreator::new, "glfw-vulkan", null, null, VK::getFunctionProvider),
-	LWJGLX_GL(LWJGLXContextCreator::new, "lwjglx-gl", null, Platform.MACOSX, null),
+	LWJGLX_GL(LWJGLXContextCreator::new, "lwjglx-gl", null, null, null),
 	LWJGLX_VK(VkLWJGLXContextCreator::new, "lwjglx-vk", null, null, VK::getFunctionProvider),
 
 	VULKAN_OFFSCREEN(OffscreenVulkanContextCreator::new, "vulkan-offscreen", null, null, VK::getFunctionProvider),

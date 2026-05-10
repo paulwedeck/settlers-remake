@@ -18,7 +18,7 @@ local.properties
 *.iml
 /settlers.ipr
 /settlers.iws
-
+.DS_Store
 .project
 .classpath
 .settings
@@ -35,3 +35,7 @@ out/
 
 productionStats/*.png
 productionStats/*.log
+
+# JVM hotspot/unified logs - emitted when running with -Xlog flags during diagnostics
+jvm_hotspot.log
+jvm_unified.log*

@@ -69,7 +69,11 @@ public abstract class ContextCreator<T extends Component> implements ComponentLi
 
 	@Override
 	public void componentResized(ComponentEvent componentEvent) {
-		if(!SwingUtilities.windowForComponent(canvas).isFocused()) return;
+		// Don't gate on window focus: on macOS, layout passes during a frame transition
+		// (e.g. lobby -> in-game) often happen with the window unfocused, and dropping
+		// the size update leaves the swapchain stuck at 1x1.
+		java.awt.Window window = SwingUtilities.windowForComponent(canvas);
+		if(window == null) return;
 
 		synchronized (wnd_lock) {
 			AffineTransform scaleInfo = canvas.getGraphicsConfiguration().getDefaultTransform();

@@ -1,7 +1,8 @@
 # JSettlers
 
-This project intends to create a remake of the famous strategy game "The Settlers 3" published by Blue Byte in 1998. The project is developed in Java and runs on PC (Windows/Linux) and Android.
-MacOS support is broken regardless of CPU architecture.
+This project intends to create a remake of the famous strategy game "The Settlers 3" published by Blue Byte in 1998. The project is developed in Java and runs on PC (Windows/Linux/macOS) and Android.
+
+On macOS (both Apple Silicon and Intel) the game renders through Vulkan via [MoltenVK](https://github.com/KhronosGroup/MoltenVK); see the [macOS](#macos) section below for installation details.
 
 ### Warning: Alpha Status
 The game is currently in an **alpha** status! Therefore bugs, frequent changes making saved games invalid and server abortions need to be expected. Nevertheless we will try to minimize trouble.
@@ -50,6 +51,27 @@ After that, follow the detailed installation instructions for you platform.
 2. Optionally: Install [settlers3-demo-data](https://aur.archlinux.org/packages/settlers3-demo-data/) if you don't own an original The Settlers III and select the following folder when the game asks you: /usr/share/jsettlers/s3
 3. You can start the game from the system-menu or with the commands "jsettlers" and "jsettlers-mapcreator".
 4. See instructions above
+
+### macOS
+JSettlers runs natively on Apple Silicon (M1/M2/M3) and Intel Macs. Rendering goes through Vulkan via MoltenVK (Apple does not ship a Vulkan loader, so MoltenVK is required at runtime).
+
+1. Install [MoltenVK](https://github.com/KhronosGroup/MoltenVK) (~15 MB):
+    ```
+    brew install molten-vk
+    ```
+   The launcher auto-detects MoltenVK at the standard Homebrew prefixes (`/opt/homebrew/lib/libMoltenVK.dylib` on Apple Silicon, `/usr/local/lib/libMoltenVK.dylib` on Intel). If you installed MoltenVK elsewhere, point the loader at it explicitly with `VK_ICD_FILENAMES=/path/to/MoltenVK_icd.json` or `-Dorg.lwjgl.vulkan.libname=/path/to/libMoltenVK.dylib`.
+2. Install Java 17 or newer (e.g. [Adoptium Temurin](https://adoptium.net/)).
+3. Install or unzip "The Settlers III" demo (see step 1 of [Windows and Linux](#windows-and-linux)).
+4. Download / unpack JSettlers and run `JSettlers.jar` (or `bin/jsettlers.main.swing` from a Gradle install).
+5. The first launch prompts for the original-game folder, just like on the other platforms.
+
+There is also a convenience launcher at `scripts/run-jsettlers-macos-vulkan.sh` that probes the Homebrew install of MoltenVK, sets the relevant `MVK_CONFIG_*` env vars known to misbehave on Apple Silicon, and starts the game via Gradle. It is the easiest way to run from a fresh checkout.
+
+##### macOS troubleshooting
+- **Solid black gameplay screen** on Apple Silicon usually means MoltenVK's Metal-argument-buffers path is biting you. JSettlers requests `MVK_CONFIG_USE_METAL_ARGUMENT_BUFFERS=0` via `VK_EXT_layer_settings` during `vkCreateInstance`, which is the supported in-process channel for MoltenVK 1.2.7+. If you're on an older MoltenVK or the extension isn't advertised, set the same value via env var (`MVK_CONFIG_USE_METAL_ARGUMENT_BUFFERS=0`) before launching; the launcher script does this for you.
+- **`vkCreateInstance failed`** at startup means MoltenVK could not be loaded. Verify `brew list molten-vk` and confirm `libMoltenVK.dylib` is present in `/opt/homebrew/lib` (Apple Silicon) or `/usr/local/lib` (Intel).
+- For more verbose diagnostics, set `MVK_CONFIG_LOG_LEVEL=3` (info) or `4` (verbose) before launching.
+- Other backends (`-Dgo.graphics.backend=lwjglx-gl` or `=jogl`) compile and start, but currently render to a black canvas on macOS 14+; treat them as developer-only.
 
 #### Configuration Flags
 As described before, the game's UI is still lacking a lot of features. That's why we have to offer some configurations via an options file. You can find a default `options.prp` file aside the `JSettlers.jar` file after you unpacked the archive. 

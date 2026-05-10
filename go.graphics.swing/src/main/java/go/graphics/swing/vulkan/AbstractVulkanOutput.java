@@ -36,4 +36,21 @@ public abstract class AbstractVulkanOutput {
 	public abstract boolean needsPresentQueue();
 
 	abstract void configureDrawCommand(MemoryStack stack, VkSubmitInfo graphSubmitInfo);
+
+	/**
+	 * Returns the fence the next graphics submit should signal, or VK_NULL_HANDLE
+	 * if the output doesn't need a per-frame fence. The output is responsible for
+	 * waiting on / resetting that fence at the start of the next frame.
+	 */
+	long acquireSubmitFence() {
+		return 0L; // VK_NULL_HANDLE
+	}
+
+	/**
+	 * Notifies the output that the last vkQueueSubmit successfully consumed the
+	 * fence returned by {@link #acquireSubmitFence()} and is therefore now in
+	 * flight on the GPU.
+	 */
+	void onSubmitFenceInFlight() {
+	}
 }

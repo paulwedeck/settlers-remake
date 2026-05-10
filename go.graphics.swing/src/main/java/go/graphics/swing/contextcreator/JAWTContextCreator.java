@@ -24,6 +24,7 @@ import org.lwjgl.system.jawt.JAWTX11DrawingSurfaceInfo;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
 
 import go.graphics.swing.ContextContainer;
 import go.graphics.swing.event.swingInterpreter.GOSwingEventConverter;
@@ -40,7 +41,17 @@ public abstract class JAWTContextCreator extends ContextCreator {
 	public JAWTContextCreator(ContextContainer container, boolean debug) {
 		super(container, debug);
 
-		jawt.version(JAWTFunctions.JAWT_VERSION_1_4);
+		// On macOS, request the CALayer-backed JAWT path (JAWT_VERSION_1_7 implies CALayer
+		// support since macOS 10.7, which is the only mode the JDK still supports). Without
+		// this version the platformInfo() pointer is not a usable JAWTSurfaceLayers and any
+		// CALayer we attach via -[setLayer:] goes nowhere (the canvas paints black). On
+		// other platforms JAWT_VERSION_1_7 is identical to the older versions for the bits
+		// we actually use.
+		int requestedVersion = JAWTFunctions.JAWT_VERSION_1_4;
+		if(Platform.get() == Platform.MACOSX) {
+			requestedVersion = JAWTFunctions.JAWT_VERSION_1_7;
+		}
+		jawt.version(requestedVersion);
 		JAWTFunctions.JAWT_GetAWT(jawt);
 
 	}
@@ -61,7 +72,26 @@ public abstract class JAWTContextCreator extends ContextCreator {
 			windowConnection = dsi.hwnd();
 			windowDrawable = dsi.hdc();
 		} else {
-			windowConnection = surfaceinfo.platformInfo();
+			// macOS: platformInfo() is a JAWTSurfaceLayers ObjC object pointer. Reuse the cached
+			// pointer once we have one - the JAWTSurfaceLayers ObjC instance survives across
+			// paints, but the JAWTDrawingSurfaceInfo struct around it is freshly allocated by
+			// JAWT every paint. Re-firing onNewConnection per frame would re-create a fresh
+			// vkInstance + MTKView every frame and race AppKit's main-thread layer commits,
+			// which is exactly what produced the historical "Attempt to use unknown class"
+			// SIGABRT inside libobjc on M1.
+			long platformInfo = surfaceinfo.platformInfo();
+			if(windowConnection == 0L) {
+				windowConnection = platformInfo;
+				windowDrawable = platformInfo;
+			} else if(platformInfo != windowConnection) {
+				// In practice this only fires across a removeNotify/addNotify cycle (e.g.
+				// fullscreen toggle); record the new pointer so the subclass can rebuild.
+				windowConnection = platformInfo;
+				windowDrawable = platformInfo;
+			} else {
+				// Stable - skip re-firing both callbacks.
+				return;
+			}
 		}
 
 		if(windowDrawable != oldWindowDrawable) onNewDrawable();
@@ -98,6 +128,22 @@ public abstract class JAWTContextCreator extends ContextCreator {
 					makeCurrent(true);
 
 					synchronized (wnd_lock) {
+						// On macOS, componentResized often fires after the first paint on a freshly
+						// added Canvas inside a BorderLayout-managed JPanel; trusting the listener
+						// alone leaves the swapchain at 1x1 and the canvas paints black. Reconcile
+						// against the live canvas geometry here, scaled by the AWT HiDPI factor so
+						// the framebuffer matches the on-screen backing-store size.
+						AffineTransform scaleInfo = canvas.getGraphicsConfiguration().getDefaultTransform();
+						double scaleX = scaleInfo != null ? scaleInfo.getScaleX() : 1.0;
+						double scaleY = scaleInfo != null ? scaleInfo.getScaleY() : 1.0;
+						int curW = Math.max(1, (int) (canvas.getWidth() * scaleX));
+						int curH = Math.max(1, (int) (canvas.getHeight() * scaleY));
+						if (curW != new_width || curH != new_height) {
+							new_width = curW;
+							new_height = curH;
+							change_res = true;
+						}
+
 						if (change_res) {
 							width = new_width;
 							height = new_height;

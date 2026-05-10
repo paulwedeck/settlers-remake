@@ -14,6 +14,8 @@
  *******************************************************************************/
 package go.graphics.swing.contextcreator;
 
+import java.nio.IntBuffer;
+
 import javax.swing.SwingUtilities;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.WGL;
@@ -65,22 +67,26 @@ public class WGLContextCreator extends JAWTContextCreator {
 		},
 	};
 
+	// LWJGL 3.3.5 added an optional IntBuffer first argument to all WGL/GDI32 functions for
+	// thread-safe error reporting. We do not consume the error code, so always pass null.
+	private static final IntBuffer NO_ERR = null;
+
 	@Override
 	public void stop() {
-		WGL.wglDeleteContext(context);
+		WGL.wglDeleteContext(NO_ERR, context);
 	}
 
 	@Override
 	protected void swapBuffers() {
-		GDI32.SwapBuffers(windowDrawable);
+		GDI32.SwapBuffers(NO_ERR, windowDrawable);
 	}
 
 	@Override
 	public void makeCurrent(boolean draw) {
 		if(draw) {
-			WGL.wglMakeCurrent(windowDrawable, context);
+			WGL.wglMakeCurrent(NO_ERR, windowDrawable, context);
 		} else {
-			WGL.wglMakeCurrent(0, 0);
+			WGL.wglMakeCurrent(NO_ERR, 0L, 0L);
 		}
 	}
 
@@ -94,21 +100,21 @@ public class WGLContextCreator extends JAWTContextCreator {
 
 		pfd.cDepthBits((byte) 24);
 
-		int pixel_format = GDI32.ChoosePixelFormat(windowDrawable, pfd);
+		int pixel_format = GDI32.ChoosePixelFormat(NO_ERR, windowDrawable, pfd);
 		if(pixel_format == 0) error("Could not find pixel format!");
-		GDI32.SetPixelFormat(windowDrawable, pixel_format, pfd);
+		GDI32.SetPixelFormat(NO_ERR, windowDrawable, pixel_format, pfd);
 
 		pfd.free();
 
 		if(context != 0) {
-			WGL.wglDeleteContext(context);
+			WGL.wglDeleteContext(NO_ERR, context);
 		}
 
-		context = WGL.wglCreateContext(windowDrawable);
-		WGL.wglMakeCurrent(windowDrawable, context);
+		context = WGL.wglCreateContext(NO_ERR, windowDrawable);
+		WGL.wglMakeCurrent(NO_ERR, windowDrawable, context);
 		WGLCapabilities caps = GL.createCapabilitiesWGL();
 		if(caps.WGL_ARB_create_context && caps.WGL_ARB_create_context_profile) {
-			WGL.wglDeleteContext(context);
+			WGL.wglDeleteContext(NO_ERR, context);
 			context = 0;
 
 			int i = 0;
@@ -116,7 +122,7 @@ public class WGLContextCreator extends JAWTContextCreator {
 				context = WGLARBCreateContext.wglCreateContextAttribsARB(windowDrawable, 0, ctx_attrs[i++][debug?0:1]);
 			}
 		} else if(debug) {
-			WGL.wglDeleteContext(context);
+			WGL.wglDeleteContext(NO_ERR, context);
 			error("WGL could not create a debug context!");
 		}
 

@@ -30,6 +30,21 @@ startScripts {
 
 mainClassName = 'jsettlers.main.swing.SwingManagedJSettlers'
 
+run {
+	// Without this, the JavaExec task runs from this subproject's directory, so the
+	// `mapList.addResourcesDirectory(new File("."))` call in SwingResourceLoader resolves
+	// to jsettlers.main.swing/maps/ (empty) instead of the maps/release/ folder at the
+	// repo root. The release/installed binary picks the right folder because the start
+	// script passes `-Dsettlers.maps=$APP_HOME/maps`; `./gradlew run` doesn't, so we
+	// mirror what jsettlers.tools/build.gradle already does.
+	workingDir = rootProject.projectDir
+
+	if (System.getenv('JSETTLERS_LWJGL_DEBUG') == '1' || System.getProperty('jsettlers.lwjgl.debug') == 'true') {
+		systemProperty 'org.lwjgl.util.Debug', 'true'
+		systemProperty 'org.lwjgl.util.DebugLoader', 'true'
+	}
+}
+
 dependencies {
 	implementation project(':go.graphics')
 	implementation project(':go.graphics.swing')

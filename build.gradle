@@ -11,7 +11,7 @@ ext {
     androidMinSdkVersion = 19
     androidTargetSdkVersion = 26
 
-    lwjglVersion = "3.3.0"
+    lwjglVersion = "3.3.5"
 }
 
 buildscript {
