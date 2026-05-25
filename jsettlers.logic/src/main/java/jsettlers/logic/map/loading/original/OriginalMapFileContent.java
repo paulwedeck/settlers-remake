@@ -343,7 +343,11 @@ public class OriginalMapFileContent implements IMutableMapData {
 		BitSet notBlockedSet = new BitSet(dataCount);
 
 		for (int pos = 0; pos < dataCount; pos++) {
-			notBlockedSet.set(pos, !landscapeType[pos].isBlocking);
+			// Some tiles may have an unrecognised landscape id and end up null
+			// (OriginalLandscape.getTypeByInt returned null). Treat null as not
+			// blocking, matching the GRASS fallback in getLandscape().
+			ELandscapeType type = landscapeType[pos];
+			notBlockedSet.set(pos, type == null || !type.isBlocking);
 		}
 
 		PartitionCalculatorAlgorithm partitionCalculator = new PartitionCalculatorAlgorithm(0, 0, widthHeight, widthHeight, notBlockedSet,
